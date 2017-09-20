@@ -12,7 +12,8 @@
     ],
     "linebreak-style": [
       "error",
-      "unix"
+      "unit",
+      "windows"
     ],
     "quotes": [
       "error",
@@ -24,3 +25,4 @@
     ]
   }
 }
+/*eslint linebreak-style: ["error", "windows"]*/
