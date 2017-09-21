@@ -11,6 +11,5 @@ module.exports = function (app) {
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
   });
-
   return mongooseClient.model('roles', roles);
 };
