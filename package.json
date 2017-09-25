@@ -44,7 +44,7 @@
     "feathers-rest": "^1.8.0",
     "feathers-socketio": "^2.0.0",
     "helmet": "^3.8.1",
-    "mongoose": "^4.11.12",
+    "mongoose": "^4.11.13",
     "serve-favicon": "^2.4.4",
     "winston": "^2.3.1"
   },

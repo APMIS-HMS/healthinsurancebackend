@@ -7,6 +7,7 @@ const providerSchema = new Schema({
     facilityClass: [{ type: Schema.Types.Mixed, required: false }],
     hefeemaNo: { type: String, required: false },
     hefeemaStatus: { type: String, required: false },
+    lasrraId: { type: String, required: true },
     createdAt: { type: Date, 'default': Date.now },
     updatedAt: { type: Date, 'default': Date.now }
 })
