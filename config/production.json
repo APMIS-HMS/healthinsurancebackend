@@ -1,4 +1,4 @@
 {
-  "host": "insuranceapi-app.feathersjs.com",
-  "port": "PORT"
+  "host": "http://insuranceapi.azurewebsites.net",
+  "port": "3031"
 }
