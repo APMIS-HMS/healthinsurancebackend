@@ -8,6 +8,7 @@ const providerSchema = new Schema({
     hefeemaNo: { type: String, required: false },
     hefeemaStatus: { type: String, required: false },
     lasrraId: { type: String, required: true },
+    comment: { type: String, required: false },
     createdAt: { type: Date, 'default': Date.now },
     updatedAt: { type: Date, 'default': Date.now }
 })
