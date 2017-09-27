@@ -8,7 +8,7 @@ const contactSchema = new Schema({
     otherNames: { type: String, required: false },
     email: { type: Schema.Types.String, required: true },
     phoneNumber:{ type:Schema.Types.String, required:true},
-    position:{ type:Schema.Types.String, required:false},
+    position:{ type:Schema.Types.Mixed, required:false},
     image: imageSchema,
     createdAt: { type: Date, 'default': Date.now },
     updatedAt: { type: Date, 'default': Date.now }

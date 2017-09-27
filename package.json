@@ -28,6 +28,7 @@
     "mocha": "mocha test/ --recursive"
   },
   "dependencies": {
+    "async": "^2.5.0",
     "body-parser": "^1.18.1",
     "compression": "^1.7.0",
     "cors": "^2.8.4",
@@ -44,7 +45,9 @@
     "feathers-rest": "^1.8.0",
     "feathers-socketio": "^2.0.0",
     "helmet": "^3.8.1",
+    "lodash": "^4.17.4",
     "mongoose": "^4.11.13",
+    "mongoose-money": "^0.2.0",
     "serve-favicon": "^2.4.4",
     "winston": "^2.3.1"
   },
