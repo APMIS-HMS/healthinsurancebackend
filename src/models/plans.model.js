@@ -12,7 +12,7 @@ module.exports = function (app) {
     planType: { type: Schema.Types.Mixed, require: true },
     planOwner: { type: Schema.Types.String, require: true },
     isActive: { type: Schema.Types.Boolean, require: true, default: true },
-    premiums: [{ premiumSchema }],
+    premiums: [ premiumSchema ],
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
   });
