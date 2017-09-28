@@ -1,4 +1,34 @@
 {
-  "host": "insuranceapi-app.feathersjs.com",
-  "port": "PORT"
+  "host": "http://insuranceapi.azurewebsites.net/",
+  "port": 3031,
+  "public": "../public/",
+  "paginate": {
+    "default": 10,
+    "max": 50
+  },
+  "authentication": {
+    "secret": "679b202dee494774012d6fb09b124d527d40183fc4841445d42d0c888596cffbdd80e79705d60cc6bb6d36629f57a5708c5480d4b24c3d86bd9d80145cbdc4314e15564054bf5330db60e35d7aef231638b6327891395ceffb5609aaaf209dfd813960612bcca3e09a9795d84ec69f279fb6cfd42d960d9a861ddd8c3859c13f9b07d8720b5c20ce7621f81d1f0972dd588cc2bd62d9f20958d02658a015e5fb5e80e23ed9cac6e5a720ff7c29b93e6fe03048a1e6b6866d859413b963029b6d7f3439a52e8a7c3d7078fd78ccd0f5923dc2cb92be26dba019ee76d4705e201112a97284b108145877ddb43612393adf158b0cb0df7b19d911d5ac1b362aa40b",
+    "strategies": [
+      "jwt",
+      "local"
+    ],
+    "path": "/authentication",
+    "service": "users",
+    "jwt": {
+      "header": {
+        "type": "access"
+      },
+      "audience": "https://yourdomain.com",
+      "subject": "anonymous",
+      "issuer": "feathers",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    },
+    "local": {
+      "entity": "user",
+      "usernameField": "email",
+      "passwordField": "password"
+    }
+  },
+  "mongodb": "mongodb://apmisdev:imediappsolve@40.68.100.29:27017/apmisapi?authMechanism=SCRAM-SHA-1"
 }
