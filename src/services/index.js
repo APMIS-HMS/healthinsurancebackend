@@ -12,6 +12,7 @@ const facilityCategories = require('./facility-categories/facility-categories.se
 const facilityOwnerships = require('./facility-ownerships/facility-ownerships.service.js');
 const plans = require('./plans/plans.service.js');
 const planTypes = require('./plan-types/plan-types.service.js');
+const person = require('./person/person.service.js');
 module.exports = function () {
   const app = this; // eslint-disable-line no-unused-vars
   app.configure(users);
@@ -28,4 +29,5 @@ module.exports = function () {
   app.configure(facilityOwnerships);
   app.configure(plans);
   app.configure(planTypes);
+  app.configure(person);
 };
