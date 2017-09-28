@@ -14,7 +14,6 @@ module.exports = function(app) {
         firstName: { type: String, required: true },
         lastName: { type: String, required: true },
         otherNames: { type: String, required: true },
-        otherNames: { type: String, required: true },
         email: { type: String, required: false },
         phoneNumber: { type: String, required: true },
         title: { type: Schema.Types.Mixed, required: false },
