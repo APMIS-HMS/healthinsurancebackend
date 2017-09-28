@@ -14,6 +14,7 @@ module.exports = function(app) {
         firstName: { type: String, required: true },
         lastName: { type: String, required: true },
         otherNames: { type: String, required: true },
+        mothersMaidenName: { type: String, required: true },
         email: { type: String, required: false },
         phoneNumber: { type: String, required: true },
         title: { type: Schema.Types.Mixed, required: false },
@@ -27,6 +28,7 @@ module.exports = function(app) {
         maritalStatus: { type: Schema.Types.Mixed, required: false },
         nextOfKin: [nextOfKinSchema],
         organisations: [{ type: Schema.Types.Mixed, required: false }],
+        isActive: { type: Boolean, default: true },
         createdAt: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }
     });
