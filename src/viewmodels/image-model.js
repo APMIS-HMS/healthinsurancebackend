@@ -11,7 +11,7 @@ const contactSchema = new Schema({
     path: { type: String, required: true },
     size: { type: String, required: true },
     thumbnail: { type: String, required: true },
-    detailthumbnail: { type: String, required: true },
+    detailthumbnail: { type: String, required: false },
     createdAt: { type: Date, 'default': Date.now },
     updatedAt: { type: Date, 'default': Date.now }
 })

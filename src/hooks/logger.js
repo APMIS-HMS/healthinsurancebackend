@@ -9,12 +9,12 @@ module.exports = function () {
       message += `: ${hook.error.message}`;
     }
 
-    logger.info(message);
-    logger.debug('hook.data', hook.data);
-    logger.debug('hook.params', hook.params);
+    // logger.info(message);
+    // logger.debug('hook.data', hook.data);
+    // logger.debug('hook.params', hook.params);
 
     if (hook.result) {
-      logger.debug('hook.result', hook.result);
+      // logger.debug('hook.result', hook.result);
     }
 
     if (hook.error) {
