@@ -27,6 +27,7 @@ module.exports = function(app) {
         lgaOfOrigin: { type: Schema.Types.Mixed, required: false },
         maritalStatus: { type: Schema.Types.Mixed, required: false },
         nextOfKin: [nextOfKinSchema],
+        roles: [{ type: Schema.Types.Mixed, required: false }],
         organisations: [{ type: Schema.Types.Mixed, required: false }],
         isActive: { type: Boolean, default: true },
         createdAt: { type: Date, default: Date.now },
