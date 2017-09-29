@@ -2,10 +2,10 @@
 // 
 // See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
-module.exports = function (app) {
-  const mongooseClient = app.get('mongooseClient');
-  const { Schema } = mongooseClient;
-  const premiumSchema = require('../viewmodels/premium');
+module.exports = function(app) {
+    const mongooseClient = app.get('mongooseClient');
+    const { Schema } = mongooseClient;
+    const premiumSchema = require('../viewmodels/premium-model');
 
   const plans = new Schema({
     name: { type: String, required: true },
@@ -17,5 +17,5 @@ module.exports = function (app) {
     updatedAt: { type: Date, default: Date.now }
   });
 
-  return mongooseClient.model('plans', plans);
+    return mongooseClient.model('plans', plans);
 };

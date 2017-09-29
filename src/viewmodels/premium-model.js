@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 require('mongoose-money'); // require mongoose-money before Schema
 const Schema = mongoose.Schema;
