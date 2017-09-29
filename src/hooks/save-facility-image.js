@@ -7,10 +7,10 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     // Hooks can either return nothing or a promise
     // that resolves with the `hook` object for asynchronous operations
 
-    if (hook.method === 'create' && hook.type === 'before') {
+  
       // console.log(hook.data.formData);
       // console.log(hook.app.io)
-      // hook.app.io.emit('/upload-file', (value) =>{
+      /  if (hook.method === 'create' && hook.type === 'before') {/ hook.app.io.emit('/upload-file', (value) =>{
       //   console.log(value)
       // })
       // hook.app.io.emit('/upload-file', hook.data.formData);
