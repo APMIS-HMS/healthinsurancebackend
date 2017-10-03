@@ -6,7 +6,7 @@ const addressSchema = require('../viewmodels/address-model');
 const imageSchema = require('../viewmodels/image-model');
 const nextOfKinSchema = require('../viewmodels/next-of-kin-model');
 
-module.exports = function (app) {
+module.exports = function(app) {
     const mongooseClient = app.get('mongooseClient');
     const { Schema } = mongooseClient;
     const person = new Schema({
@@ -14,15 +14,15 @@ module.exports = function (app) {
         platformId: { type: String, require: true },
         firstName: { type: String, required: true },
         lastName: { type: String, required: true },
-        otherNames: { type: String, required: true },
+        otherNames: { type: String, required: false },
         mothersMaidenName: { type: String, required: true },
         email: { type: String, required: true },
         phoneNumber: { type: String, required: true },
         title: { type: Schema.Types.Mixed, required: false },
         profileImageObject: imageSchema,
         homeAddress: addressSchema,
-        dateOfBirth: { type: Date, require: true },
-        gender: { type: String, required: true },
+        dateOfBirth: { type: Date, require: false },
+        gender: { type: String, required: false },
         nationality: { type: Schema.Types.Mixed, required: false },
         stateOfOrigin: { type: Schema.Types.Mixed, required: false },
         lgaOfOrigin: { type: Schema.Types.Mixed, required: false },
