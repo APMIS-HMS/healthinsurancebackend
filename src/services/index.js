@@ -19,30 +19,27 @@ const titles = require('./titles/titles.service.js');
 const gender = require('./gender/gender.service.js');
 const maritalStatus = require('./marital-status/marital-status.service.js');
 const relationships = require('./relationships/relationships.service.js');
-module.exports = function () {
-  const app = this; // eslint-disable-line no-unused-vars
-  app.configure(users);
-  app.configure(userTypes);
-  app.configure(platformOwners);
-  app.configure(roles);
-  app.configure(facilities);
-  app.configure(banks);
-  app.configure(industries);
-  app.configure(contactPositions);
-  app.configure(countries);
-  app.configure(modules);
-  app.configure(facilityCategories);
-  app.configure(facilityOwnerships);
-  app.configure(plans);
-  app.configure(planTypes);
-  app.configure(person);
-  app.configure(premiumTypes);
-<<<<<<< HEAD
-  app.configure(audittray);
-=======
-  app.configure(titles);
-  app.configure(gender);
-  app.configure(maritalStatus);
-  app.configure(relationships);
->>>>>>> 4f576d4fa811dd71ed16cab975edabce2c65e75d
+module.exports = function() {
+    const app = this; // eslint-disable-line no-unused-vars
+    app.configure(users);
+    app.configure(userTypes);
+    app.configure(platformOwners);
+    app.configure(roles);
+    app.configure(facilities);
+    app.configure(banks);
+    app.configure(industries);
+    app.configure(contactPositions);
+    app.configure(countries);
+    app.configure(modules);
+    app.configure(facilityCategories);
+    app.configure(facilityOwnerships);
+    app.configure(plans);
+    app.configure(planTypes);
+    app.configure(person);
+    app.configure(premiumTypes);
+    app.configure(audittray);
+    app.configure(titles);
+    app.configure(gender);
+    app.configure(maritalStatus);
+    app.configure(relationships);
 };
