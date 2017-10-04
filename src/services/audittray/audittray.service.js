@@ -12,7 +12,10 @@ module.exports = function () {
   const options = {
     name: 'audittray',
     Model,
-    paginate
+    paginate: {
+      default: 25,
+      max: 25
+    },
   };
 
   // Initialize our service with any options it requires
