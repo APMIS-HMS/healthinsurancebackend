@@ -6,7 +6,7 @@ const addressSchema = require('../viewmodels/address-model');
 const imageSchema = require('../viewmodels/image-model');
 const nextOfKinSchema = require('../viewmodels/next-of-kin-model');
 
-module.exports = function (app) {
+module.exports = function(app) {
     const mongooseClient = app.get('mongooseClient');
     const { Schema } = mongooseClient;
     const person = new Schema({
