@@ -8,7 +8,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
 
     if (hook.path.toString() != "audit-trays") {
       var tray = {
-        "user": hook.user,
+        "user": "",
         "operation": hook.method,
         "changes": {
           "before": hook.data.beforeValue,

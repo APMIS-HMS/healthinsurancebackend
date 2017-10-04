@@ -10,7 +10,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       var service = hook.path.toString();
       if (service == "authentication") {
         service = "users";
-      }//users
+      }
       console.log(service);
       hook.app.service(service).find({
         query: { _id: hook.data._id }
