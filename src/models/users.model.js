@@ -11,12 +11,15 @@ module.exports = function (app) {
     const users = new mongooseClient.Schema({
       email: { type: String, unique: true },
       password: { type: String, required: true },
+      firstName: { type: String, required: true },
+      lastName: { type: String, required: true },
+      otherNames: { type: String, required: true },
       phoneNumber: { type: String, required: false },
-      // userType: { type: Schema.Types.Mixed },
-      // platformOwnerId: { type: Schema.Types.Mixed },
-      // facilityId: { type: Schema.Types.Mixed },
-      // roles: [{ type: Schema.Types.Mixed }],
-      // isActive: { type: Schema.Types.Boolean, default: false },
+      userType: { type: Schema.Types.Mixed },
+      platformOwnerId: { type: Schema.Types.Mixed },
+      facilityId: { type: Schema.Types.Mixed },
+      roles: [{ type: Schema.Types.Mixed }],
+      isActive: { type: Schema.Types.Boolean, default: false },
       createdAt: { type: Date, default: Date.now },
       updatedAt: { type: Date, default: Date.now }
     });
