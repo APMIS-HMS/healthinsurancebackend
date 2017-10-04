@@ -3,20 +3,18 @@
 
 
 module.exports = function(options = {}) { // eslint-disable-line no-unused-vars
-    return function beforeValueChange(hook) {
-        // Hooks can either return nothing or a promise
-        // that resolves with the `hook` object for asynchronous operations
+        return function beforeValueChange(hook) {
+                // Hooks can either return nothing or a promise
+                // that resolves with the `hook` object for asynchronous operations
 
-        if (!hook.path.toString().contain("audit-trays")) {
-            this.find({
-                query: { _id: hook.data._id }
-            }).then(payload => {
-                if (payload.data.length != 0) {
-                    hook.data.beforeValue = payload.data[0];
-                }
-            });
-        }
+                if (!hook.path.toString() == "audit-trays") {
+                    this.find({
+                        query: { _id: hook.data._id }
+                    }).then(payload => {
+                            if (payload.data.length != 0) {
+                                hook.data.beforeValue = payload.data[0];
+                            }
 
-        return Promise.resolve(hook);
-    };
-};
+                            return Promise.resolve(hook);
+                        };
+                    };
