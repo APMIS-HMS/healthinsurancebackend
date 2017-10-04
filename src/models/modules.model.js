@@ -5,8 +5,10 @@
 module.exports = function (app) {
   const mongooseClient = app.get('mongooseClient');
   const { Schema } = mongooseClient;
+  const accessiblitySchema = require('../viewmodels/accessibility-model');
   const modules = new Schema({
     name: { type: String, required: true },
+    accessibilities: [{ type: accessiblitySchema }],
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
   });
