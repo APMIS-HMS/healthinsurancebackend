@@ -11,7 +11,7 @@ module.exports = function (app) {
   const users = new mongooseClient.Schema({
     email: { type: String, unique: true },
     password: { type: String, required: true },
-    phoneNumber: { type: String, required: true },
+    phoneNumber: { type: String, required: false },
     // userType: { type: Schema.Types.Mixed },
     // platformOwnerId: { type: Schema.Types.Mixed },
     // facilityId: { type: Schema.Types.Mixed },

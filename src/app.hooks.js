@@ -10,20 +10,20 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [beforeValueChange()],
-    update: [beforeValueChange()],
-    patch: [beforeValueChange()],
-    remove: [beforeValueChange()]
+    create: [],
+    update: [],
+    patch: [],
+    remove: []
   },
 
   after: {
     all: [logger()],
     find: [],
     get: [],
-    create: [afterValueChange()],
-    update: [afterValueChange()],
-    patch: [afterValueChange()],
-    remove: [afterValueChange()]
+    create: [],
+    update: [],
+    patch: [],
+    remove: []
   },
 
   error: {
