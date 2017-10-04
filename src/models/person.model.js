@@ -10,8 +10,8 @@ module.exports = function(app) {
     const mongooseClient = app.get('mongooseClient');
     const { Schema } = mongooseClient;
     const person = new Schema({
-        platformOnwerId: { type: Schema.Types.ObjectId, required: false },
-        platformId: { type: String, require: true },
+        platformOnwerId: { type: Schema.Types.ObjectId, required: true },
+        platformId: { type: String, require: false },
         firstName: { type: String, required: true },
         lastName: { type: String, required: true },
         otherNames: { type: String, required: false },
