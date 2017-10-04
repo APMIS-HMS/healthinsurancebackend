@@ -37,12 +37,9 @@ module.exports = function () {
   app.configure(planTypes);
   app.configure(person);
   app.configure(premiumTypes);
-<<<<<<< HEAD
   app.configure(audittray);
-=======
   app.configure(titles);
   app.configure(gender);
   app.configure(maritalStatus);
   app.configure(relationships);
->>>>>>> 4f576d4fa811dd71ed16cab975edabce2c65e75d
 };

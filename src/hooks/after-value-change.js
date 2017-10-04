@@ -5,7 +5,8 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return function afterValueChange(hook) {
     // Hooks can either return nothing or a promise
     // that resolves with the `hook` object for asynchronous operations
-    if (!hook.path.toString().contain("audit-trays")) {
+    
+    if (hook.path.toString() !="audit-trays") {
       var tray = {
         "user": hook.app.get('user'),
         "operation": hook.method,
