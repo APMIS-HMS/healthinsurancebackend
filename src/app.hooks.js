@@ -1,4 +1,4 @@
-// Application hooks that run for every service
+// Application hooks that run for every service.
 const logger = require('./hooks/logger');
 
 const beforeValueChange = require('./hooks/before-value-change');
