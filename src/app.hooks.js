@@ -4,7 +4,6 @@ const logger = require('./hooks/logger');
 const beforeValueChange = require('./hooks/before-value-change');
 
 const afterValueChange = require('./hooks/after-value-change');
-
 module.exports = {
   before: {
     all: [],
