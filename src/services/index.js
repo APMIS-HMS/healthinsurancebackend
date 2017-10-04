@@ -15,6 +15,10 @@ const planTypes = require('./plan-types/plan-types.service.js');
 const person = require('./person/person.service.js');
 const premiumTypes = require('./premium-types/premium-types.service.js');
 const audittray = require('./audittray/audittray.service.js');
+const titles = require('./titles/titles.service.js');
+const gender = require('./gender/gender.service.js');
+const maritalStatus = require('./marital-status/marital-status.service.js');
+const relationships = require('./relationships/relationships.service.js');
 module.exports = function () {
   const app = this; // eslint-disable-line no-unused-vars
   app.configure(users);
@@ -33,5 +37,12 @@ module.exports = function () {
   app.configure(planTypes);
   app.configure(person);
   app.configure(premiumTypes);
+<<<<<<< HEAD
   app.configure(audittray);
+=======
+  app.configure(titles);
+  app.configure(gender);
+  app.configure(maritalStatus);
+  app.configure(relationships);
+>>>>>>> 4f576d4fa811dd71ed16cab975edabce2c65e75d
 };
