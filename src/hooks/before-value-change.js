@@ -13,14 +13,17 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         service = "users";
       }
       //console.log(service);
-      hook.app.service(service).find({
-        query: { _id: hook.data._id }
-      }).then(payload => {
-        if (payload.data.length != 0) {
-          hook.data.beforeValue = payload.data[0];
-          //console.log(hook.data.beforeValue);
-        }
-      });
+      if (hook.data._id != undefined) {
+        hook.app.service(service).find({
+          query: { _id: hook.data._id }
+        }).then(payload => {
+          if (payload.data.length != 0) {
+            hook.data.beforeValue = payload.data[0];
+            console.log(hook.data.beforeValue);
+          }
+        });
+      }
+
     }
 
     return Promise.resolve(hook);
