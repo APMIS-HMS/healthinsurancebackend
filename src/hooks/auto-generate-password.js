@@ -1,6 +1,6 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
-
+const request = require('request');
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return function autoGeneratePassword(hook) {
     // Hooks can either return nothing or a promise
@@ -9,10 +9,15 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       if (hook.type === 'before') {
         if (hook.data.password == null) {
           hook.data.password = aphaformator();
-          console.log(hook.data)
+          hook.params.password = hook.data.password;
         }
       } else if (hook.type === 'after') {
-        console.log('am called after');
+        let password = hook.params.password;
+        let sender = hook.data.platformOwnerId.shortName;
+        let message = "Your "+sender +" auto-generated password is: " + password + " kindly change your password";
+       
+        const url = 'http://portal.bulksmsnigeria.net/api/?username=apmis&password=apmis&message=' + message + '&sender=' + sender + '&mobiles=@@' + hook.data.phoneNumber + '@@';
+        var response = request.get(url);
       }
     }
     return Promise.resolve(hook);

@@ -13,7 +13,7 @@ module.exports = function (app) {
       password: { type: String, required: true },
       firstName: { type: String, required: true },
       lastName: { type: String, required: true },
-      otherNames: { type: String, required: true },
+      otherNames: { type: String, required: false },
       phoneNumber: { type: String, required: false },
       userType: { type: Schema.Types.Mixed },
       platformOwnerId: { type: Schema.Types.Mixed },
