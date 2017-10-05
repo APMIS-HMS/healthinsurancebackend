@@ -19,7 +19,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         }).then(payload => {
           if (payload.data.length != 0) {
             hook.data.beforeValue = payload.data[0];
-            console.log(hook.data.beforeValue);
+            //console.log(hook.data.beforeValue);
           }
         });
       }
