@@ -14,7 +14,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
           "after": hook.data
         }
       };
-      delete hook.data.beforeValue;
+      delete hook.beforeValue;
       hook.app.service("audit-trays").create(tray);
     }
 

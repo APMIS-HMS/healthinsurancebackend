@@ -12,14 +12,14 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       if (service == "authentication") {
         service = "users";
       }
-      //console.log(service);
+      //console.log(hook.data);
       if (hook.data != undefined) {
         hook.app.service(service).find({
           query: { _id: hook.data._id }
         }).then(payload => {
           if (payload.data.length != 0) {
-            hook.data.beforeValue = payload.data[0];
-            //console.log(hook.data.beforeValue);
+          hook.data.beforeValue = payload.data[0];
+            console.log(hook.data.beforeValue);
           }
         });
       }
