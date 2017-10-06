@@ -13,7 +13,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         service = "users";
       }
       //console.log(service);
-      if (hook.data._id != undefined) {
+      if (hook.data != undefined) {
         hook.app.service(service).find({
           query: { _id: hook.data._id }
         }).then(payload => {

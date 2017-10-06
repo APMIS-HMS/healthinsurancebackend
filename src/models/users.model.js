@@ -2,7 +2,7 @@
 //
 // See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
-module.exports = function(app) {
+module.exports = function (app) {
     const mongooseClient = app.get('mongooseClient');
     const userType = require('../models/user-types.model');
     const mongoose = require('mongoose');
@@ -13,6 +13,7 @@ module.exports = function(app) {
         password: { type: String },
         userType: { type: Schema.Types.Mixed }, // Changes
         roles: [{ type: Schema.Types.Mixed }],
+        isLoggedIn: { type: Boolean, 'default': false },
         createdAt: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }
     });
