@@ -6,9 +6,10 @@ module.exports = function(app) {
     const mongooseClient = app.get('mongooseClient');
     const { Schema } = mongooseClient;
     const roles = new Schema({
-        module: { type: Schema.Types.Mixed, required: true },
+        name: { type: Schema.Types.Mixed, required: true },
         accessibilities: [{ type: Schema.Types.Mixed }],
         isActive: { type: Boolean, default: true },
+        facilityId: { type: Schema.Types.Mixed, required: true },
         createdAt: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }
     });
