@@ -5,6 +5,7 @@
 module.exports = function (app) {
     const mongooseClient = app.get('mongooseClient');
     const userType = require('../models/user-types.model');
+    const loggedInUserStatus = require('../models/loggin-user-status-model');
     const mongoose = require('mongoose');
     const Schema = mongoose.Schema;
   
