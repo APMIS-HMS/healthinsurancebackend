@@ -39,7 +39,7 @@ var thumbnail = new Thumbnail('./public/uploads/image', './public/uploads/thumbn
   function processFile(file) {
     let originalFileName = file.filename.split('.')[0] + '-100.jpg';
     // let originalDetailFileName = file.filename.split('.')[0] + '-300x300.jpg';
-    file.thumbnail = '/public/uploads/thumbnails/' + originalFileName;
+    file.thumbnail = '/uploads/thumbnails/' + originalFileName;
     // file.detailthumbnail = '/public/uploads/detailimages/' + originalDetailFileName;
     var thumbnail = new Thumbnail('./public/uploads/image', './public/uploads/thumbnails');
 

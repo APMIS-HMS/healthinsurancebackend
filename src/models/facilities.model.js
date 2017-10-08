@@ -12,7 +12,7 @@ const addressSchema = require('../viewmodels/address-model');
 const bankDetailSchema = require('../viewmodels/bank-detail');
 const toLower = require('../helpers/to-lower');
 const walletSchema = require('../viewmodels/wallet-model');
-module.exports = function(app) {
+module.exports = function (app) {
     const mongooseClient = app.get('mongooseClient');
     const { Schema } = mongooseClient;
 
@@ -30,6 +30,7 @@ module.exports = function(app) {
         address: addressSchema,
         bankDetails: bankDetailSchema,
         facilityType: { type: Schema.Types.Mixed },
+        platformOwnerId: { type: Schema.Types.Mixed },
         website: { type: String, required: false },
         shortName: { type: String, required: false },
         verificationToken: { type: String, required: false },
