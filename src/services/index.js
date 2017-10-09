@@ -21,6 +21,8 @@ const maritalStatus = require('./marital-status/marital-status.service.js');
 const relationships = require('./relationships/relationships.service.js');
 const hiaGrades = require('./hia-grades/hia-grades.service.js');
 const hiaTypes = require('./hia-types/hia-types.service.js');
+const providerGrades = require('./provider-grades/provider-grades.service.js');
+const providerStatuses = require('./provider-statuses/provider-statuses.service.js');
 module.exports = function() {
     const app = this; // eslint-disable-line no-unused-vars
     app.configure(users);
@@ -46,4 +48,6 @@ module.exports = function() {
     app.configure(relationships);
     app.configure(hiaGrades);
     app.configure(hiaTypes);
+    app.configure(providerGrades);
+    app.configure(providerStatuses);
 };
