@@ -10,7 +10,8 @@ module.exports = function(app) {
   const plans = new Schema({
     name: { type: String, required: true },
     planType: { type: Schema.Types.Mixed, require: true },
-    planOwner: { type: Schema.Types.String, require: true },
+    planOwnerId: { type: Schema.Types.Mixed, require: true },
+    facilityId: { type: Schema.Types.Mixed, require: true },
     isActive: { type: Schema.Types.Boolean, require: true, default: true },
     premiums: [ premiumSchema ],
     createdAt: { type: Date, default: Date.now },

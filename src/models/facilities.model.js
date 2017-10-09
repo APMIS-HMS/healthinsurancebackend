@@ -35,6 +35,7 @@ module.exports = function (app) {
         shortName: { type: String, required: false },
         verificationToken: { type: String, required: false },
         isTokenVerified: { type: Boolean, 'default': false },
+        isConfirmed: { type: Boolean, 'default': false },
         wallet: walletSchema,
         createdAt: { type: Date, 'default': Date.now },
         updatedAt: { type: Date, 'default': Date.now }
