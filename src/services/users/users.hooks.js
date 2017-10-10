@@ -23,7 +23,7 @@ module.exports = {
         // patch: [...restrict, hashPassword()],
         // remove: [...restrict]
         update: [hashPassword()],
-        patch: [ hashPassword()],
+        patch: [hashPassword()],
         remove: []
     },
 
