@@ -7,11 +7,11 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     // that resolves with the `hook` object for asynchronous operations
     if (hook.method === 'create') {
       if (hook.type === 'before') {
-        if (hook.data.password == null) {
+        if (hook.data.password === null || hook.data.password === undefined) {
           hook.data.password = aphaformator();
           hook.params.password = hook.data.password;
         }
-      } else if (hook.type === 'after') {
+      } else if (hook.type === 'after' && hook.data.password === undefined) {
         let password = hook.params.password;
         let sender = hook.data.platformOwnerId.shortName;
         let message = "Your "+sender +" auto-generated password is: " + password + " kindly change your password";

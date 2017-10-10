@@ -7,7 +7,6 @@ module.exports = function (app) {
   const { Schema } = mongooseClient;
   const relationships = new Schema({
     name: { type: String, required: true },
-    genderId: { type: Schema.Types.ObjectId, required: true },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
   });

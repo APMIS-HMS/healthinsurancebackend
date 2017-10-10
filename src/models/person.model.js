@@ -18,6 +18,7 @@ module.exports = function(app) {
         mothersMaidenName: { type: String, required: true },
         email: { type: String, required: true },
         phoneNumber: { type: String, required: true },
+        secondaryPhoneNumber: { type: String, required: false },
         title: { type: Schema.Types.Mixed, required: false },
         profileImageObject: imageSchema,
         homeAddress: addressSchema,
