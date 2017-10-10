@@ -1,3 +1,4 @@
+const beneficiary = require('../middleware/beneficiary');
 var multer = require('multer');
 // const profileimage = require('./profileimage');
 // const useraccesscontrol = require('./useraccesscontrol');
@@ -76,8 +77,8 @@ var thumbnail = new Thumbnail('./public/uploads/image', './public/uploads/thumbn
     });
   });
 
-
-  // app.use(notFound());
-  // app.use(logger(app));
-  // app.use(handler());
+  app.post('/lashma-beneficiaries', beneficiary(app));
+  //app.use(notFound());
+  app.use(logger(app));
+  app.use(handler());
 };
