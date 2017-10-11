@@ -41,7 +41,6 @@ function formatMonthValue(val) {
 }
 
 function generateLashmaID(app, owner) {
-
     return app.service('beneficiaries').find({ query: { "platformOwnerId._id": owner._id } }).then(items => {
         let year = new Date().getFullYear().toString().split('');
         let month = new Date().getMonth();
@@ -80,7 +79,7 @@ module.exports = function (app) {
             let personObj = req.body.person;
             app.service('people').create(personObj).then(person => {
                 var beneficiaryDetails = req.body.beneficiary;
-                beneficiaryDetails.personId = person._id;
+                beneficiaryDetails.personId = person;
                 generateLashmaID(app, req.body.platform).then(result => {
                     beneficiaryDetails.platformOwnerNumber = result;
                     app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
@@ -102,7 +101,7 @@ module.exports = function (app) {
                 app.service('people').create(item.person).then(person => {
                     persons.push(person);
                     var beneficiaryDetails = item.beneficiary;
-                    beneficiaryDetails.personId = person._id;
+                    beneficiaryDetails.personId = person;
                     generateLashmaID(app, req.body.platform).then(result => {
                         beneficiaryDetails.platformOwnerNumber = result;
                         app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
