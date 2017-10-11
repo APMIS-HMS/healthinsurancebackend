@@ -1,6 +1,6 @@
 'use strict';
 
-function PolicyIDRecurtion(value, policy, res) {
+function PolicyIDRecurtion(value, policy, res, app) {
     const policyValueId = validatePolicyID();
     return app.service('policies').find({
         query: { policyId: policyValueId }
@@ -14,7 +14,7 @@ function PolicyIDRecurtion(value, policy, res) {
             })
         }
         else {
-            return PolicyIDRecurtion(value, policy, res);
+            return PolicyIDRecurtion(value, policy, res, app);
         }
     });
 };
@@ -29,10 +29,16 @@ function validatePolicyID() {
     return otp;
 };
 
-function generateLashmaID(owner) {
-    app.service('beneficiaries').find({ query: { platformOwnerId: owner.id } }).then(items => {
+function generateLashmaID(app, owner) {
+    console.log(app)
+    console.log(owner);
+    app.service('beneficiaries').find({ query: { platformOwnerId: owner._id } }).then(items => {
+        console.log(22)
+        console.log(items);
         let lashmaPlatformId = owner.name + "/" + new Date().getFullYear() + "/" + formatValue(items.data.length + 1);
         return lashmaPlatformId;
+    }).catch(err => {
+        console.log(err);
     })
 };
 
@@ -45,21 +51,36 @@ function formatValue(val) {
     return val;
 }
 
+function aphaformator() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789";
+  
+    for (var i = 0; i < 8; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text;
+  }
+
 module.exports = function (app) {
     return function (req, res, next) {
-        // Perform actions
-        if (req.query.method == "Create") {
+        console.log(req.method)
+        if (req.method == "POST") {
             let person = req.body.person;
             app.service('people').create(person).then(payload => {
                 let beneficiaryDetails = req.body.beneficiary;
                 beneficiaryDetails.personId = payload._id;
-                beneficiaryDetails.platformOwnerNumber = generateLashmaID(req.body.platform);
+                beneficiaryDetails.platformOwnerNumber = aphaformator(); //generateLashmaID(app, req.body.platform);
+               
                 app.service('beneficiaries').create(beneficiaryDetails).then(payload2 => {
-                    PolicyIDRecurtion(payload2, req.body.policy, res);
+                    // PolicyIDRecurtion(payload2, req.body.policy, res, app);
+                    res.send({payload, payload2});
+                    next;
                 })
             }, error => {
                 res.send(error);
-            }).catch(next);
+            }).catch(err => {
+                res.send(err);
+                next
+            });
         } else {
             let person = req.body.person;
             app.service('people').update(person._id, person).then(payload => {
@@ -75,7 +96,7 @@ module.exports = function (app) {
                             beneficiaryDependant.platformOwnerNumber = generateLashmaID(req.body.platform);
                             app.service('beneficiaries').create(beneficiaryDependant).then(payload4 => {
                                 policyItemObject = policyItem.data[0];
-                                if(policyItemObject.dependantBeneficiaries== undefined){
+                                if (policyItemObject.dependantBeneficiaries == undefined) {
                                     policyItemObject.dependantBeneficiaries = [];
                                 }
                                 policyItemObject.dependantBeneficiaries.push(payload4);

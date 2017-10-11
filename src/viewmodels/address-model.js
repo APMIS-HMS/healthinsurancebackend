@@ -6,7 +6,7 @@ const addressSchema = new Schema({
     neighbourhood: { type: String, required: true },
     state: { type: Schema.Types.Mixed, required: true },
     lga: { type: Schema.Types.Mixed, required: true },
-    city: { type: Schema.Types.Mixed, required: true },
+    city: { type: Schema.Types.Mixed, required: false },
     createdAt: { type: Date, 'default': Date.now },
     updatedAt: { type: Date, 'default': Date.now }
 })

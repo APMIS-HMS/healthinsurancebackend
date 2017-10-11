@@ -79,6 +79,6 @@ var thumbnail = new Thumbnail('./public/uploads/image', './public/uploads/thumbn
 
   app.post('/lashma-beneficiaries', beneficiary(app));
   //app.use(notFound());
-  app.use(logger(app));
-  app.use(handler());
+  // app.use(logger(app));
+  // app.use(handler());
 };
