@@ -1,8 +1,42 @@
 const { authenticate } = require('feathers-authentication').hooks;
+const { populate } = require('feathers-hooks-common');
+
+const personSchemaList = {
+  include: [{
+    service: 'people',
+    nameAs: 'person',
+    parentField: 'personId',
+    childField: '_id',
+    query: {
+      $select: ['email', 'firstName', 'lastName', 'gender', 'platformId', 'dateOfBirth', 'homeAddress.lga'],
+      $sort: { createdAt: -1 }
+    }
+  }]
+};
+
+const personSchema = {
+  include: [{
+    service: 'people',
+    nameAs: 'person',
+    parentField: 'personId',
+    childField: '_id',
+    query: {
+      // $select: ['email', 'firstName',
+      //  'lastName', 'otherNames',
+      //  'gender', 'platformId', 'dateOfBirth',
+      //   'homeAddress', 'title','mothersMaidenName',
+      //   'email','phoneNumber','secondaryPhoneNumber','profileImageObject',
+      //   'nationality','stateOfOrigin','lgaOfOrigin','maritalStatus','nextOfKin',
+      //   'employees','isActive'
+      // ],
+      $sort: { createdAt: -1 }
+    }
+  }]
+};
 
 module.exports = {
   before: {
-    all: [ ],//authenticate('jwt') ],
+    all: [],
     find: [],
     get: [],
     create: [],
@@ -13,8 +47,8 @@ module.exports = {
 
   after: {
     all: [],
-    find: [],
-    get: [],
+    find: [populate({ schema: personSchemaList })],
+    get: [populate({ schema: personSchema })],
     create: [],
     update: [],
     patch: [],
