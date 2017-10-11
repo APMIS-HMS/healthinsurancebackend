@@ -23,7 +23,7 @@ module.exports = function(app) {
         profileImageObject: imageSchema,
         homeAddress: addressSchema,
         dateOfBirth: { type: Date, require: false },
-        gender: { type: String, required: false },
+        gender: { type: Schema.Types.Mixed, required: false },
         nationality: { type: Schema.Types.Mixed, required: false },
         stateOfOrigin: { type: Schema.Types.Mixed, required: false },
         lgaOfOrigin: { type: Schema.Types.Mixed, required: false },
