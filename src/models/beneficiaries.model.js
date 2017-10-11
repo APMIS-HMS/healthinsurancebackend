@@ -7,7 +7,7 @@ module.exports = function (app) {
   const { Schema } = mongooseClient;
   const beneficiaries = new Schema({
     stateID: { type: String, required: false }, // lasraid
-    platformOwnerNumber: { type: String, required: true }, //lashmaid
+    platformOwnerNumber: { type: String, required: false }, //lashmaid
     numberOfUnderAge: { type: Number, default: 0 },
     personId: { type: Schema.Types.ObjectId, required: true },
     platformOwnerId: { type: Schema.Types.Mixed, required: true }, // platform owner object
