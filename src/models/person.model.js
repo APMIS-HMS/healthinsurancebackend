@@ -15,7 +15,7 @@ module.exports = function(app) {
         firstName: { type: String, required: true },
         lastName: { type: String, required: true },
         otherNames: { type: String, required: false },
-        mothersMaidenName: { type: String, required: true },
+        mothersMaidenName: { type: String, required: false },
         email: { type: String, required: true },
         phoneNumber: { type: String, required: true },
         secondaryPhoneNumber: { type: String, required: false },
