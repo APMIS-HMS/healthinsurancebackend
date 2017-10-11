@@ -49,7 +49,7 @@ function generateLashmaID(app, owner) {
         let itemCounter = items.data.length + 1;
         let counter = formatValue(itemCounter.toString());
 
-        let lashmaPlatformNo = owner.name + "/" + year[year.length - 2] + "" + +year[year.length - 1] + "" + m + "/" + counter;
+        let lashmaPlatformNo = owner.shortName + "/" + year[year.length - 2] + "" + +year[year.length - 1] + "" + m + "/" + counter;
         return lashmaPlatformNo;
     }).catch(err => {
         console.log(err);
