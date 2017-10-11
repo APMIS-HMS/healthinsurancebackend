@@ -12,7 +12,7 @@ function PolicyIDRecurtion(beneficiaries, principal, policy, res,next, app) {
             policy.policyId = policyValueId;
             policy.principalBeneficiary = principal;
             policy.dependantBeneficiaries = beneficiaries;
-            app.service('policies').create(policyValue).then(policyObject => {
+            app.service('policies').create(policy).then(policyObject => {
                 res.send({ policyObject });
                 next;
             })
