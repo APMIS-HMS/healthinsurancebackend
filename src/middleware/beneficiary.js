@@ -1,16 +1,20 @@
 'use strict';
 
-function PolicyIDRecurtion(value, policy, res, app) {
-    const policyValueId = validatePolicyID();
+function PolicyIDRecurtion(beneficiaries, principal, policy, res,next, app) {
+    var policyValueId = validatePolicyID();
     return app.service('policies').find({
         query: { policyId: policyValueId }
     }).then(policyItem => {
         if (policyItem.data.length == 0) {
-            let policyValue = policy;
-            policyValue.policyId = policyValueId;
-            policyValue.principalBeneficiary = value;
-            app.service('policies').create(policyValue).then(payload3 => {
-                return payload3;
+            beneficiaries.forEach(function (element, n) {
+                element.policyId = policyValueId + "-" + formatMonthValue(n);
+            })
+            policy.policyId = policyValueId;
+            policy.principalBeneficiary = principal;
+            policy.dependantBeneficiaries = beneficiaries;
+            app.service('policies').create(policyValue).then(policyObject => {
+                res.send({ policyObject });
+                next;
             })
         }
         else {
@@ -102,11 +106,15 @@ module.exports = function (app) {
                     generateLashmaID(app, req.body.platform).then(result => {
                         beneficiaryDetails.platformOwnerNumber = result;
                         app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
-                            beneficiaries.push(beneficiary);
-                            counter +=1;
-                            if(counter == req.body.persons.length){
-                                res.send({ persons, beneficiaries });
-                                next;
+                            var beneficiary_policy = {
+                                "beneficiary": beneficiary,
+                                "relationshipId": item.relationship
+                            };
+
+                            beneficiaries.push(beneficiary_policy);
+                            counter += 1;
+                            if (counter == req.body.persons.length) {
+                                PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res,next, app)
                             }
                         })
                     });
