@@ -30,5 +30,5 @@
             "passwordField": "password"
         }
     },
-    "mongodb": "mongodb://192.168.20.12:27017/insuranceapi"
+    "mongodb": "mongodb://localhost:27017/insuranceapi"
 }
