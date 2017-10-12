@@ -1,4 +1,5 @@
 const beneficiary = require('../middleware/beneficiary');
+const hia = require('../middleware/hia');
 var multer = require('multer');
 // const profileimage = require('./profileimage');
 // const useraccesscontrol = require('./useraccesscontrol');
@@ -79,6 +80,7 @@ var thumbnail = new Thumbnail('./public/uploads/image', './public/uploads/thumbn
 
   app.post('/lashma-beneficiaries', beneficiary(app));
   app.put('/lashma-beneficiaries', beneficiary(app));
+  app.get('/api/hias', hia(app));
   //app.use(notFound());
   // app.use(logger(app));
   // app.use(handler());
