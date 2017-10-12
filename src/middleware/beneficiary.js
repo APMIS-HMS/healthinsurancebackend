@@ -51,7 +51,7 @@ function generateLashmaID(app, owner) {
         let lashmaPlatformNo = owner.shortName + "/" + year[year.length - 2] + "" + +year[year.length - 1] + "" + m + "/" + counter;
         return lashmaPlatformNo;
     }).catch(err => {
-        console.log(err);
+        // console.log(err);
     })
 };
 
