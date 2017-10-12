@@ -1,6 +1,6 @@
 'use strict';
 
-function PolicyIDRecurtion(beneficiaries, principal, policy, res,next, app) {
+function PolicyIDRecurtion(beneficiaries, principal, policy, res, next, app) {
     var policyValueId = validatePolicyID();
     return app.service('policies').find({
         query: { policyId: policyValueId }
@@ -49,7 +49,14 @@ function generateLashmaID(app, owner) {
         let counter = formatValue(itemCounter.toString());
 
         let lashmaPlatformNo = owner.shortName + "/" + year[year.length - 2] + "" + +year[year.length - 1] + "" + m + "/" + counter;
-        return lashmaPlatformNo;
+        app.service('beneficiaries').find({ query: { "platformOwnerNumber": lashmaPlatformNo } }).then(itm => {
+            if (itm.data.length == 0) {
+                return lashmaPlatformNo;
+            } else {
+                return generateLashmaID(app, owner);
+            }
+        })
+
     }).catch(err => {
         // console.log(err);
     })
@@ -113,7 +120,7 @@ module.exports = function (app) {
                             beneficiaries.push(beneficiary_policy);
                             counter += 1;
                             if (counter == req.body.persons.length) {
-                                PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res,next, app)
+                                PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res, next, app)
                             }
                         })
                     });
