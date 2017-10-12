@@ -5,7 +5,7 @@ module.exports = function (app) {
         app.service('plans').find(
             {
                 query: {
-                    'platformOwnerId._id': req.query._id
+                    'platformOwnerId._id': req.query.id
                 },
                 header: {
                     "Authorization": req.headers.authorization
