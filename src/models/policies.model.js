@@ -11,7 +11,11 @@ module.exports = function (app) {
     policyId: { type: String, required: true },
     platformOwnerId: { type: Schema.Types.Mixed, required: true }, // platform owner object
     principalBeneficiary: { type: Schema.Types.Mixed, required: true }, // platform owner object
-    facilityId: { type: Schema.Types.Mixed, required: true }, // lashma/hia
+    hiaId: { type: Schema.Types.Mixed, required: true }, // lashma/hia
+    providerId: { type: Schema.Types.Mixed, required: true }, // provider
+    planTypeId: { type: Schema.Types.Mixed, required: true }, // planType
+    planId: { type: Schema.Types.Mixed, required: true }, // plan
+    premiumCategoryId: { type: Schema.Types.Mixed, required: true }, // premiumCategory
     dependantBeneficiaries: [beneficiaryPolicySchema],
     isActive: { type: Schema.Types.Boolean, default: false },
     createdAt: { type: Date, default: Date.now },

@@ -9,7 +9,7 @@ module.exports = function (app) {
     stateID: { type: String, required: false }, // lasraid
     platformOwnerNumber: { type: String, required: true }, //lashmaid
     numberOfUnderAge: { type: Number, default: 0 },
-    personId: { type: Schema.Types.ObjectId, required: true },
+    personId: { type: Schema.Types.Mixed, required: true },
     platformOwnerId: { type: Schema.Types.Mixed, required: true }, // platform owner object
     isActive:{ type:Schema.Types.Boolean, default: true},
     createdAt: { type: Date, default: Date.now },
