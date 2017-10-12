@@ -2,7 +2,6 @@
 module.exports = function (app) {
   return function (req, res, next) {
     // Perform actions
-    console.log(req.headers.authorization);
     app.service('facilities').find(
       {
         query: {
