@@ -1,5 +1,9 @@
 const beneficiary = require('../middleware/beneficiary');
 const hia = require('../middleware/hia');
+const hia_plans = require('../middleware/hia_plans');
+const hia_premiums = require('../middleware/hia_premiums');
+const beneficiary_api = require('../middleware/beneficiary_api');
+
 var multer = require('multer');
 // const profileimage = require('./profileimage');
 // const useraccesscontrol = require('./useraccesscontrol');
@@ -81,6 +85,9 @@ var thumbnail = new Thumbnail('./public/uploads/image', './public/uploads/thumbn
   app.post('/lashma-beneficiaries', beneficiary(app));
   app.put('/lashma-beneficiaries', beneficiary(app));
   app.get('/api/hias', hia(app));
+  app.get('/api/hia-plans', hia_plans(app));
+  app.get('/api/hia-premiums', hia_premiums(app));
+  app.get('/api/beneficiaries', beneficiary_api(app));
   //app.use(notFound());
   // app.use(logger(app));
   // app.use(handler());
