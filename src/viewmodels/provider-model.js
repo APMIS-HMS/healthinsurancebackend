@@ -6,6 +6,7 @@ const providerSchema = new Schema({
     facilityType: { type: Schema.Types.Mixed, required: true },
     facilityGrade: { type: Schema.Types.Mixed, required: true },
     facilityClass: [{ type: Schema.Types.String, required: false }],
+    validityPeriods: [{ type: Schema.Types.Mixed, required: false }],
     hefeemaNumber: { type: String, required: false },
     hefeemaStatus: { type: Schema.Types.Mixed, required: false },
     lasrraId: { type: String, required: true },
