@@ -1,6 +1,6 @@
 'use strict';
 
-function PolicyIDRecurtion(beneficiaries, principal, policy, res, next, app) {
+function PolicyIDRecurtion(beneficiaries, principal, policy, res,next, app) {
     var policyValueId = validatePolicyID();
     return app.service('policies').find({
         query: { policyId: policyValueId }
@@ -43,20 +43,13 @@ function formatMonthValue(val) {
 function generateLashmaID(app, owner) {
     return app.service('beneficiaries').find({ query: { "platformOwnerId._id": owner._id } }).then(items => {
         let year = new Date().getFullYear().toString().split('');
-        let month = new Date().getMonth();
+        let month = new Date().getMonth()+1;
         let m = formatMonthValue(month.toString());
         let itemCounter = items.data.length + 1;
         let counter = formatValue(itemCounter.toString());
 
-        let lashmaPlatformNo = owner.shortName + "/" + year[year.length - 2] + "" + +year[year.length - 1] + "" + m + "/" + counter;
-        app.service('beneficiaries').find({ query: { "platformOwnerNumber": lashmaPlatformNo } }).then(itm => {
-            if (itm.data.length == 0) {
-                return lashmaPlatformNo;
-            } else {
-                return generateLashmaID(app, owner);
-            }
-        })
-
+        let lashmaPlatformNo = owner.shortName + "-" + year[year.length - 2] + "" + +year[year.length - 1] + "" + m + "-" + counter;
+        return lashmaPlatformNo;
     }).catch(err => {
         console.log(err);
     })
@@ -120,7 +113,7 @@ module.exports = function (app) {
                             beneficiaries.push(beneficiary_policy);
                             counter += 1;
                             if (counter == req.body.persons.length) {
-                                PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res, next, app)
+                                PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res,next, app)
                             }
                         })
                     });
