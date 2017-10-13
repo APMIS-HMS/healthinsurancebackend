@@ -90,7 +90,8 @@ module.exports = function() {
     app.get('/api/hia-plans', hia_plans(app));
     app.get('/api/hia-premiums', hia_premiums(app));
     app.get('/api/beneficiaries', beneficiary_api(app));
-    app.post('/api/beneficiaries', beneficiary_api(app));
+    app.post('/api/beneficiaries', create_beneficiary_api(app));
+    
     //app.use(notFound());
     // app.use(logger(app));
     // app.use(handler());

@@ -2,6 +2,7 @@
 module.exports = function (app) {
     return function (req, res, next) {
         // Perform actions
+        console.log("GET");
         app.service('beneficiaries').find(
             {
                 query: {
