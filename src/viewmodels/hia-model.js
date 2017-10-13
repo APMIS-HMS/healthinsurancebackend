@@ -6,6 +6,7 @@ const hiaSchema = new Schema({
     cin: { type: String, required: true },
     grade: { type: Schema.Types.Mixed, required: true },
     type: { type: Schema.Types.Mixed, required: true },
+    validityPeriods: [{ type: Schema.Types.Mixed, required: false }],
     registrationDate: { type: Schema.Types.Date, required: true },
     createdAt: { type: Date, 'default': Date.now },
     updatedAt: { type: Date, 'default': Date.now }
