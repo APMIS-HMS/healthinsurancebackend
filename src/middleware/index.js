@@ -3,6 +3,7 @@ const hia = require('../middleware/hia');
 const hia_plans = require('../middleware/hia_plans');
 const hia_premiums = require('../middleware/hia_premiums');
 const beneficiary_api = require('../middleware/beneficiary_api');
+const create_beneficiary_api = require('../middleware/create_beneficiary_api');
 const provider = require('../middleware/provider');
 var multer = require('multer');
 // const profileimage = require('./profileimage');
@@ -89,6 +90,7 @@ module.exports = function() {
     app.get('/api/hia-plans', hia_plans(app));
     app.get('/api/hia-premiums', hia_premiums(app));
     app.get('/api/beneficiaries', beneficiary_api(app));
+    app.post('/api/beneficiaries', beneficiary_api(app));
     //app.use(notFound());
     // app.use(logger(app));
     // app.use(handler());
