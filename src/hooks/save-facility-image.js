@@ -17,24 +17,13 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       // hook.params.query.formData = hook.params.query.formData;
 
 
-
-
-      // hook.params.query.formData = hook.params.query.formData;
-      // console.log(hook.params.query.formData)
       let keep = hook.data.formData
       hook.data = hook.data.param;
 
-
-      
-      console.log('am in')
-      console.log(2222);
-      console.log(keep.files)
       let formData;
       if (keep.files && keep.files[0]) {
         formData = new FormData();
         formData.append("platform", keep.files[0]);
-        console.log('am out')
-        console.log(formData)
       }
       hook.data = hook.data.param;
 
@@ -75,8 +64,6 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       //   return Promise.resolve(hook);
       // });
 
-       console.log(hook.query.formData);
-      console.log(hook.params.query.formData)
       return request
         .post(path)
         .send(hook.query.formData);

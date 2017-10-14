@@ -12,7 +12,6 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
 
     const url = 'http://portal.bulksmsnigeria.net/api/?username=apmis&password=apmis&message=' + message + '&sender=' + sender + '&mobiles=@@' + numbers + '@@';
     var response = request.get(url);
-    console.log(response)
     return Promise.resolve(hook);
   };
 };

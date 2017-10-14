@@ -7,7 +7,7 @@ const otpSchema = new Schema({
     generatedAt: { type: Date, 'default': Date.now },
     verifiedAt: { type: Date, require: false },
     verifiedBy: { type: Schema.Types.ObjectId, require: false },
-    phoneNumbers: [{ type: Schema.Types.String }],
+    phoneNumbers: { type: Schema.Types.Mixed, require: true },
     createdAt: { type: Date, 'default': Date.now },
     updatedAt: { type: Date, 'default': Date.now }
 })

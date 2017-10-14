@@ -6,12 +6,13 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     // Hooks can either return nothing or a promise
     // that resolves with the `hook` object for asynchronous operations
     if (hook.data != undefined) {
-     
-      let otpModel = {
-        number:getOpt(),
-        generatedAt: new Date()
-      }
-      hook.data.otp = otpModel;
+
+      // let otpModel = {
+      //   number: getOpt(),
+      //   generatedAt: new Date()
+      // }
+      hook.data.otp.number = getOpt();
+      hook.data.otp.generatedAt = new Date();
     }
     return Promise.resolve(hook);
   };
