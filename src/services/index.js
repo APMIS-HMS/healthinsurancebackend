@@ -25,6 +25,11 @@ const providerGrades = require('./provider-grades/provider-grades.service.js');
 const providerStatuses = require('./provider-statuses/provider-statuses.service.js');
 const beneficiaries = require('./beneficiaries/beneficiaries.service.js');
 const policies = require('./policies/policies.service.js');
+const checkIns = require('./check-ins/check-ins.service.js');
+const encounterStatuses = require('./encounter-statuses/encounter-statuses.service.js');
+const encounterTypes = require('./encounter-types/encounter-types.service.js');
+const claimStatuses = require('./claim-statuses/claim-statuses.service.js');
+const claimTypes = require('./claim-types/claim-types.service.js');
 module.exports = function() {
     const app = this; // eslint-disable-line no-unused-vars
     app.configure(users);
@@ -54,4 +59,9 @@ module.exports = function() {
     app.configure(providerStatuses);
     app.configure(beneficiaries);
     app.configure(policies);
+    app.configure(checkIns);
+    app.configure(encounterStatuses);
+    app.configure(encounterTypes);
+    app.configure(claimStatuses);
+    app.configure(claimTypes);
 };
