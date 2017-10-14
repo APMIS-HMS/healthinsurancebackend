@@ -25,6 +25,7 @@ const providerGrades = require('./provider-grades/provider-grades.service.js');
 const providerStatuses = require('./provider-statuses/provider-statuses.service.js');
 const beneficiaries = require('./beneficiaries/beneficiaries.service.js');
 const policies = require('./policies/policies.service.js');
+const claim = require('./claim/claim.service.js');
 module.exports = function() {
     const app = this; // eslint-disable-line no-unused-vars
     app.configure(users);
@@ -54,4 +55,5 @@ module.exports = function() {
     app.configure(providerStatuses);
     app.configure(beneficiaries);
     app.configure(policies);
+    app.configure(claim);
 };
