@@ -48,7 +48,7 @@ function generateLashmaID(app, owner) {
         let itemCounter = items.data.length;
         let counter = formatValue(itemCounter.toString());
         let lashmaPlatformNo = [];
-        let lashmaPlatformNo1 = owner.shortName + "-" + year[year.length - 2] + "" + +year[year.length - 1] + "" + m;
+        let lashmaPlatformNo1 = owner.shortName + "-" + year[year.length - 2] + "" +year[year.length - 1] + "" + m;
         //let lashmaPlatformNo = owner.shortName + "-" + year[year.length - 2] + "" + +year[year.length - 1] + "" + m + "-" + counter;
         lashmaPlatformNo.push(lashmaPlatformNo1);
         lashmaPlatformNo.push(itemCounter);
@@ -84,8 +84,10 @@ module.exports = function (app) {
                 var beneficiaryDetails = req.body.beneficiary;
                 beneficiaryDetails.personId = person;
                 generateLashmaID(app, req.body.platform).then(result => {
-                    let resultVal = result[0] +"-"+ result[1] + 1;
-                    beneficiaryDetails.platformOwnerNumber = result;
+                    let lastVal = result[1] + 1;
+                    let strLastVal = formatValue(lastVal);
+                    let resultVal = result[0] +"-"+ strLastVal;
+                    beneficiaryDetails.platformOwnerNumber = resultVal;
                     app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
                         res.send({ person, beneficiary });
                         next;
@@ -108,7 +110,9 @@ module.exports = function (app) {
                     beneficiaryDetails.personId = person;
                     generateLashmaID(app, req.body.platform).then(result => {
                         counter += 1;
-                        let resultVal = result[0] +"-"+ result[1] + counter;
+                        let lastVal = result[1] + counter;
+                        let strLastVal = formatValue(lastVal);
+                        let resultVal = result[0] +"-"+ strLastVal;
                         beneficiaryDetails.platformOwnerNumber = resultVal;
                         app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
                             var beneficiary_policy = {
