@@ -60,13 +60,10 @@ module.exports = function() {
     app.configure(providerStatuses);
     app.configure(beneficiaries);
     app.configure(policies);
-<<<<<<< HEAD
     app.configure(claim);
-=======
     app.configure(checkIns);
     app.configure(encounterStatuses);
     app.configure(encounterTypes);
     app.configure(claimStatuses);
     app.configure(claimTypes);
->>>>>>> f401ec071f5a0810323175199b50ddbf3f90b470
 };
