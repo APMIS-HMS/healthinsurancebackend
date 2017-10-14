@@ -31,6 +31,11 @@ const encounterStatuses = require('./encounter-statuses/encounter-statuses.servi
 const encounterTypes = require('./encounter-types/encounter-types.service.js');
 const claimStatuses = require('./claim-statuses/claim-statuses.service.js');
 const claimTypes = require('./claim-types/claim-types.service.js');
+const symptom = require('./symptom/symptom.service.js');
+const diagnosis = require('./diagnosis/diagnosis.service.js');
+const investigation = require('./investigation/investigation.service.js');
+const drug = require('./drug/drug.service.js');
+const procedure = require('./procedure/procedure.service.js');
 module.exports = function() {
     const app = this; // eslint-disable-line no-unused-vars
     app.configure(users);
@@ -66,4 +71,9 @@ module.exports = function() {
     app.configure(encounterTypes);
     app.configure(claimStatuses);
     app.configure(claimTypes);
+    app.configure(symptom);
+    app.configure(diagnosis);
+    app.configure(investigation);
+    app.configure(drug);
+    app.configure(procedure);
 };
