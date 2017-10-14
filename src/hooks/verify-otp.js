@@ -7,9 +7,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     // that resolves with the `hook` object for asynchronous operations
 
     if (hook.params.verify && hook.result.data.length > 0) {
-      // console.log(hook.params.user._id);
-      // // console.log(hook.param.user)
-      // console.log('please am ok')
+    
       let record = hook.result.data[0];
       record.otp.isVerified = true;
       record.otp.verifiedBy = hook.params.user._id;
