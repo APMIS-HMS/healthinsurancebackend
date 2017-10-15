@@ -6,7 +6,9 @@ module.exports = function (app) {
   const mongooseClient = app.get('mongooseClient');
   const { Schema } = mongooseClient;
   const drug = new Schema({
-    text: { type: String, required: true },
+    name: { type: String, required: true },
+    class:{ type: String, required: true },
+    code:{ type: String, required: true },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
   });
