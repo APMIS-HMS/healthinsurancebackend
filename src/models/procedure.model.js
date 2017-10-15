@@ -7,7 +7,7 @@ module.exports = function (app) {
   const { Schema } = mongooseClient;
   const procedure = new Schema({
     name: { type: String, required: true },
-    class:{ type: String, required: true },
+    class:{ type: String, required: false },
     code:{ type: String, required: true },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
