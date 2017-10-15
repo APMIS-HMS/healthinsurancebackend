@@ -36,6 +36,7 @@ const diagnosis = require('./diagnosis/diagnosis.service.js');
 const investigation = require('./investigation/investigation.service.js');
 const drug = require('./drug/drug.service.js');
 const procedure = require('./procedure/procedure.service.js');
+const visitType = require('./visit-type/visit-type.service.js');
 module.exports = function() {
     const app = this; // eslint-disable-line no-unused-vars
     app.configure(users);
@@ -76,4 +77,5 @@ module.exports = function() {
     app.configure(investigation);
     app.configure(drug);
     app.configure(procedure);
+    app.configure(visitType);
 };
