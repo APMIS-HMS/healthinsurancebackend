@@ -14,7 +14,7 @@ module.exports = function(app) {
         checkedinDetail: { type: Schema.Types.Mixed, required: true },
         documentation: [claimDoc],
         CurentClaimStatus: { type: Schema.Types.Mixed, required: true },
-        claimType: { type: Schema.Type.Mixed, required: false }, // either fee for service or Capitation.
+        claimType: { type: Schema.Types.Mixed, required: false }, // either fee for service or Capitation.
         approval: { type: Schema.Types.Mixed, required: true },
         medicalPersonelName: { type: String, required: true },
         medicalPersonelShortName: { type: String, required: true },
