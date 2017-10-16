@@ -13,7 +13,7 @@ module.exports = function() {
         name: 'modules',
         Model,
         paginate,
-        limit: 20
+        limit: 50
     };
 
     // Initialize our service with any options it requires
