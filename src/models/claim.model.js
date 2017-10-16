@@ -17,7 +17,7 @@ module.exports = function (app) {
     claimNote: { type: Schema.Types.Mixed, required: false }, // either fee for service or Capitation.
     approval: { type: Schema.Types.Mixed, required: false },
     medicalPersonelName: { type: String, required: true },
-    medicalPersonelShortName: { type: String, required: true },
+    medicalPersonelShortName: { type: String, required: false },
     authorizationCode: { type: String, required: false },
     costingApprovalDocumentation: { type: Number, default: 0 },
     paymentStatus: { type: Schema.Types.Mixed, required: false },
