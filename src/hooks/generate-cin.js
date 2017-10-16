@@ -6,6 +6,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     // Hooks can either return nothing or a promise
     // that resolves with the `hook` object for asynchronous operations
     let facility = hook.data;
+    console.log(facility.shortName)
     if(facility.shortName=== undefined){
       let cin = facility.platformOwnerId.shortName + '-' + getCIN();
       if (facility.hia !== undefined) {
