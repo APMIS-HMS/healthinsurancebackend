@@ -10,8 +10,11 @@ module.exports = function(options = {}) { // eslint-disable-line no-unused-vars
                 if (hook.data.password === null || hook.data.password === undefined) {
                     hook.data.password = aphaformator();
                     hook.params.password = hook.data.password;
+                    hook.params.platformOwnerId = hook.data.platformOwnerId;
+                }else{
+                    hook.params.password = hook.data.password;
                 }
-            } else if (hook.type === 'after' && hook.data.password === undefined) {
+            } else if (hook.type === 'after') {
                 let password = hook.params.password;
                 let sender = hook.data.platformOwnerId.shortName;
                 let message = "Your " + sender + " auto-generated password is: " + password + " kindly change your password";
