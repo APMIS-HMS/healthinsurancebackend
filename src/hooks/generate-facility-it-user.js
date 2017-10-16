@@ -23,9 +23,15 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
 
     hook.app.service('users').create(user).then(payload => {
       console.log(user.phoneNumber)
-      let sender = user.platformOwnerId.shortName;
-      let message = 'Below is your login details as the '+ sender +' platform Admin for your company '+user.facilityId.name+' :'+
-      "Your user-name:" + user.email + " password is: " + password + " kindly change your password";
+      let sender = '';
+      if (facility.shortName !== undefined) {
+        sender = facility.shortName;
+      } else {
+        sender = user.platformOwnerId.shortName;
+      }
+
+      let message = 'Below is your login details as the ' + sender + ' platform Admin for your company ' + user.facilityId.name + ' :' +
+        "Your user-name:" + user.email + " password is: " + password + " kindly change your password";
 
       const url = 'http://portal.bulksmsnigeria.net/api/?username=apmis&password=apmis&message=' + message + '&sender=' + sender + '&mobiles=@@' + user.phoneNumber + '@@';
       var response = request.get(url);

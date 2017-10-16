@@ -6,15 +6,20 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     // Hooks can either return nothing or a promise
     // that resolves with the `hook` object for asynchronous operations
     let facility = hook.data;
-    let cin = facility.platformOwnerId.shortName + '-' + getCIN();
-    if (facility.hia !== undefined) {
-      facility.hia.cin = cin;
-    } else if (facility.provider !== undefined) {
-      facility.provider.providerId = cin;
-    }else if(facility.employer !== undefined){
-      facility.employer.cin = cin;
+    if(facility.shortName=== undefined){
+      let cin = facility.platformOwnerId.shortName + '-' + getCIN();
+      if (facility.hia !== undefined) {
+        facility.hia.cin = cin;
+      } else if (facility.provider !== undefined) {
+        facility.provider.providerId = cin;
+      }else if(facility.employer !== undefined){
+        facility.employer.cin = cin;
+      }
+      return Promise.resolve(hook);
+    }else{
+      return Promise.resolve(hook);
     }
-    return Promise.resolve(hook);
+  
   };
 };
 function getCIN() {
