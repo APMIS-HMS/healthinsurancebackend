@@ -1,11 +1,13 @@
 const { authenticate } = require('feathers-authentication').hooks;
+const generateCIN = require('../../hooks/generate-cin');
+const generateItUser = require('../../hooks/generate-facility-it-user');
 
 module.exports = {
   before: {
     all: [ ],
-    find: [authenticate('jwt')],
+    find: [],
     get: [authenticate('jwt')],
-    create: [authenticate('jwt')],
+    create: [authenticate('jwt'), generateCIN()],
     update: [authenticate('jwt')],
     patch: [authenticate('jwt')],
     remove: [authenticate('jwt')]
@@ -15,7 +17,7 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [],
+    create: [generateItUser()],
     update: [],
     patch: [],
     remove: []

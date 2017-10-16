@@ -4,6 +4,7 @@ const { restrictToOwner } = require('feathers-authentication-hooks');
 
 const { hashPassword } = require('feathers-authentication-local').hooks;
 const autoGeneratePassword = require('../../hooks/auto-generate-password');
+const populateRoleWithAccessibilities = require('../../hooks/populate-role-with-accessibilities');
 const restrict = [
     authenticate('jwt'),
     restrictToOwner({
@@ -32,7 +33,8 @@ module.exports = {
             commonHooks.when(
                 hook => hook.params.provider,
                 commonHooks.discard('password')
-            )
+            ),
+            populateRoleWithAccessibilities()
         ],
         find: [],
         get: [],

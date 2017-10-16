@@ -9,7 +9,7 @@ const providerSchema = new Schema({
     validityPeriods: [{ type: Schema.Types.Mixed, required: false }],
     hefeemaNumber: { type: String, required: false },
     hefeemaStatus: { type: Schema.Types.Mixed, required: false },
-    lasrraId: { type: String, required: true },
+    providerId: { type: String, required: true },
     comment: { type: String, required: false },
     createdAt: { type: Date, 'default': Date.now },
     updatedAt: { type: Date, 'default': Date.now }

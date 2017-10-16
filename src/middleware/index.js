@@ -6,20 +6,16 @@ const beneficiary_api = require('../middleware/beneficiary_api');
 const create_beneficiary_api = require('../middleware/create_beneficiary_api');
 const provider = require('../middleware/provider');
 var multer = require('multer');
-// const profileimage = require('./profileimage');
-// const useraccesscontrol = require('./useraccesscontrol');
-// const queryservice = require('./queryservice');
-// const patientqueryservice = require('./patientqueryservice');
 const handler = require('feathers-errors/handler');
-// const notFound = require('./not-found-handler');
 const logger = require('../hooks/logger');
 const fs = require('fs');
 var mongoose = require('mongoose');
 var Thumbnail = require('thumbnail');
 
+const excelToJson = require('convert-excel-to-json');
+const uploadexcel = require('../helpers/upload-excel');
+
 module.exports = function() {
-    // Add your custom middleware here. Remember, that
-    // in Express the order matters
     const app = this;
     var storage = multer.diskStorage({
         destination: function(req, file, callback) {
@@ -45,9 +41,7 @@ module.exports = function() {
 
     function processFile(file) {
         let originalFileName = file.filename.split('.')[0] + '-100.jpg';
-        // let originalDetailFileName = file.filename.split('.')[0] + '-300x300.jpg';
         file.thumbnail = '/uploads/thumbnails/' + originalFileName;
-        // file.detailthumbnail = '/public/uploads/detailimages/' + originalDetailFileName;
         var thumbnail = new Thumbnail('./public/uploads/image', './public/uploads/thumbnails');
 
         thumbnail.ensureThumbnail(file.filename, 100, null, function(err, filename, retVal) {
@@ -56,15 +50,6 @@ module.exports = function() {
                 if (err) return console.log(err);
             });
         });
-        // var thumbnail = new Thumbnail('./public/uploads/image', './public/uploads/detailimages');
-        // thumbnail.ensureThumbnail(file.filename, 300, null, function (err, filename, retVal) {
-        //   const fs = require('fs');
-
-        //   fs.unlink('./public/uploads/image/' + file.filename, function (err) {
-        //     if (err) return console.log(err);
-        //   });
-
-        // });
         return file;
     }
 
@@ -91,8 +76,43 @@ module.exports = function() {
     app.get('/api/hia-premiums', hia_premiums(app));
     app.get('/api/beneficiaries', beneficiary_api(app));
     app.post('/api/beneficiaries', create_beneficiary_api(app));
-    
-    //app.use(notFound());
-    // app.use(logger(app));
-    // app.use(handler());
+
+    app.post('/uploadexcel', function (req, res) {
+        var exceltojson;
+        uploadexcel.data.upload(req, res, function (err) {
+            if (err) {
+                console.log(err)
+                res.json({
+                    error_code: 1,
+                    err_desc: err
+                });
+                return;
+            }
+            /** Multer gives us file info in req.file object */
+            if (!req.file) {
+                console.log('no file')
+                res.json({
+                    error_code: 1,
+                    err_desc: "No file passed"
+                });
+                return;
+            }
+            try {
+                const result = excelToJson({
+                    sourceFile: req.file.path,
+                    outputJSON: false
+                });
+                res.json({
+                    error_code: 0,
+                    err_desc: null,
+                    data: result
+                });
+            } catch (e) {
+                res.json({
+                    error_code: 1,
+                    err_desc: "Corupted excel file"
+                });
+            }
+        });
+    });
 };
