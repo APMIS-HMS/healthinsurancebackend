@@ -77,10 +77,11 @@ module.exports = function() {
     app.get('/api/hia-premiums', hia_premiums(app));
     app.get('/api/beneficiaries', beneficiary_api(app));
     app.post('/api/beneficiaries', create_beneficiary_api(app));
+    app.post('/api/send-sms', sendSMS(app));
 
-    app.post('/uploadexcel', function (req, res) {
+    app.post('/uploadexcel', function(req, res) {
         var exceltojson;
-        uploadexcel.data.upload(req, res, function (err) {
+        uploadexcel.data.upload(req, res, function(err) {
             if (err) {
                 console.log(err)
                 res.json({
