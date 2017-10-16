@@ -16,10 +16,10 @@ module.exports = function () {
   };
 
   // Initialize our service with any options it requires
-  app.use('/cliams', createService(options));
+  app.use('/claims', createService(options));
 
   // Get our initialized service so that we can register hooks and filters
-  const service = app.service('cliams');
+  const service = app.service('claims');
 
   service.hooks(hooks);
 
