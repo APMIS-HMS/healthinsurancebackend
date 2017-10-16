@@ -1,8 +1,8 @@
-// Initializes the `claim` service on path `/cliams`
+// Initializes the `symptom` service on path `/symptoms`
 const createService = require('feathers-mongoose');
-const createModel = require('../../models/claim.model');
-const hooks = require('./claim.hooks');
-const filters = require('./claim.filters');
+const createModel = require('../../models/symptom.model');
+const hooks = require('./symptom.hooks');
+const filters = require('./symptom.filters');
 
 module.exports = function () {
   const app = this;
@@ -10,16 +10,16 @@ module.exports = function () {
   const paginate = app.get('paginate');
 
   const options = {
-    name: 'claim',
+    name: 'symptom',
     Model,
     paginate
   };
 
   // Initialize our service with any options it requires
-  app.use('/claims', createService(options));
+  app.use('/symptoms', createService(options));
 
   // Get our initialized service so that we can register hooks and filters
-  const service = app.service('claims');
+  const service = app.service('symptoms');
 
   service.hooks(hooks);
 

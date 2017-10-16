@@ -9,18 +9,20 @@ module.exports = function (app) {
   const claimDoc = require('../viewmodels/claim-document-model');
   const { Schema } = mongooseClient;
   const claim = new Schema({
-    beneficialDetail:{ type: Schema.Types.Mixed, required: true }, 
-    checkedinDetail:{ type: Schema.Types.Mixed, required: true }, 
-    documentation:[claimDoc],
-    CurentClaimStatus:{ type: Schema.Types.Mixed, required: true }, 
-    approval:{ type: Schema.Types.Mixed, required: true }, 
+    providerFacilityId: { type: Schema.Types.Mixed, required: true },
+    checkedinDetail: { type: Schema.Types.Mixed, required: true },
+    documentation: [claimDoc],
+    CurentClaimStatus: { type: Schema.Types.Mixed, required: false },
+    claimType: { type: Schema.Types.Mixed, required: false }, // either fee for service or Capitation.
+    claimNote: { type: Schema.Types.Mixed, required: false }, // either fee for service or Capitation.
+    approval: { type: Schema.Types.Mixed, required: false },
     medicalPersonelName: { type: String, required: true },
     medicalPersonelShortName: { type: String, required: true },
     authorizationCode: { type: String, required: false },
-    costingApprovalDocumentation:{ type: Number, default: 0 },
-    paymentStatus:{ type: Schema.Types.Mixed, required: false },
-    approvedDocumentation:[claimDoc],
-    notificationMessage:claimAlertMessage,
+    costingApprovalDocumentation: { type: Number, default: 0 },
+    paymentStatus: { type: Schema.Types.Mixed, required: false },
+    approvedDocumentation: [claimDoc],
+    notificationMessage: claimAlertMessage,
     dateClaimCreated: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
   });

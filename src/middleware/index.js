@@ -5,6 +5,7 @@ const hia_premiums = require('../middleware/hia_premiums');
 const beneficiary_api = require('../middleware/beneficiary_api');
 const create_beneficiary_api = require('../middleware/create_beneficiary_api');
 const provider = require('../middleware/provider');
+const sendSMS = require('../middleware/send-sms');
 var multer = require('multer');
 const handler = require('feathers-errors/handler');
 const logger = require('../hooks/logger');
