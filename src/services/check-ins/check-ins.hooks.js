@@ -52,7 +52,6 @@ module.exports = {
       verifyOtp(),
       hasCheckInToday(),
       populate({ schema: personSchemaList }),
-      populate({ schema: policySchemaList }),
       populate({ schema: policySchemaList })
     ],
     get: [],
