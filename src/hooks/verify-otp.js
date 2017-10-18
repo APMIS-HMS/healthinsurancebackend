@@ -14,7 +14,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       record.otp.verifiedAt = new Date();
 
       return hook.app.service("check-ins").update(record._id, record).then(payload => {
-        hook.result.data = true;
+        hook.result.data = payload;
         return Promise.resolve(hook);
       })
         .catch(err => {

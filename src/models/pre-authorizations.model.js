@@ -1,16 +1,16 @@
-// claim-model.js - A mongoose model
+// pre-authorizations-model.js - A mongoose model
 // 
 // See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
 module.exports = function (app) {
-  const mongooseClient = app.get('mongooseClient');
   const claimStatusModel = require('../viewmodels/claim-status-model');
   const claimAlertMessage = require('../viewmodels/claim-message-model');
   const claimDoc = require('../viewmodels/claim-document-model');
+  const mongooseClient = app.get('mongooseClient');
   const { Schema } = mongooseClient;
-  const claim = new Schema({
+  const preAuthorizations = new Schema({
     providerFacilityId: { type: Schema.Types.Mixed, required: true },
-    checkedinDetail: { type: Schema.Types.Mixed, required: true },
+    checkedInDetails: { type: Schema.Types.Mixed, required: true },
     documentation: [claimDoc],
     CurentClaimStatus: { type: Schema.Types.Mixed, required: false },
     claimType: { type: Schema.Types.Mixed, required: false }, // either fee for service or Capitation.
@@ -24,8 +24,9 @@ module.exports = function (app) {
     approvedDocumentation: [claimDoc],
     notificationMessage: claimAlertMessage,
     dateClaimCreated: { type: Date, default: Date.now },
+    createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
   });
 
-  return mongooseClient.model('claim', claim);
+  return mongooseClient.model('preAuthorizations', preAuthorizations);
 };

@@ -11,13 +11,28 @@ const beneficiarySchemaList = {
     service: 'beneficiaries',
     nameAs: 'beneficiaryObject',
     parentField: 'beneficiaryId',
-    childField: '_id',
-    query: {
-      $select: ['personId.lastName', 'personId.firstName', 'platformOwnerNumber'],
-      $sort: { createdAt: -1 }
-    }
+    childField: '_id'
   }]
 };
+
+const personSchemaList = {
+  include: [{
+    service: 'people',
+    nameAs: 'personObject',
+    parentField: 'beneficiaryObject.personId',
+    childField: '_id'
+  }]
+};
+const policySchemaList = {
+  include: [{
+    service: 'policies',
+    nameAs: 'policyObject',
+    parentField: 'beneficiaryId',
+    childField: 'principalBeneficiary._id'
+  }]
+};
+//policies
+//const beneficiaryHook = require('../../hooks/beneficiary-hook');
 
 module.exports = {
   before: {
@@ -32,8 +47,14 @@ module.exports = {
 
   after: {
     all: [],
-    find: [populate({ schema: beneficiarySchemaList }), verifyOtp(), hasCheckInToday()],
-    get: [],
+    find: [
+      populate({ schema: beneficiarySchemaList }),
+      verifyOtp(),
+      hasCheckInToday(),
+      populate({ schema: personSchemaList }),
+      populate({ schema: policySchemaList })
+    ],
+    get: [ populate({ schema: beneficiarySchemaList })],
     create: [otpSms()],
     update: [],
     patch: [],
