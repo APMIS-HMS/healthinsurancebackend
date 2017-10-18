@@ -38,6 +38,7 @@ const drug = require('./drug/drug.service.js');
 const procedure = require('./procedure/procedure.service.js');
 const visitType = require('./visit-type/visit-type.service.js');
 const interview = require('./interview/interview.service.js');
+const preAuthorizations = require('./pre-authorizations/pre-authorizations.service');
 module.exports = function() {
     const app = this; // eslint-disable-line no-unused-vars
     app.configure(users);
@@ -80,4 +81,5 @@ module.exports = function() {
     app.configure(procedure);
     app.configure(visitType);
     app.configure(interview);
+    app.configure(preAuthorizations);
 };

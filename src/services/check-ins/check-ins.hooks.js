@@ -54,7 +54,7 @@ module.exports = {
       populate({ schema: personSchemaList }),
       populate({ schema: policySchemaList })
     ],
-    get: [],
+    get: [ populate({ schema: beneficiarySchemaList })],
     create: [otpSms()],
     update: [],
     patch: [],
