@@ -55,7 +55,6 @@ module.exports = function() {
     }
 
     app.post('/upload-file', function(req, res) {
-        console.log(req);
         uploadProfileImgs(req, res, function(err) {
             if (err) {
                 return err;
