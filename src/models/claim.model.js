@@ -11,7 +11,7 @@ module.exports = function (app) {
   const claim = new Schema({
     providerFacilityId: { type: Schema.Types.Mixed, required: true },
     checkedinDetail: { type: Schema.Types.Mixed, required: true },
-    documentations: [{type: Schema.Types.Mixed, required: false}],
+    documentations: [claimDoc],
     CurentClaimStatus: { type: Schema.Types.Mixed, required: false },
     claimType: { type: Schema.Types.Mixed, required: false }, // either fee for service or Capitation.
     claimNote: { type: Schema.Types.Mixed, required: false }, // either fee for service or Capitation.

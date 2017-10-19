@@ -9,7 +9,7 @@ const docSchema = new Schema({
     diagnosis:[{ type: Schema.Types.Mixed, required: false }],
     symptoms:[{ type: Schema.Types.Mixed, required: false }],
     clinicNote:[{ type: Schema.Types.Mixed, required: false }],
-    isResponse: { type: Boolean, 'default': false },
+    isRequest: { type: Boolean, required: true },
     createdAt: { type: Date, 'default': Date.now },
     updatedAt: { type: Date, 'default': Date.now }
 })
