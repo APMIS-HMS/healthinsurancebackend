@@ -41,12 +41,14 @@ const facilitySchemaList = {
   }]
 };
 
+const claimUniqueNo = require('../../hooks/claim-unique-no');
+
 module.exports = {
   before: {
     all: [],
     find: [],
     get: [],
-    create: [],
+    create: [claimUniqueNo()],
     update: [],
     patch: [],
     remove: []
