@@ -5,7 +5,7 @@ module.exports = function (app) {
     app.service('facilities').find(
       {
         query: {
-          'facilityType.name': "Provider"
+          'facilityType._id': "59c18f238778c62c9490c2af"
         },
         header:{
             "Authorization":req.headers.authorization
