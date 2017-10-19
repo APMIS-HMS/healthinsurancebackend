@@ -1,15 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const requestObj = require('./claim-request-model');
+const responseObj = require('./claim-response-model');
+
 const docSchema = new Schema({
-    visitType:[{ type: Schema.Types.Mixed, required: false }],
-    drugs:[{ type: Schema.Types.Mixed, required: false }],
-    investigations:[{ type: Schema.Types.Mixed, required: false }],
-    procedures:[{ type: Schema.Types.Mixed, required: false }],
-    diagnosis:[{ type: Schema.Types.Mixed, required: false }],
-    symptoms:[{ type: Schema.Types.Mixed, required: false }],
-    clinicNote:[{ type: Schema.Types.Mixed, required: false }],
-    isRequest: { type: Boolean, required: true },
+    request: requestObj,
+    response: responseObj,
     createdAt: { type: Date, 'default': Date.now },
     updatedAt: { type: Date, 'default': Date.now }
 })

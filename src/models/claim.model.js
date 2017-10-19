@@ -9,6 +9,7 @@ module.exports = function (app) {
   const claimDoc = require('../viewmodels/claim-document-model');
   const { Schema } = mongooseClient;
   const claim = new Schema({
+    claimNo:{ type: String, required: true },
     providerFacilityId: { type: Schema.Types.Mixed, required: true },
     checkedinDetail: { type: Schema.Types.Mixed, required: true },
     documentations: [claimDoc],
