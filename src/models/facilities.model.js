@@ -12,7 +12,7 @@ const addressSchema = require('../viewmodels/address-model');
 const bankDetailSchema = require('../viewmodels/bank-detail');
 const toLower = require('../helpers/to-lower');
 const walletSchema = require('../viewmodels/wallet-model');
-module.exports = function (app) {
+module.exports = function(app) {
     const mongooseClient = app.get('mongooseClient');
     const { Schema } = mongooseClient;
 
@@ -22,6 +22,7 @@ module.exports = function (app) {
         email: { type: String, required: true, set: toLower },
         phoneNumber: { type: String, required: true },
         businessContact: constactSchema,
+        hmoContact: constactSchema, // this is for provider
         itContact: constactSchema,
         provider: providerSchema,
         hia: hiaSchema,

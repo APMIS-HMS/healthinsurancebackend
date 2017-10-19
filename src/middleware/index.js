@@ -1,3 +1,6 @@
+const title = require('../middleware/title');
+const country = require('../middleware/country');
+const gender = require('../middleware/gender');
 const beneficiary = require('../middleware/beneficiary');
 const hia = require('../middleware/hia');
 const hia_plans = require('../middleware/hia_plans');
@@ -69,8 +72,13 @@ module.exports = function() {
         });
     });
 
+    
     app.post('/lashma-beneficiaries', beneficiary(app));
     app.put('/lashma-beneficiaries', beneficiary(app));
+
+    app.get('/api/titles', title(app));
+    app.get('/api/genders', gender(app));
+    app.get('/api/countries', country(app));
     app.get('/api/hias', hia(app));
     app.get('/api/providers', provider(app));
     app.get('/api/hia-plans', hia_plans(app));
