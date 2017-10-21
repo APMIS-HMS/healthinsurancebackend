@@ -1,11 +1,11 @@
-const { authenticate } = require('feathers-authentication').hooks;
-const authCode = require('../../hooks/generate-pre-authorization-code');
+
+
 module.exports = {
   before: {
-    all: [ authenticate('jwt') ],
+    all: [],
     find: [],
     get: [],
-    create: [authCode()],
+    create: [],
     update: [],
     patch: [],
     remove: []

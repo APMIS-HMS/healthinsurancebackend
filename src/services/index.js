@@ -40,6 +40,7 @@ const visitType = require('./visit-type/visit-type.service.js');
 const interview = require('./interview/interview.service.js');
 const preAuthorizations = require('./pre-authorizations/pre-authorizations.service');
 const diagnosisTypes = require('./diagnosis-types/diagnosis-types.service.js');
+const drugPackSizes = require('./drug-pack-sizes/drug-pack-sizes.service.js');
 module.exports = function() {
     const app = this; // eslint-disable-line no-unused-vars
     app.configure(users);
@@ -84,4 +85,5 @@ module.exports = function() {
     app.configure(interview);
     app.configure(preAuthorizations);
     app.configure(diagnosisTypes);
+    app.configure(drugPackSizes);
 };
