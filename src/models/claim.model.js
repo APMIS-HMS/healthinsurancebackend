@@ -22,10 +22,10 @@ module.exports = function(app) {
         authorizationCode: { type: String, required: false },
         costingApprovalDocumentation: { type: Number, default: 0 },
         paymentStatus: { type: Schema.Types.Mixed, required: false },
-        approvedDocumentation: [claimDoc],
+        approvedDocumentation: claimDoc,
         notificationMessage: claimAlertMessage,
-        dateClaimCreated: { type: Date, default: Date.now },
         isQueuedForPayment: { type: Boolean, default: false },
+        dateClaimCreated: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }
     });
 
