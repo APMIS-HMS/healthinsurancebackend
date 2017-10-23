@@ -7,13 +7,10 @@ module.exports = function(app) {
             let counter = 0;
             if (claimLength > 0) {
                 claims.forEach(function(claim, i) {
-                    console.log(claim);
                     // Uncheck all items from claims service first
                     claim.isQueuedForPayment = true;
                     app.service('claims').update(claim._id, claim).then(claim => {
-                        console.log('updated Claims');
                         app.service('claim-payments').create(claim).then(claimsPayment => {
-                            console.log('updated Claims payment');
                             counter++;
                             if (counter === claimLength) {
                                 const response = {
