@@ -11,6 +11,7 @@ module.exports = function (app) {
   const preAuthorizations = new Schema({
     providerFacilityId: { type: Schema.Types.Mixed, required: true },
     checkedInDetails: { type: Schema.Types.Mixed, required: true },
+    policyId: { type: Schema.Types.Mixed, required: true },
     documentation: [preAuthDoc],
     approval: { type: Schema.Types.Date, required: false },
     medicalPersonelName: { type: String, required: true },
