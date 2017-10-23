@@ -8,26 +8,31 @@ module.exports = function(app) {
             if (claimLength > 0) {
                 claims.forEach(function(claim, i) {
                     // Uncheck all items from claims service first
-                    claim.isQueuedForPayment = true;
-                    app.service('claims').update(claim._id, claim).then(claim => {
-                        app.service('claim-payments').create(claim).then(claimsPayment => {
-                            counter++;
-                            if (counter === claimLength) {
-                                const response = {
-                                    status: true,
-                                    statusCode: 200,
-                                    data: createdClaims
+                    app.service('claims').get(claim).then(claim => {
+                        claim.isQueuedForPayment = true;
+                        app.service('claims').update(claim._id, claim).then(claimUpdate => {
+                            app.service('claim-payments').create(claimUpdate).then(claimsPayment => {
+                                counter++;
+                                if (counter === claimLength) {
+                                    const response = {
+                                        status: true,
+                                        statusCode: 200,
+                                        data: createdClaims
+                                    }
+                                    res.send(response);
+                                    return;
                                 }
-                                res.send(response);
-                                return;
-                            }
+                            }).catch(err => {
+                                res.send(err);
+                                next
+                            });
                         }).catch(err => {
                             res.send(err);
                             next
                         });
                     }).catch(err => {
                         res.send(err);
-                        next
+                        next;
                     });
                 });
             } else {
