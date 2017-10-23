@@ -1,4 +1,5 @@
 const { populate } = require('feathers-hooks-common');
+const claimUniqueNo = require('../../hooks/claim-unique-no');
 
 //const populateBeneficiary = require('../../hooks/populate-beneficiary');
 
@@ -41,7 +42,7 @@ const facilitySchemaList = {
   }]
 };
 
-const claimUniqueNo = require('../../hooks/claim-unique-no');
+
 
 module.exports = {
   before: {
@@ -56,7 +57,7 @@ module.exports = {
 
   after: {
     all: [],
-    find: [populate({ schema: beneficiarySchemaList }),populate({ schema: personSchemaList }),populate({ schema: facilitySchemaList })],
+    find: [populate({ schema: beneficiarySchemaList }),  populate({ schema: facilitySchemaList })],
     get: [],
     create: [],
     update: [],

@@ -118,7 +118,7 @@ module.exports = function (app) {
                                     beneficiaries.push(beneficiary_policy);
 
                                     if (counter == req.body.dependent.length) {
-                                        PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res, next, app)
+                                        PolicyIDRecurtion(beneficiaries, beneficiary, req.body.policy, res, next, app)
                                     }
                                 })
                             });

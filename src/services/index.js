@@ -41,6 +41,8 @@ const interview = require('./interview/interview.service.js');
 const preAuthorizations = require('./pre-authorizations/pre-authorizations.service');
 const diagnosisTypes = require('./diagnosis-types/diagnosis-types.service.js');
 const drugPackSizes = require('./drug-pack-sizes/drug-pack-sizes.service.js');
+const claimPayments = require('./claim-payments/claim-payments.service.js');
+const capitationFees = require('./capitation-fees/capitation-fees.service.js');
 module.exports = function() {
     const app = this; // eslint-disable-line no-unused-vars
     app.configure(users);
@@ -86,4 +88,6 @@ module.exports = function() {
     app.configure(preAuthorizations);
     app.configure(diagnosisTypes);
     app.configure(drugPackSizes);
+    app.configure(claimPayments);
+    app.configure(capitationFees);
 };

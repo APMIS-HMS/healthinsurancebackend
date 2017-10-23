@@ -8,6 +8,7 @@ const hia_premiums = require('../middleware/hia_premiums');
 const beneficiary_api = require('../middleware/beneficiary_api');
 const create_beneficiary_api = require('../middleware/create_beneficiary_api');
 const provider = require('../middleware/provider');
+const claims_payment = require('../middleware/claims-payment');
 const sendSMS = require('../middleware/send-sms');
 var multer = require('multer');
 const handler = require('feathers-errors/handler');
@@ -64,7 +65,7 @@ module.exports = function() {
             }
             var pattern = /\\/ig;
             res.json(req.files.map(file => {
-                file.path = file.path.replace(pattern, '/')
+                file.path = file.path.replace(pattern, '/');
                 return {
                     file: processFile(file)
                 }
@@ -72,9 +73,10 @@ module.exports = function() {
         });
     });
 
-    
+
     app.post('/lashma-beneficiaries', beneficiary(app));
     app.put('/lashma-beneficiaries', beneficiary(app));
+    app.post('/queue-claims-payment', claims_payment(app));
 
     app.get('/api/titles', title(app));
     app.get('/api/genders', gender(app));
@@ -91,7 +93,7 @@ module.exports = function() {
         var exceltojson;
         uploadexcel.data.upload(req, res, function(err) {
             if (err) {
-                console.log(err)
+                console.log(err);
                 res.json({
                     error_code: 1,
                     err_desc: err
@@ -100,7 +102,7 @@ module.exports = function() {
             }
             /** Multer gives us file info in req.file object */
             if (!req.file) {
-                console.log('no file')
+                console.log('no file');
                 res.json({
                     error_code: 1,
                     err_desc: "No file passed"
