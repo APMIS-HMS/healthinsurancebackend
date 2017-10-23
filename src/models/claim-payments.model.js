@@ -4,12 +4,12 @@
 // for more of what you can do here.
 module.exports = function(app) {
     const mongooseClient = app.get('mongooseClient');
+    const claimDoc = require('../viewmodels/claim-document-model');
     const { Schema } = mongooseClient;
     const claimPayments = new Schema({
         claimNo: { type: String, required: true },
         providerFacilityId: { type: Schema.Types.Mixed, required: true },
         checkedinDetail: { type: Schema.Types.Mixed, required: true },
-        documentation: { type: Schema.Types.Mixed, required: true },
         CurentClaimStatus: { type: Schema.Types.Mixed, required: false },
         claimType: { type: Schema.Types.Mixed, required: false }, // either fee for service or Capitation.
         claimNote: { type: Schema.Types.Mixed, required: false }, // either fee for service or Capitation.
@@ -19,7 +19,7 @@ module.exports = function(app) {
         authorizationCode: { type: String, required: false },
         costingApprovalDocumentation: { type: Number, default: 0 },
         paymentStatus: { type: Schema.Types.Mixed, required: false },
-        approvedDocumentation: { type: Schema.Types.Mixed, required: true },
+        approvedDocumentation: claimDoc,
         isQueuedForPayment: { type: Boolean, required: true },
         dateClaimCreated: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }
