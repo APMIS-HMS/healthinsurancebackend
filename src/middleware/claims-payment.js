@@ -7,28 +7,31 @@ module.exports = function(app) {
             let counter = 0;
             if (claimLength > 0) {
                 claims.forEach(function(claim, i) {
+                    console.log(claim);
                     // Uncheck all items from claims service first
-                    // claim.is
-                    // app.service('claims').update(claim).then(claim => {
+                    claim.isQueuedForPayment = true;
+                    app.service('claims').update(claim._id, claim).then(claim => {
+                        console.log('updated Claims');
                         app.service('claim-payments').create(claim).then(claimsPayment => {
+                            console.log('updated Claims payment');
                             counter++;
                             if (counter === claimLength) {
-                              const response = {
-                                  status: true,
-                                  statusCode: 200,
-                                  data: createdClaims
-                              }
-                              res.send(response);
-                              return;
+                                const response = {
+                                    status: true,
+                                    statusCode: 200,
+                                    data: createdClaims
+                                }
+                                res.send(response);
+                                return;
                             }
                         }).catch(err => {
-                          res.send(err);
-                          next
+                            res.send(err);
+                            next
                         });
-                    // }).catch(err => {
-                    //   res.send(err);
-                    //   next
-                    // });
+                    }).catch(err => {
+                        res.send(err);
+                        next
+                    });
                 });
             } else {
                 let response = {
