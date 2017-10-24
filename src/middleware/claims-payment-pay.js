@@ -8,25 +8,19 @@ module.exports = function(app) {
             if (claimLength > 0) {
                 claims.forEach(function(claim, i) {
                     // Uncheck all items from claims service first
-                    app.service('claims').get(claim).then(claim => {
-                        claim.isQueuedForPayment = true;
-                        app.service('claims').update(claim._id, claim).then(claimUpdate => {
-                            claimUpdate.isPaymentMade = false;
-                            app.service('claim-payments').create(claimUpdate).then(claimsPayment => {
-                                counter++;
-                                if (counter === claimLength) {
-                                    const response = {
-                                        status: true,
-                                        statusCode: 200,
-                                        data: createdClaims
-                                    }
-                                    res.send(response);
-                                    return;
+                    app.service('claim-payments').get(claim).then(claim => {
+                        claim.isPaymentMade = true;
+                        app.service('claim-payments').update(claim._id, claim).then(claimUpdate => {
+                            counter++;
+                            if (counter === claimLength) {
+                                const response = {
+                                    status: true,
+                                    statusCode: 200,
+                                    data: createdClaims
                                 }
-                            }).catch(err => {
-                                res.send(err);
-                                next
-                            });
+                                res.send(response);
+                                return;
+                            }
                         }).catch(err => {
                             res.send(err);
                             next

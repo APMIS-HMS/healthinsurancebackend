@@ -21,6 +21,7 @@ module.exports = function(app) {
         paymentStatus: { type: Schema.Types.Mixed, required: false },
         approvedDocumentation: claimDoc,
         isQueuedForPayment: { type: Boolean, required: true },
+        isPaymentMade: { type: Boolean, required: true },
         dateClaimCreated: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }
     });
