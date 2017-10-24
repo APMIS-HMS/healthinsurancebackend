@@ -2,6 +2,7 @@ module.exports = function(app) {
     return function(req, res, next) {
         if (!!req.body.claims) {
             let claims = req.body.claims;
+            let queuedBy = req.body.queuedBy;
             const claimLength = claims.length;
             let createdClaims = [];
             let counter = 0;
@@ -12,6 +13,7 @@ module.exports = function(app) {
                         claim.isQueuedForPayment = true;
                         app.service('claims').update(claim._id, claim).then(claimUpdate => {
                             claimUpdate.isPaymentMade = false;
+                            claimUpdate.queuedBy = queuedBy;
                             app.service('claim-payments').create(claimUpdate).then(claimsPayment => {
                                 counter++;
                                 if (counter === claimLength) {

@@ -2,6 +2,7 @@ module.exports = function(app) {
     return function(req, res, next) {
         if (!!req.body.claims) {
             let claims = req.body.claims;
+            let paidBy = req.body.paidBy;
             const claimLength = claims.length;
             let createdClaims = [];
             let counter = 0;
@@ -10,6 +11,7 @@ module.exports = function(app) {
                     // Uncheck all items from claims service first
                     app.service('claim-payments').get(claim).then(claim => {
                         claim.isPaymentMade = true;
+                        claim.paidBy = paidBy;
                         app.service('claim-payments').update(claim._id, claim).then(claimUpdate => {
                             counter++;
                             if (counter === claimLength) {
