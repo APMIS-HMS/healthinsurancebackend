@@ -16,6 +16,7 @@ var multer = require('multer');
 const handler = require('feathers-errors/handler');
 const logger = require('../hooks/logger');
 const fs = require('fs');
+var rp = require('request-promise');
 var mongoose = require('mongoose');
 var Thumbnail = require('thumbnail');
 
@@ -130,7 +131,6 @@ module.exports = function () {
                 console.log("Am here");
                 result.Sheet1.forEach(function (item, index) {
                     if (index > 0) {
-                        
                         if (item.A != undefined && item.B != undefined && item.C != undefined
                             && item.D != undefined && item.E != undefined && item.F != undefined && item.G != undefined
                             && item.H != undefined && item.I != undefined
@@ -202,30 +202,60 @@ module.exports = function () {
                             });
                             console.log("B");
                         }
-                        if (result.Sheet1[index + 1].A != undefined
-                            && result.Sheet1[index + 1].B != undefined
-                            && result.Sheet1[index + 1].C != undefined
-                            && result.Sheet1[index + 1].D != undefined
-                            && result.Sheet1[index + 1].I != undefined
-                            && result.Sheet1[index + 1].J != undefined) {
-                            bodyObj = {
+                        let counter = index + 1;
+                        console.log(counter);
+
+                        console.log(counter + "----" + result.Sheet1.length);
+                        if (result.Sheet1.length == counter) {
+                            console.log("c");
+                            bodyObj.push({
                                 "principal": principal,
                                 "dependent": beneficiaries,
                                 "policy": policy
+                            });
+
+                        } else {
+                            try {
+                                if (result.Sheet1[counter].A != undefined
+                                    && result.Sheet1[counter].B != undefined
+                                    && result.Sheet1[counter].C != undefined
+                                    && result.Sheet1[counter].D != undefined
+                                    && result.Sheet1[counter].I != undefined
+                                    && result.Sheet1[counter].J != undefined) {
+                                    bodyObj.push({
+                                        "principal": principal,
+                                        "dependent": beneficiaries,
+                                        "policy": policy
+                                    });
+                                    console.log("c");
+                                }
                             }
-                            console.log("c");
+                            catch (Exception) {
 
-                            var agent = require('superagent-use')(require('superagent'));
-                            var prefix = require('superagent-prefix');
-                            agent.use(prefix('http://localhost:3031'));
+                            }
 
-                            res.send(agent.post('/api/beneficiaries').send(bodyObj));
                         }
-
-
-
                     }
                 }, this);
+                bodyObj.forEach(function (prin_item) {
+                    console.log(prin_item);
+
+                    var options = {
+                        method: 'POST',
+                        uri: 'http://localhost:3031/api/beneficiaries',
+                        body: prin_item,
+                        json: true
+                    };
+
+                    // rp(options)
+                    //     .then(function (parsedBody) {
+                    //         res.send(true);
+                    //     })
+                    //     .catch(function (err) {
+                    //         res.send(false);
+                    //     });
+                })
+
                 res.json({
                     error_code: 0,
                     err_desc: null,
