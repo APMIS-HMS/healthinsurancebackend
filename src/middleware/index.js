@@ -9,7 +9,9 @@ const beneficiary_api = require('../middleware/beneficiary_api');
 const create_beneficiary_api = require('../middleware/create_beneficiary_api');
 const provider = require('../middleware/provider');
 const claims_payment = require('../middleware/claims-payment');
+const claims_payment_pay = require('../middleware/claims-payment-pay');
 const sendSMS = require('../middleware/send-sms');
+const paystackVerification = require('../middleware/paystack-verification');
 var multer = require('multer');
 const handler = require('feathers-errors/handler');
 const logger = require('../hooks/logger');
@@ -79,6 +81,8 @@ module.exports = function () {
     app.post('/lashma-beneficiaries', beneficiary(app));
     app.put('/lashma-beneficiaries', beneficiary(app));
     app.post('/queue-claims-payment', claims_payment(app));
+    app.post('/pay-queued-claims', claims_payment_pay(app));
+    app.post('/paystack-verification', paystackVerification(app));
 
     app.get('/api/titles', title(app));
     app.get('/api/genders', gender(app));
