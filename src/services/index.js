@@ -43,6 +43,7 @@ const diagnosisTypes = require('./diagnosis-types/diagnosis-types.service.js');
 const drugPackSizes = require('./drug-pack-sizes/drug-pack-sizes.service.js');
 const claimPayments = require('./claim-payments/claim-payments.service.js');
 const capitationFees = require('./capitation-fees/capitation-fees.service.js');
+const premiumPayments = require('./premium-payments/premium-payments.service.js');
 module.exports = function() {
     const app = this; // eslint-disable-line no-unused-vars
     app.configure(users);
@@ -90,4 +91,5 @@ module.exports = function() {
     app.configure(drugPackSizes);
     app.configure(claimPayments);
     app.configure(capitationFees);
+    app.configure(premiumPayments);
 };
