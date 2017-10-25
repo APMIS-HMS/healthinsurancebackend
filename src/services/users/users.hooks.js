@@ -34,7 +34,7 @@ module.exports = {
                 hook => hook.params.provider,
                 commonHooks.discard('password')
             ),
-            populateRoleWithAccessibilities()
+            // populateRoleWithAccessibilities()
         ],
         find: [],
         get: [],
