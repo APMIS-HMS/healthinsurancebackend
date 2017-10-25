@@ -53,6 +53,7 @@
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
     "serve-favicon": "^2.4.4",
+    "superagent-use": "^0.1.0",
     "thumbnail": "^0.1.9",
     "winston": "^2.3.1"
   },
