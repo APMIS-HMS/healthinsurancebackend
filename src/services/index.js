@@ -43,11 +43,8 @@ const diagnosisTypes = require('./diagnosis-types/diagnosis-types.service.js');
 const drugPackSizes = require('./drug-pack-sizes/drug-pack-sizes.service.js');
 const claimPayments = require('./claim-payments/claim-payments.service.js');
 const capitationFees = require('./capitation-fees/capitation-fees.service.js');
-<<<<<<< HEAD
 const referrals = require('./referrals/referrals.service.js');
-=======
 const premiumPayments = require('./premium-payments/premium-payments.service.js');
->>>>>>> e9a9e60d9e81a6182389fe88b3bc84ca1ae66dc2
 module.exports = function() {
     const app = this; // eslint-disable-line no-unused-vars
     app.configure(users);
