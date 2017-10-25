@@ -18,6 +18,7 @@ module.exports = function(app) {
         premiumCategoryId: { type: Schema.Types.Mixed, required: true }, // premiumCategory
         dependantBeneficiaries: [beneficiaryPolicySchema],
         validityPeriods: [{ type: Schema.Types.Mixed, required: false }],
+        isPaid: { type: Schema.Types.Boolean, default: false },
         isActive: { type: Schema.Types.Boolean, default: false },
         createdAt: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }
