@@ -88,7 +88,7 @@ module.exports = function (app) {
                 "numberOfUnderAge": req.body.principal.numberOfUnderAge,
                 "platformOwnerId": req.body.principal.platformOwnerId
             };
-            beneficiaryDetails.personId = person._id;
+            beneficiaryDetails.personId = person;
             //console.log(beneficiaryDetails)
             generateLashmaID(app, req.body.principal.platformOwnerId).then(result => {
                 var lastVal = result[1] + 5;
@@ -102,7 +102,7 @@ module.exports = function (app) {
                                 "numberOfUnderAge": item.numberOfUnderAge,
                                 "platformOwnerId": item.platformOwnerId
                             };
-                            beneficiaryDetailDependant.personId = person2._id;
+                            beneficiaryDetailDependant.personId = person2;
                             generateLashmaID(app, item.platformOwnerId).then(result1 => {
                                 counter += 1;
                                 let lastVal1 = result1[1] + counter;
