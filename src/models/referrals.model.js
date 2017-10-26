@@ -5,6 +5,7 @@
 module.exports = function (app) {
   const claimAlertMessage = require('../viewmodels/claim-message-model');
   const preAuthDoc = require('../viewmodels/pre-authorization-model');
+  const resModel = require('../viewmodels/document-response-model');
   const mongooseClient = app.get('mongooseClient');
   const { Schema } = mongooseClient;
   const referrals = new Schema({
@@ -25,7 +26,7 @@ module.exports = function (app) {
     approvedStatus: { type: Schema.Types.Mixed, require: true },
     referingProvider: { type: Schema.Types.Mixed, required: true },
     destinationProvider: { type: Schema.Types.Mixed, required: true },
-    hiaApproved: { type: Schema.Types.Boolean, 'default': false },
+    hiaApproved: resModel,
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
   });

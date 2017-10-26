@@ -7,6 +7,8 @@ const PreAuthorizationModelSchema = new Schema({
     document: [docModel],
     response: resModel,
     approvedStatus: { type: Schema.Types.Mixed, require: true },
+    destinationProviderApproved: { type: Schema.Types.Mixed, required: false },
+    destinationProvider: { type: Schema.Types.Mixed, required: false },
     createdAt: { type: Date, 'default': Date.now },
     updatedAt: { type: Date, 'default': Date.now }
 })
