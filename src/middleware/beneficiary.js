@@ -1,26 +1,37 @@
 'use strict';
 
 function PolicyIDRecurtion(beneficiaries, principal, policy, res, next, app) {
-    var policyValueId = validatePolicyID();
-    return app.service('policies').find({
-        query: { policyId: policyValueId }
-    }).then(policyItem => {
-        if (policyItem.data.length == 0) {
-            beneficiaries.forEach(function (element, n) {
-                element.policyId = policyValueId + "-" + formatMonthValue(n);
-            })
-            policy.policyId = policyValueId;
-            policy.principalBeneficiary = principal;
-            policy.dependantBeneficiaries = beneficiaries;
-            app.service('policies').create(policy).then(policyObject => {
-                res.send({ policyObject });
-                next;
-            })
-        }
-        else {
-            return PolicyIDRecurtion(value, policy, res, app);
-        }
-    });
+    policy.principalBeneficiary = principal;
+    policy.dependantBeneficiaries = beneficiaries;
+    // console.log('__________________Start________________________');
+    // console.log(policy);
+    // console.log('__________________end________________________');
+    app.service('policies').create(policy).then(policyObject => {
+        res.send({ policyObject });
+        next;
+    })
+    // var policyValueId = validatePolicyID();
+    // return app.service('policies').find({
+    //     query: { policyId: policyValueId }
+    // }).then(policyItem => {
+    //     if (policyItem.data.length == 0) {
+    //         beneficiaries.forEach(function(element, n) {
+    //             element.policyId = policyValueId + "-" + formatMonthValue(n);
+    //         })
+    //         policy.policyId = policyValueId;
+    //         policy.principalBeneficiary = principal;
+    //         policy.dependantBeneficiaries = beneficiaries;
+    //         // console.log('__________________Start________________________');
+    //         // console.log(policy);
+    //         // console.log('__________________end________________________');
+    //         app.service('policies').create(policy).then(policyObject => {
+    //             res.send({ policyObject });
+    //             next;
+    //         })
+    //     } else {
+    //         return PolicyIDRecurtion(value, policy, res, app);
+    //     }
+    // });
 };
 
 function validatePolicyID() {
@@ -41,14 +52,14 @@ function formatMonthValue(val) {
 }
 
 function generateLashmaID(app, owner) {
-    return app.service('beneficiaries').find({ query: { "platformOwnerId._id": owner._id } }).then(items => {
+    return app.service('beneficiaries').find({ query: { "platformOwnerId": owner._id } }).then(items => {
         let year = new Date().getFullYear().toString().split('');
         let month = new Date().getMonth() + 1;
         let m = formatMonthValue(month.toString());
         let itemCounter = items.data.length;
         let counter = formatValue(itemCounter.toString());
         let lashmaPlatformNo = [];
-        let lashmaPlatformNo1 = owner.shortName + "-" + year[year.length - 2] + "" +year[year.length - 1] + "" + m;
+        let lashmaPlatformNo1 = owner.shortName + "-" + year[year.length - 2] + "" + year[year.length - 1] + "" + m;
         //let lashmaPlatformNo = owner.shortName + "-" + year[year.length - 2] + "" + +year[year.length - 1] + "" + m + "-" + counter;
         lashmaPlatformNo.push(lashmaPlatformNo1);
         lashmaPlatformNo.push(itemCounter);
@@ -86,7 +97,7 @@ module.exports = function (app) {
                 generateLashmaID(app, req.body.platform).then(result => {
                     let lastVal = result[1] + 1;
                     let strLastVal = formatValue(lastVal);
-                    let resultVal = result[0] +"-"+ strLastVal;
+                    let resultVal = result[0] + "-" + strLastVal;
                     beneficiaryDetails.platformOwnerNumber = resultVal;
                     app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
                         res.send({ person, beneficiary });
@@ -108,25 +119,37 @@ module.exports = function (app) {
                     persons.push(person);
                     var beneficiaryDetails = item.beneficiary;
                     beneficiaryDetails.personId = person;
-                    generateLashmaID(app, req.body.platform).then(result => {
-                        counter += 1;
-                        let lastVal = result[1] + counter;
-                        let strLastVal = formatValue(lastVal);
-                        let resultVal = result[0] +"-"+ strLastVal;
-                        beneficiaryDetails.platformOwnerNumber = resultVal;
-                        app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
-                            var beneficiary_policy = {
-                                "beneficiary": beneficiary,
-                                "relationshipId": item.relationship
-                            };
+                    app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
+                        var beneficiary_policy = {
+                            "beneficiary": beneficiary,
+                            "relationshipId": item.relationship
+                        };
 
-                            beneficiaries.push(beneficiary_policy);
-                            
-                            if (counter == req.body.persons.length) {
-                                PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res, next, app)
-                            }
-                        })
-                    });
+                        beneficiaries.push(beneficiary_policy);
+
+                        if (counter == req.body.persons.length) {
+                            PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res, next, app)
+                        }
+                    })
+                    // generateLashmaID(app, req.body.platform).then(result => {
+                    //     counter += 1;
+                    //     let lastVal = result[1] + counter;
+                    //     let strLastVal = formatValue(lastVal);
+                    //     let resultVal = result[0] + "-" + strLastVal;
+                    //     beneficiaryDetails.platformOwnerNumber = resultVal;
+                    //     app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
+                    //         var beneficiary_policy = {
+                    //             "beneficiary": beneficiary,
+                    //             "relationshipId": item.relationship
+                    //         };
+
+                    //         beneficiaries.push(beneficiary_policy);
+
+                    //         if (counter == req.body.persons.length) {
+                    //             PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res, next, app)
+                    //         }
+                    //     })
+                    // });
                 }, error => {
                     res.send(error);
                 }).catch(err => {

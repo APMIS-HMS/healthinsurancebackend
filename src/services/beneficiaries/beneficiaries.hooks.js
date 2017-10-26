@@ -34,12 +34,16 @@ const personSchema = {
   }]
 };
 
+const lashmaId = require('../../hooks/lashma-id');
+
+const populatePlatformValue = require('../../hooks/populate-platform-value');
+
 module.exports = {
   before: {
     all: [],
     find: [],
     get: [],
-    create: [],
+    create: [populatePlatformValue(),lashmaId()],
     update: [],
     patch: [],
     remove: []
