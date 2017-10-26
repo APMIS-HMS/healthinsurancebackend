@@ -1,28 +1,37 @@
 'use strict';
 
 function PolicyIDRecurtion(beneficiaries, principal, policy, res, next, app) {
-    var policyValueId = validatePolicyID();
-    return app.service('policies').find({
-        query: { policyId: policyValueId }
-    }).then(policyItem => {
-        if (policyItem.data.length == 0) {
-            beneficiaries.forEach(function(element, n) {
-                element.policyId = policyValueId + "-" + formatMonthValue(n);
-            })
-            policy.policyId = policyValueId;
-            policy.principalBeneficiary = principal;
-            policy.dependantBeneficiaries = beneficiaries;
-            // console.log('__________________Start________________________');
-            // console.log(policy);
-            // console.log('__________________end________________________');
-            app.service('policies').create(policy).then(policyObject => {
-                res.send({ policyObject });
-                next;
-            })
-        } else {
-            return PolicyIDRecurtion(value, policy, res, app);
-        }
-    });
+    policy.principalBeneficiary = principal;
+    policy.dependantBeneficiaries = beneficiaries;
+    // console.log('__________________Start________________________');
+    // console.log(policy);
+    // console.log('__________________end________________________');
+    app.service('policies').create(policy).then(policyObject => {
+        res.send({ policyObject });
+        next;
+    })
+    // var policyValueId = validatePolicyID();
+    // return app.service('policies').find({
+    //     query: { policyId: policyValueId }
+    // }).then(policyItem => {
+    //     if (policyItem.data.length == 0) {
+    //         beneficiaries.forEach(function(element, n) {
+    //             element.policyId = policyValueId + "-" + formatMonthValue(n);
+    //         })
+    //         policy.policyId = policyValueId;
+    //         policy.principalBeneficiary = principal;
+    //         policy.dependantBeneficiaries = beneficiaries;
+    //         // console.log('__________________Start________________________');
+    //         // console.log(policy);
+    //         // console.log('__________________end________________________');
+    //         app.service('policies').create(policy).then(policyObject => {
+    //             res.send({ policyObject });
+    //             next;
+    //         })
+    //     } else {
+    //         return PolicyIDRecurtion(value, policy, res, app);
+    //     }
+    // });
 };
 
 function validatePolicyID() {
@@ -78,8 +87,8 @@ function aphaformator() {
     return text;
 }
 
-module.exports = function(app) {
-    return function(req, res, next) {
+module.exports = function (app) {
+    return function (req, res, next) {
         if (req.method == "POST") {
             let personObj = req.body.person;
             app.service('people').create(personObj).then(person => {
@@ -105,30 +114,42 @@ module.exports = function(app) {
             var persons = [];
             var beneficiaries = [];
             var counter = 0;
-            req.body.persons.forEach(function(item) {
+            req.body.persons.forEach(function (item) {
                 app.service('people').create(item.person).then(person => {
                     persons.push(person);
                     var beneficiaryDetails = item.beneficiary;
                     beneficiaryDetails.personId = person;
-                    generateLashmaID(app, req.body.platform).then(result => {
-                        counter += 1;
-                        let lastVal = result[1] + counter;
-                        let strLastVal = formatValue(lastVal);
-                        let resultVal = result[0] + "-" + strLastVal;
-                        beneficiaryDetails.platformOwnerNumber = resultVal;
-                        app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
-                            var beneficiary_policy = {
-                                "beneficiary": beneficiary,
-                                "relationshipId": item.relationship
-                            };
+                    app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
+                        var beneficiary_policy = {
+                            "beneficiary": beneficiary,
+                            "relationshipId": item.relationship
+                        };
 
-                            beneficiaries.push(beneficiary_policy);
+                        beneficiaries.push(beneficiary_policy);
 
-                            if (counter == req.body.persons.length) {
-                                PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res, next, app)
-                            }
-                        })
-                    });
+                        if (counter == req.body.persons.length) {
+                            PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res, next, app)
+                        }
+                    })
+                    // generateLashmaID(app, req.body.platform).then(result => {
+                    //     counter += 1;
+                    //     let lastVal = result[1] + counter;
+                    //     let strLastVal = formatValue(lastVal);
+                    //     let resultVal = result[0] + "-" + strLastVal;
+                    //     beneficiaryDetails.platformOwnerNumber = resultVal;
+                    //     app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
+                    //         var beneficiary_policy = {
+                    //             "beneficiary": beneficiary,
+                    //             "relationshipId": item.relationship
+                    //         };
+
+                    //         beneficiaries.push(beneficiary_policy);
+
+                    //         if (counter == req.body.persons.length) {
+                    //             PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res, next, app)
+                    //         }
+                    //     })
+                    // });
                 }, error => {
                     res.send(error);
                 }).catch(err => {
