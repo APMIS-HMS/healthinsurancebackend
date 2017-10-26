@@ -6,18 +6,20 @@ function PolicyIDRecurtion(beneficiaries, principal, policy, res, next, app) {
         query: { policyId: policyValueId }
     }).then(policyItem => {
         if (policyItem.data.length == 0) {
-            beneficiaries.forEach(function (element, n) {
+            beneficiaries.forEach(function(element, n) {
                 element.policyId = policyValueId + "-" + formatMonthValue(n);
             })
             policy.policyId = policyValueId;
             policy.principalBeneficiary = principal;
             policy.dependantBeneficiaries = beneficiaries;
+            // console.log('__________________Start________________________');
+            // console.log(policy);
+            // console.log('__________________end________________________');
             app.service('policies').create(policy).then(policyObject => {
                 res.send({ policyObject });
                 next;
             })
-        }
-        else {
+        } else {
             return PolicyIDRecurtion(value, policy, res, app);
         }
     });
@@ -48,7 +50,7 @@ function generateLashmaID(app, owner) {
         let itemCounter = items.data.length;
         let counter = formatValue(itemCounter.toString());
         let lashmaPlatformNo = [];
-        let lashmaPlatformNo1 = owner.shortName + "-" + year[year.length - 2] + "" +year[year.length - 1] + "" + m;
+        let lashmaPlatformNo1 = owner.shortName + "-" + year[year.length - 2] + "" + year[year.length - 1] + "" + m;
         //let lashmaPlatformNo = owner.shortName + "-" + year[year.length - 2] + "" + +year[year.length - 1] + "" + m + "-" + counter;
         lashmaPlatformNo.push(lashmaPlatformNo1);
         lashmaPlatformNo.push(itemCounter);
@@ -76,8 +78,8 @@ function aphaformator() {
     return text;
 }
 
-module.exports = function (app) {
-    return function (req, res, next) {
+module.exports = function(app) {
+    return function(req, res, next) {
         if (req.method == "POST") {
             let personObj = req.body.person;
             app.service('people').create(personObj).then(person => {
@@ -86,7 +88,7 @@ module.exports = function (app) {
                 generateLashmaID(app, req.body.platform).then(result => {
                     let lastVal = result[1] + 1;
                     let strLastVal = formatValue(lastVal);
-                    let resultVal = result[0] +"-"+ strLastVal;
+                    let resultVal = result[0] + "-" + strLastVal;
                     beneficiaryDetails.platformOwnerNumber = resultVal;
                     app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
                         res.send({ person, beneficiary });
@@ -103,7 +105,7 @@ module.exports = function (app) {
             var persons = [];
             var beneficiaries = [];
             var counter = 0;
-            req.body.persons.forEach(function (item) {
+            req.body.persons.forEach(function(item) {
                 app.service('people').create(item.person).then(person => {
                     persons.push(person);
                     var beneficiaryDetails = item.beneficiary;
@@ -112,7 +114,7 @@ module.exports = function (app) {
                         counter += 1;
                         let lastVal = result[1] + counter;
                         let strLastVal = formatValue(lastVal);
-                        let resultVal = result[0] +"-"+ strLastVal;
+                        let resultVal = result[0] + "-" + strLastVal;
                         beneficiaryDetails.platformOwnerNumber = resultVal;
                         app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
                             var beneficiary_policy = {
@@ -121,7 +123,7 @@ module.exports = function (app) {
                             };
 
                             beneficiaries.push(beneficiary_policy);
-                            
+
                             if (counter == req.body.persons.length) {
                                 PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res, next, app)
                             }
