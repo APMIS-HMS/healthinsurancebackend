@@ -1,26 +1,34 @@
 'use strict';
 
+const promises = [];
+
 function PolicyIDRecurtion(beneficiaries, principal, policy, res, next, app) {
-    var policyValueId = validatePolicyID();
-    return app.service('policies').find({
-        query: { policyId: policyValueId }
-    }).then(policyItem => {
-        if (policyItem.data.length == 0) {
-            beneficiaries.forEach(function (element, n) {
-                element.policyId = policyValueId + "-" + formatMonthValue(n);
-            })
-            policy.policyId = policyValueId;
-            policy.principalBeneficiary = principal;
-            policy.dependantBeneficiaries = beneficiaries;
-            app.service('policies').create(policy).then(policyObject => {
-                res.send({ policyObject });
-                next;
-            })
-        }
-        else {
-            return PolicyIDRecurtion(value, policy, res, app);
-        }
-    });
+    // var policyValueId = validatePolicyID();
+    // return app.service('policies').find({
+    //     query: { policyId: policyValueId }
+    // }).then(policyItem => {
+    //     if (policyItem.data.length == 0) {
+    //         beneficiaries.forEach(function (element, n) {
+    //             element.policyId = policyValueId + "-" + formatMonthValue(n);
+    //         })
+    //         policy.policyId = policyValueId;
+    //         policy.principalBeneficiary = principal;
+    //         policy.dependantBeneficiaries = beneficiaries;
+    //         app.service('policies').create(policy).then(policyObject => {
+    //             res.send({ policyObject });
+    //             next;
+    //         })
+    //     }
+    //     else {
+    //         return PolicyIDRecurtion(value, policy, res, app);
+    //     }
+    // });
+    policy.principalBeneficiary = principal;
+    policy.dependantBeneficiaries = beneficiaries;
+    app.service('policies').create(policy).then(policyObject => {
+        res.send({ policyObject });
+        next;
+    })
 };
 
 function validatePolicyID() {
@@ -41,11 +49,12 @@ function formatMonthValue(val) {
 }
 
 function generateLashmaID(app, id) {
-    return app.service('beneficiaries').find({ query: { "platformOwnerId._id": id } }).then(items => {
+    //console.log(id);
+    return app.service('beneficiaries').find({ query: { "platformOwnerId": id } }).then(items => {
         let year = new Date().getFullYear().toString().split('');
         let month = new Date().getMonth() + 1;
-        let m = formatMonthValue(month.toString());
-        let itemCounter = items.data.length;
+        let m = ("0" + month).slice(-2);
+        let itemCounter = ("000" + items.data.length).slice(-4);
         let lashmaPlatformNo = [];
         let lashmaPlatformNo1 = items.data[0].platformOwnerId.shortName + "-" + year[year.length - 2] + "" + year[year.length - 1] + "" + m;
         //let lashmaPlatformNo = owner.shortName + "-" + year[year.length - 2] + "" + +year[year.length - 1] + "" + m + "-" + counter;
@@ -90,47 +99,100 @@ module.exports = function (app) {
             };
             beneficiaryDetails.personId = person;
             //console.log(beneficiaryDetails)
-            generateLashmaID(app, req.body.principal.platformOwnerId).then(result => {
-                var lastVal = result[1] + 5;
-                let strLastVal = formatValue(lastVal);
-                let resultVal = result[0] +"-"+ strLastVal;
-                beneficiaryDetails.platformOwnerNumber = resultVal;
-                app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
-                    req.body.dependent.forEach(function (item) {
-                        app.service('people').create(item).then(person2 => {
-                            var beneficiaryDetailDependant = {
-                                "numberOfUnderAge": item.numberOfUnderAge,
-                                "platformOwnerId": item.platformOwnerId
+
+            app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
+                // console.log(beneficiary);
+                req.body.dependent.forEach(function (item) {
+                    app.service('people').create(item).then(person2 => {
+                        var beneficiaryDetailDependant = {
+                            "numberOfUnderAge": item.numberOfUnderAge,
+                            "platformOwnerId": item.platformOwnerId
+                        };
+
+                        beneficiaryDetailDependant.personId = person2;
+                        app.service('beneficiaries').create(beneficiaryDetailDependant).then(beneficiary2 => {
+                            var beneficiary_policy = {
+                                "beneficiary": beneficiary2,
+                                "relationshipId": item.relationship
                             };
-                            beneficiaryDetailDependant.personId = person2;
-                            generateLashmaID(app, item.platformOwnerId).then(result1 => {
-                                counter += 1;
-                                let lastVal1 = result1[1] + counter;
-                                let strLastVal1 = formatValue(lastVal1);
-                                let resultVal1 = result1[0] +"-"+ strLastVal1;
-                                beneficiaryDetailDependant.platformOwnerNumber = resultVal1;
-                                app.service('beneficiaries').create(beneficiaryDetailDependant).then(beneficiary2 => {
-                                    var beneficiary_policy = {
-                                        "beneficiary": beneficiary2,
-                                        "relationshipId": item.relationship
-                                    };
 
-                                    beneficiaries.push(beneficiary_policy);
+                            beneficiaries.push(beneficiary_policy);
+                            counter += 1;
 
-                                    if (counter == req.body.dependent.length) {
-                                        PolicyIDRecurtion(beneficiaries, beneficiary, req.body.policy, res, next, app)
-                                    }
-                                })
-                            });
-                        }, error => {
-                            res.send(error);
-                        }).catch(err => {
-                            res.send(err);
-                            next
-                        });
+                            if (counter == req.body.dependent.length) {
+                                PolicyIDRecurtion(beneficiaries, beneficiary, req.body.policy, res, next, app)
+                            }
+                        })
+
+                        // generateLashmaID(app, item.platformOwnerId).then(result1 => {
+                        //     counter += 1;
+                        //     let lastVal1 = result1[1] + counter;
+                        //     let strLastVal1 = formatValue(lastVal1);
+                        //     let resultVal1 = result1[0] +"-"+ strLastVal1;
+                        //     beneficiaryDetailDependant.platformOwnerNumber = resultVal1;
+                        //     app.service('beneficiaries').create(beneficiaryDetailDependant).then(beneficiary2 => {
+                        //         var beneficiary_policy = {
+                        //             "beneficiary": beneficiary2,
+                        //             "relationshipId": item.relationship
+                        //         };
+
+                        //         beneficiaries.push(beneficiary_policy);
+
+                        //         if (counter == req.body.dependent.length) {
+                        //             PolicyIDRecurtion(beneficiaries, beneficiary, req.body.policy, res, next, app)
+                        //         }
+                        //     })
+                        // });
+                    }, error => {
+                        res.send(error);
+                    }).catch(err => {
+                        res.send(err);
+                        next
                     });
-                })
+                });
             });
+            // generateLashmaID(app, req.body.principal.platformOwnerId).then(result => {
+            //     console.log(result);
+            //     var lastVal = result[1] + 1;
+            //     let strLastVal = formatValue(lastVal);
+            //     let resultVal = result[0] +"-"+ strLastVal;
+            //     beneficiaryDetails.platformOwnerNumber = resultVal;
+            //     app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
+            //         req.body.dependent.forEach(function (item) {
+            //             app.service('people').create(item).then(person2 => {
+            //                 var beneficiaryDetailDependant = {
+            //                     "numberOfUnderAge": item.numberOfUnderAge,
+            //                     "platformOwnerId": item.platformOwnerId
+            //                 };
+            //                 beneficiaryDetailDependant.personId = person2;
+            //                 return generateLashmaID(app, item.platformOwnerId).then(result1 => {
+            //                     counter += 1;
+            //                     let lastVal1 = result1[1] + counter;
+            //                     let strLastVal1 = formatValue(lastVal1);
+            //                     let resultVal1 = result1[0] +"-"+ strLastVal1;
+            //                     beneficiaryDetailDependant.platformOwnerNumber = resultVal1;
+            //                     app.service('beneficiaries').create(beneficiaryDetailDependant).then(beneficiary2 => {
+            //                         var beneficiary_policy = {
+            //                             "beneficiary": beneficiary2,
+            //                             "relationshipId": item.relationship
+            //                         };
+
+            //                         beneficiaries.push(beneficiary_policy);
+
+            //                         if (counter == req.body.dependent.length) {
+            //                             PolicyIDRecurtion(beneficiaries, beneficiary, req.body.policy, res, next, app)
+            //                         }
+            //                     })
+            //                 });
+            //             }, error => {
+            //                 res.send(error);
+            //             }).catch(err => {
+            //                 res.send(err);
+            //                 next
+            //             });
+            //         });
+            //     })
+            // });
         }, error => {
             res.send(error);
         }).catch(err => {

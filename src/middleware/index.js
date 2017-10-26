@@ -239,7 +239,6 @@ module.exports = function () {
                 }, this);
                 bodyObj.forEach(function (prin_item) {
                     console.log(prin_item);
-
                     var options = {
                         method: 'POST',
                         uri: 'http://localhost:3031/api/beneficiaries',
@@ -247,13 +246,11 @@ module.exports = function () {
                         json: true
                     };
 
-                    // rp(options)
-                    //     .then(function (parsedBody) {
-                    //         res.send(true);
-                    //     })
-                    //     .catch(function (err) {
-                    //         res.send(false);
-                    //     });
+                    rp(options).then(function (parsedBody) {
+                        res.send(parsedBody);
+                    }).catch(function (err) {
+                        res.send(err);
+                    });
                 })
 
                 res.json({

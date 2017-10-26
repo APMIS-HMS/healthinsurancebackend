@@ -41,7 +41,7 @@ function formatMonthValue(val) {
 }
 
 function generateLashmaID(app, owner) {
-    return app.service('beneficiaries').find({ query: { "platformOwnerId._id": owner._id } }).then(items => {
+    return app.service('beneficiaries').find({ query: { "platformOwnerId": owner._id } }).then(items => {
         let year = new Date().getFullYear().toString().split('');
         let month = new Date().getMonth() + 1;
         let m = formatMonthValue(month.toString());

@@ -1,11 +1,23 @@
 const { authenticate } = require('feathers-authentication').hooks;
 
+const policyId = require('../../hooks/policy-id');
+
+
+const hiaSchema = {
+  include: [{
+    service: 'facilities',
+    nameAs: 'hia',
+    parentField: 'hiaId',
+    childField: 'hia._id'
+  }]
+};
+
 module.exports = {
   before: {
-    all: [ ],//authenticate('jwt') ],
+    all: [],//authenticate('jwt') ],
     find: [],
     get: [],
-    create: [],
+    create: [policyId()],
     update: [],
     patch: [],
     remove: []
