@@ -1,14 +1,13 @@
-// pre-authorizations-model.js - A mongoose model
+// referrals-model.js - A mongoose model
 // 
 // See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
 module.exports = function (app) {
-  const claimStatusModel = require('../viewmodels/claim-status-model');
   const claimAlertMessage = require('../viewmodels/claim-message-model');
   const preAuthDoc = require('../viewmodels/pre-authorization-model');
   const mongooseClient = app.get('mongooseClient');
   const { Schema } = mongooseClient;
-  const preAuthorizations = new Schema({
+  const referrals = new Schema({
     providerFacilityId: { type: Schema.Types.Mixed, required: true },
     checkedInDetails: { type: Schema.Types.Mixed, required: true },
     policyId: { type: Schema.Types.Mixed, required: true },
@@ -21,12 +20,15 @@ module.exports = function (app) {
     notificationMessage: claimAlertMessage,
     dateOfRequest: { type: Date },
     timeOfRequest: { type: Date, default: Date.now },
-    isEmergency: { type: Schema.Types.Boolean, 'default':false},
-    visityClassId: { type: Schema.Types.Mixed, required:true},
+    isEmergency: { type: Schema.Types.Boolean, 'default': false },
+    visityClassId: { type: Schema.Types.Mixed, required: true },
     approvedStatus: { type: Schema.Types.Mixed, require: true },
+    referingProvider: { type: Schema.Types.Mixed, required: true },
+    destinationProvider: { type: Schema.Types.Mixed, required: true },
+    hiaApproved: { type: Schema.Types.Boolean, 'default': false },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
   });
 
-  return mongooseClient.model('preAuthorizations', preAuthorizations);
+  return mongooseClient.model('referrals', referrals);
 };

@@ -11,6 +11,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     let message = "Your check-in OTP is: " + hook.data.otp.number + ". Thanks";
 
     const url = 'http://portal.bulksmsnigeria.net/api/?username=apmis&password=apmis&message=' + message + '&sender=' + sender + '&mobiles=@@' + numbers + '@@';
+    console.log(url);
     var response = request.get(url);
     return Promise.resolve(hook);
   };

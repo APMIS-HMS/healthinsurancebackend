@@ -9,8 +9,10 @@ module.exports = function(options = {}) { // eslint-disable-line no-unused-vars
             if (hook.type === 'before') {
                 if (hook.data.password === null || hook.data.password === undefined) {
                     hook.data.password = aphaformator();
+                    console.log(hook.data.password)
                     hook.params.password = hook.data.password;
                     hook.params.platformOwnerId = hook.data.platformOwnerId;
+                    // console.log(hook.params.platformOwnerId)
                 }else{
                     hook.params.password = hook.data.password;
                 }
