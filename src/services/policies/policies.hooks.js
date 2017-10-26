@@ -12,12 +12,14 @@ const hiaSchema = {
   }]
 };
 
+const premiumValue = require('../../hooks/premium-value');
+
 module.exports = {
   before: {
     all: [],//authenticate('jwt') ],
     find: [],
     get: [],
-    create: [policyId()],
+    create: [policyId(), premiumValue()],
     update: [],
     patch: [],
     remove: []

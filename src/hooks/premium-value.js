@@ -2,16 +2,9 @@
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
-  return function populatePlatformValue(hook) {
+  return function premiumValue (hook) {
     // Hooks can either return nothing or a promise
     // that resolves with the `hook` object for asynchronous operations
-
-    return hook.app.service("facilities").find({ query: { "platformOwnerId._id": hook.data.platformOwnerId } }).then(payload => {
-      if (payload.data[0] != undefined) {
-        var platformOwnerId = payload.data[0].platformOwnerId;
-        hook.data.platformOwnerId = platformOwnerId;
-      }
-    });
     return Promise.resolve(hook);
   };
 };

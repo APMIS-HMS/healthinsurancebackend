@@ -6,6 +6,7 @@ function PolicyIDRecurtion(beneficiaries, principal, policy, res, next, app) {
     // console.log('__________________Start________________________');
     // console.log(policy);
     // console.log('__________________end________________________');
+    console.log(policy);
     app.service('policies').create(policy).then(policyObject => {
         res.send({ policyObject });
         next;
@@ -115,6 +116,8 @@ module.exports = function (app) {
             var beneficiaries = [];
             var counter = 0;
             req.body.persons.forEach(function (item) {
+                counter = counter + 1;
+                console.log(counter);
                 app.service('people').create(item.person).then(person => {
                     persons.push(person);
                     var beneficiaryDetails = item.beneficiary;
@@ -124,7 +127,7 @@ module.exports = function (app) {
                             "beneficiary": beneficiary,
                             "relationshipId": item.relationship
                         };
-
+                        
                         beneficiaries.push(beneficiary_policy);
 
                         if (counter == req.body.persons.length) {
