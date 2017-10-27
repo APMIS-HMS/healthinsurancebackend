@@ -29,7 +29,6 @@ module.exports = function(app) {
                                 app.service('policies').get(paidPolicy.policyCollectionId).then(returnPolicy => {
                                     console.log('Found Policy');
                                     // Updated policy.
-                                    returnPolicy.isActive = true;
                                     returnPolicy.isPaid = true;
                                     returnPolicy.premiumPaymentRef = updatedPremium._id;
                                     app.service('policies').update(returnPolicy._id, returnPolicy).then(updatedPolicy => {
