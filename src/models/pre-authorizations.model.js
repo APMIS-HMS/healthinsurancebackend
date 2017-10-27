@@ -9,9 +9,9 @@ module.exports = function (app) {
   const mongooseClient = app.get('mongooseClient');
   const { Schema } = mongooseClient;
   const preAuthorizations = new Schema({
-    providerFacilityId: { type: Schema.Types.Mixed, required: true },
-    checkedInDetails: { type: Schema.Types.Mixed, required: true },
-    policyId: { type: Schema.Types.Mixed, required: true },
+    providerFacilityId: { type: Schema.Types.ObjectId, required: true },
+    checkedInDetails: { type: Schema.Types.ObjectId, required: true },
+    policyId: { type: Schema.Types.ObjectId, required: true },
     documentation: [preAuthDoc],
     approval: { type: Schema.Types.Date, required: false },
     medicalPersonelName: { type: String, required: true },
