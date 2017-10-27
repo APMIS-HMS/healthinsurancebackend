@@ -22,6 +22,7 @@ module.exports = function(app) {
         dependantBeneficiaries: [beneficiaryPolicySchema],
         validityPeriods: [{ type: Schema.Types.Mixed, required: false }],
         isPaid: { type: Schema.Types.Boolean, default: false },
+        premiumPaymentRef: { type: Schema.Types.Mixed, required: false },
         isActive: { type: Schema.Types.Boolean, default: false },
         
         createdAt: { type: Date, default: Date.now },
