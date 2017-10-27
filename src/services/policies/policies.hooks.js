@@ -41,7 +41,18 @@ const providerSchema = {
     parentField: 'providerId._id',
     childField: '_id',
     query: {
-      // $select: ['email', 'firstName', 'lastName', 'gender', 'platformId', 'dateOfBirth', 'homeAddress.lga'],
+      $sort: { createdAt: -1 },
+    }
+  }]
+};
+
+const planSchema = {
+  include: [{
+    service: 'plans',
+    nameAs: 'planId',
+    parentField: 'planId',
+    childField: '_id',
+    query: {
       $sort: { createdAt: -1 },
     }
   }]
@@ -64,7 +75,7 @@ module.exports = {
 
   after: {
     all: [],
-    find: [populate({ schema: principalBeneficiarySchema }), populate( { schema: providerSchema })],
+    find: [populate({ schema: principalBeneficiarySchema }), populate( { schema: providerSchema }), populate( { schema: planSchema })],
     get: [populate({ schema: principalBeneficiarySchema })],
     create: [],
     update: [],
