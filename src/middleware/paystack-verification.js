@@ -24,13 +24,13 @@ module.exports = function(app) {
                         app.service('premium-payments').update(returnPremium._id, returnPremium).then(updatedPremium => {
                             const policyCounter = updatedPremium.policies.length;
                             updatedPremium.policies.forEach(function(paidPolicy, i) {
-                                console.log(i);
                                 i++;
                                 // Get Policy
                                 app.service('policies').get(paidPolicy.policyCollectionId).then(returnPolicy => {
                                     console.log('Found Policy');
                                     // Updated policy.
                                     returnPolicy.isPaid = true;
+                                    returnPolicy.premiumPaymentRef = updatedPremium._id;
                                     app.service('policies').update(returnPolicy._id, returnPolicy).then(updatedPolicy => {
                                         if (policyCounter === i) {
                                             console.log('Updated Policy');
