@@ -38,7 +38,6 @@ function PolicyIDRecurtion(beneficiaries, principal, policy, res, next, app) {
 function validatePolicyID() {
     var otp = "";
     var possible = "0123456789";
-
     for (var i = 0; i <= 5; i++)
         otp += possible.charAt(Math.floor(Math.random() * possible.length));
 
@@ -95,16 +94,10 @@ module.exports = function (app) {
             app.service('people').create(personObj).then(person => {
                 var beneficiaryDetails = req.body.beneficiary;
                 beneficiaryDetails.personId = person;
-                generateLashmaID(app, req.body.platform).then(result => {
-                    let lastVal = result[1] + 1;
-                    let strLastVal = formatValue(lastVal);
-                    let resultVal = result[0] + "-" + strLastVal;
-                    beneficiaryDetails.platformOwnerNumber = resultVal;
-                    app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
-                        res.send({ person, beneficiary });
-                        next;
-                    })
-                });
+                app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
+                    res.send({ person, beneficiary });
+                    next;
+                })
             }, error => {
                 res.send(error);
             }).catch(err => {
@@ -127,7 +120,7 @@ module.exports = function (app) {
                             "beneficiary": beneficiary,
                             "relationshipId": item.relationship
                         };
-                        
+
                         beneficiaries.push(beneficiary_policy);
 
                         if (counter == req.body.persons.length) {
