@@ -9,7 +9,7 @@ module.exports = function (app) {
   const checkIns = new Schema({
     platformOwnerId: { type: Schema.Types.Mixed, required: true },
     providerFacilityId: { type: Schema.Types.Mixed, required: true },
-    beneficiaryId: { type: Schema.Types.Mixed, required: true },
+    beneficiaryId: { type: Schema.Types.ObjectId, required: true },
     principalBeneficiaryId: { type: Schema.Types.Mixed, required: true },
     encounterDateTime: { type: Schema.Types.Date, required: true },
     encounterStatus: { type: Schema.Types.Mixed, required: true },

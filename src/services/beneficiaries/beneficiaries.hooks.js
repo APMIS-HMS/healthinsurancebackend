@@ -17,18 +17,18 @@ const personSchemaList = {
 const personSchema = {
   include: [{
     service: 'people',
-    nameAs: 'person',
+    nameAs: 'personId',
     parentField: 'personId',
     childField: '_id',
     query: {
-      // $select: ['email', 'firstName',
-      //  'lastName', 'otherNames',
-      //  'gender', 'platformId', 'dateOfBirth',
-      //   'homeAddress', 'title','mothersMaidenName',
-      //   'email','phoneNumber','secondaryPhoneNumber','profileImageObject',
-      //   'nationality','stateOfOrigin','lgaOfOrigin','maritalStatus','nextOfKin',
-      //   'employees','isActive'
-      // ],
+      $select: ['email', 'firstName',
+       'lastName', 'otherNames',
+       'gender', 'platformId', 'dateOfBirth',
+        'homeAddress', 'title','mothersMaidenName',
+        'email','phoneNumber','secondaryPhoneNumber','profileImageObject',
+        'nationality','stateOfOrigin','lgaOfOrigin','maritalStatus','nextOfKin',
+        'employees','isActive'
+      ],
       $sort: { createdAt: -1 }
     }
   }]
