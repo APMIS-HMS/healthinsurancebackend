@@ -31,6 +31,15 @@ const policySchemaList = {
     childField: 'principalBeneficiary._id'
   }]
 };
+
+const preAuthSchemaList = {
+  include: [{
+    service: 'pre-authorizations',
+    nameAs: 'preAuthObject',
+    parentField: 'checkedInDetails._id',
+    childField: '_id'
+  }]
+};
 //policies
 //const beneficiaryHook = require('../../hooks/beneficiary-hook');
 
@@ -52,7 +61,7 @@ module.exports = {
       verifyOtp(),
       hasCheckInToday(),
       populate({ schema: personSchemaList }),
-      populate({ schema: policySchemaList })
+      populate({ schema: preAuthSchemaList })      
     ],
     get: [ populate({ schema: beneficiarySchemaList })],
     create: [otpSms()],

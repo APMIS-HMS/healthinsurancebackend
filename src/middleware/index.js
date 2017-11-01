@@ -16,7 +16,6 @@ var multer = require('multer');
 const handler = require('feathers-errors/handler');
 const logger = require('../hooks/logger');
 const fs = require('fs');
-var rp = require('request-promise');
 var mongoose = require('mongoose');
 var Thumbnail = require('thumbnail');
 
@@ -120,144 +119,22 @@ module.exports = function () {
                 return;
             }
             try {
-                var bodyObj = [];
-                var principal = {};
-                var beneficiaries = [];
-                var policy = {};
+                
                 const result = excelToJson({
                     sourceFile: req.file.path,
                     outputJSON: false
                 });
-                console.log("Am here");
-                result.Sheet1.forEach(function (item, index) {
-                    if (index > 0) {
-                        if (item.A != undefined && item.B != undefined && item.C != undefined
-                            && item.D != undefined && item.E != undefined && item.F != undefined && item.G != undefined
-                            && item.H != undefined && item.I != undefined
-                            && item.J != undefined && item.K != undefined && item.L != undefined && item.M != undefined
-                            && item.N != undefined && item.O != undefined && item.P != undefined && item.Q != undefined
-                            && item.R != undefined && item.S != undefined && item.AL != undefined && item.AM != undefined
-                            && item.AL != undefined && item.AM != undefined && item.AN != undefined && item.AO != undefined
-                            && item.AP != undefined && item.AQ != undefined) {
-                            console.log("A");
-                            beneficiaries = [];
-                            principal = {
-                                "dateOfBirth": item.A,
-                                "email": item.B,
-                                "numberOfUnderAge": item.C,
-                                "gender": item.D,
-                                "homeAddress": {
-                                    "neighbourhood": item.E,
-                                    "state": item.F,
-                                    "lga": item.G,
-                                    "street": item.H
-                                },
-                                "lastName": item.I,
-                                "firstName": item.J,
-                                "lgaOfOrigin": item.K,
-                                "maritalStatus": item.L,
-                                "mothersMaidenName": item.M,
-                                "otherNames": item.N,
-                                "phoneNumber": item.O,
-                                "platformOwnerId": item.P,
-                                "stateOfOrigin": item.Q,
-                                "title": item.S
-                            };
-                            policy = {
-                                "platformOwnerId": item.AL,
-                                "hiaId": item.AM,
-                                "providerId": item.AN,
-                                "planTypeId": item.AO,
-                                "planId": item.AP,
-                                "premiumCategoryId": item.AQ
 
-                            };
+                res.send(result);
+                
+                // res.json({
+                //     error_code: 0,
+                //     err_desc: null,
+                //     data: result
+                // });
 
-                        }
-                        if (item.S != undefined && item.T != undefined && item.U != undefined && item.V != undefined && item.W != undefined
-                            && item.X != undefined && item.Y != undefined && item.Z != undefined && item.AA != undefined && item.AB != undefined
-                            && item.AC != undefined && item.AD != undefined && item.AE != undefined && item.AF != undefined && item.AG != undefined) {
-                            beneficiaries.push({
-                                "dateOfBirth": item.S,
-                                "email": item.T,
-                                "gender": item.U,
-                                "lastName": item.V,
-                                "firstName": item.W,
-                                "lgaOfOrigin": item.X,
-                                "numberOfUnderAge": item.Y,
-                                "maritalStatus": item.Z,
-                                "mothersMaidenName": item.AA,
-                                "otherNames": item.AB,
-                                "phoneNumber": item.AC,
-                                "platformOwnerId": item.AD,
-                                "stateOfOrigin": item.AE,
-                                "relationship": item.AF,
-                                "title": item.AG,
-                                "homeAddress": {
-                                    "neighbourhood": item.AH,
-                                    "state": item.AI,
-                                    "lga": item.AJ,
-                                    "street": item.AK
-                                }
-                            });
-                            console.log("B");
-                        }
-                        let counter = index + 1;
-                        console.log(counter);
-
-                        console.log(counter + "----" + result.Sheet1.length);
-                        if (result.Sheet1.length == counter) {
-                            console.log("c");
-                            bodyObj.push({
-                                "principal": principal,
-                                "dependent": beneficiaries,
-                                "policy": policy
-                            });
-
-                        } else {
-                            try {
-                                if (result.Sheet1[counter].A != undefined
-                                    && result.Sheet1[counter].B != undefined
-                                    && result.Sheet1[counter].C != undefined
-                                    && result.Sheet1[counter].D != undefined
-                                    && result.Sheet1[counter].I != undefined
-                                    && result.Sheet1[counter].J != undefined) {
-                                    bodyObj.push({
-                                        "principal": principal,
-                                        "dependent": beneficiaries,
-                                        "policy": policy
-                                    });
-                                    console.log("c");
-                                }
-                            }
-                            catch (Exception) {
-
-                            }
-
-                        }
-                    }
-                }, this);
-                bodyObj.forEach(function (prin_item) {
-                    console.log(prin_item);
-                    var options = {
-                        method: 'POST',
-                        uri: 'http://localhost:3031/api/beneficiaries',
-                        body: prin_item,
-                        json: true
-                    };
-
-                    rp(options).then(function (parsedBody) {
-                        res.send(parsedBody);
-                    }).catch(function (err) {
-                        res.send(err);
-                    });
-                })
-
-                res.json({
-                    error_code: 0,
-                    err_desc: null,
-                    data: result
-                });
+                // console.log(res);
+                // res.send(res);
 
             } catch (e) {
                 res.json({
