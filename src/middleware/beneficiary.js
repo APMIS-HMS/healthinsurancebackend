@@ -90,8 +90,11 @@ function aphaformator() {
 module.exports = function (app) {
     return function (req, res, next) {
         if (req.method == "POST") {
+            console.log(req.body);
             let personObj = req.body.person;
+            console.log(personObj);
             app.service('people').create(personObj).then(person => {
+                
                 var beneficiaryDetails = req.body.beneficiary;
                 beneficiaryDetails.personId = person;
                 app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
@@ -108,6 +111,7 @@ module.exports = function (app) {
             var persons = [];
             var beneficiaries = [];
             var counter = 0;
+            console.log(req.body.persons);
             req.body.persons.forEach(function (item) {
                 counter = counter + 1;
                 console.log(counter);
