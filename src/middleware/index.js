@@ -11,6 +11,7 @@ const provider = require('../middleware/provider');
 const claims_payment = require('../middleware/claims-payment');
 const claims_payment_pay = require('../middleware/claims-payment-pay');
 const sendSMS = require('../middleware/send-sms');
+const validateAge = require('../middleware/validate-age-greater-than-eighteen');
 const paystackVerification = require('../middleware/paystack-verification');
 var multer = require('multer');
 const handler = require('feathers-errors/handler');
@@ -94,6 +95,7 @@ module.exports = function () {
     app.get('/api/beneficiaries', beneficiary_api(app));
     app.post('/api/beneficiaries', create_beneficiary_api(app));
     app.post('/api/send-sms', sendSMS(app));
+    app.get('/api/validate-age', validateAge(app));
 
 
 
