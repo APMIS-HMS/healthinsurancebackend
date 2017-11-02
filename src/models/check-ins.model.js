@@ -10,6 +10,7 @@ module.exports = function (app) {
     platformOwnerId: { type: Schema.Types.Mixed, required: true },
     providerFacilityId: { type: Schema.Types.Mixed, required: true },
     beneficiaryId: { type: Schema.Types.ObjectId, required: true },
+    policyId: { type: Schema.Types.ObjectId, required: false },
     principalBeneficiaryId: { type: Schema.Types.Mixed, required: true },
     encounterDateTime: { type: Schema.Types.Date, required: true },
     encounterStatus: { type: Schema.Types.Mixed, required: true },
