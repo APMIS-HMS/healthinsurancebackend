@@ -1,5 +1,5 @@
 const { authenticate } = require('feathers-authentication').hooks;
-
+const returnLimitedPersonInfo = require('../../hooks/return-limited-person-info');
 module.exports = {
     before: {
         all: [],
@@ -12,7 +12,7 @@ module.exports = {
     },
 
     after: {
-        all: [],
+        all: [returnLimitedPersonInfo()],
         find: [],
         get: [],
         create: [],
