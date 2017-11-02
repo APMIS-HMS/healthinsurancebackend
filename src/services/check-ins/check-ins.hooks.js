@@ -64,7 +64,7 @@ module.exports = {
       hasCheckInToday(),populate({ schema: policySchemaList }),
       populate({ schema: personSchemaList }),populate({ schema: preAuthSchemaList })      
     ],
-    get: [ populate({ schema: beneficiarySchemaList })],
+    get: [ populate({ schema: beneficiarySchemaList }),populate({ schema: policySchemaList })],
     create: [otpSms()],
     update: [],
     patch: [],
