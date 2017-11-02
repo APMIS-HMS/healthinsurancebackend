@@ -1,7 +1,7 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 const request = require('request');
-module.exports = function(options = {}) { // eslint-disable-line no-unused-vars
+module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     return function autoGeneratePassword(hook) {
         // Hooks can either return nothing or a promise
         // that resolves with the `hook` object for asynchronous operations
@@ -9,20 +9,23 @@ module.exports = function(options = {}) { // eslint-disable-line no-unused-vars
             if (hook.type === 'before') {
                 if (hook.data.password === null || hook.data.password === undefined) {
                     hook.data.password = aphaformator();
-                    console.log(hook.data.password)
                     hook.params.password = hook.data.password;
                     hook.params.platformOwnerId = hook.data.platformOwnerId;
                     // console.log(hook.params.platformOwnerId)
-                }else{
+                } else {
                     hook.params.password = hook.data.password;
                 }
             } else if (hook.type === 'after') {
                 let password = hook.params.password;
-                let sender = hook.data.platformOwnerId.shortName;
-                let message = "Your " + sender + " auto-generated password is: " + password + " kindly change your password";
+                console.log(password)
+                if (hook.data.platformOwnerId !== undefined) {
+                    let sender = hook.data.platformOwnerId.shortName;
+                    let message = "Your " + sender + " auto-generated password is: " + password + " kindly change your password";
 
-                const url = 'http://portal.bulksmsnigeria.net/api/?username=apmis&password=apmis&message=' + message + '&sender=' + sender + '&mobiles=@@' + hook.data.phoneNumber + '@@';
-                var response = request.get(url);
+                    const url = 'http://portal.bulksmsnigeria.net/api/?username=apmis&password=apmis&message=' + message + '&sender=' + sender + '&mobiles=@@' + hook.data.phoneNumber + '@@';
+                    var response = request.get(url);
+                }
+
             }
         }
         return Promise.resolve(hook);
@@ -52,5 +55,5 @@ function sendEmailViaApi(sender, receiver, title, body) {
         body: mail.toJSON()
     });
 
-    sg.API(request_send_grid, function(error, response) {})
+    sg.API(request_send_grid, function (error, response) { })
 }

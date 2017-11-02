@@ -22,7 +22,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         delete facility.phoneNumber;
         delete facility.platformOwnerId;
         delete facility.isConfirmed;
-        delete facility.shortName;
+        // delete facility.shortName;
         delete facility.website;
         delete facility.logo;
       }
