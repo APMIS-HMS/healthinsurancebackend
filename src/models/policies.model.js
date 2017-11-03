@@ -15,16 +15,15 @@ module.exports = function(app) {
         providerId: { type: Schema.Types.Mixed, required: true }, // provider
         planTypeId: { type: Schema.Types.Mixed, required: true }, // planType
         planId: { type: Schema.Types.ObjectId, required: true }, // plan
-        premiumCategoryId: { type: Schema.Types.Mixed, required: true }, // premiumCategory
-        premiumPackageId: { type: Schema.Types.Mixed, required: true }, // premiumCategory
-        sponsorshipId: { type: Schema.Types.Mixed, required: true }, // premiumCategory
-        sponsor: { type: Schema.Types.Mixed, required: false }, // premiumCategory
+        premiumCategoryId: { type: Schema.Types.Mixed, required: true },
+        premiumPackageId: { type: Schema.Types.Mixed, required: true },
+        sponsorshipId: { type: Schema.Types.Mixed, required: true },
+        sponsor: { type: Schema.Types.Mixed, required: false },
         dependantBeneficiaries: [beneficiaryPolicySchema],
         validityPeriods: [{ type: Schema.Types.Mixed, required: false }],
         isPaid: { type: Schema.Types.Boolean, default: false },
         premiumPaymentRef: { type: Schema.Types.Mixed, required: false },
         isActive: { type: Schema.Types.Boolean, default: false },
-        
         createdAt: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }
     });
