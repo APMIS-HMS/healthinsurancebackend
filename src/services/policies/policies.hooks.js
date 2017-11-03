@@ -1,6 +1,7 @@
 const { authenticate } = require('feathers-authentication').hooks;
-const { populate } = require('feathers-hooks-common');
+const { populate, discard, pluck, pluckQuery,remove  } = require('feathers-hooks-common');
 const policyId = require('../../hooks/policy-id');
+// const { discard } = require('feathers-hooks-common');
 
 
 const hiaSchema = {
@@ -28,7 +29,8 @@ const principalBeneficiarySchema = {
     parentField: 'principalBeneficiary',
     childField: '_id',
     query: {
-      // $select: ['email', 'firstName', 'lastName', 'gender', 'platformId', 'dateOfBirth', 'homeAddress.lga'],
+      $select: ['platformOwnerId.name', 'platformOwnerId._id', 'platformOwnerNumber', 'isActive', 'numberOfUnderAge', 'personId.firstName',
+        'personId.lastName', 'personId.otherNames', 'personId.gender', 'personId.dateOfBirth', 'personId.homeAddress'],
       $sort: { createdAt: -1 },
     }
   }]
@@ -42,6 +44,7 @@ const providerSchema = {
     childField: '_id',
     query: {
       $sort: { createdAt: -1 },
+      $select: ['platformOwnerId.name', 'platformOwnerId._id','address', 'name','phoneNumber', 'logo'],
     }
   }]
 };
@@ -58,6 +61,7 @@ const planSchema = {
   }]
 };
 
+
 //principalBeneficiary
 
 const premiumValue = require('../../hooks/premium-value');
@@ -68,15 +72,15 @@ module.exports = {
     find: [],
     get: [],
     create: [policyId(), premiumValue()],
-    update: [],
+    update: [policyId()],
     patch: [],
     remove: []
   },
 
   after: {
     all: [],
-    find: [populate({ schema: principalBeneficiarySchema }), populate( { schema: providerSchema }), populate( { schema: planSchema })],
-    get: [populate({ schema: principalBeneficiarySchema })],
+    find: [populate({ schema: principalBeneficiarySchema }), populate({ schema: providerSchema }), populate({ schema: planSchema })],
+    get: [populate({ schema: principalBeneficiarySchema }), populate({ schema: providerSchema })],
     create: [],
     update: [],
     patch: [],

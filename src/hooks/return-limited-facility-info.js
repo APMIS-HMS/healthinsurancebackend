@@ -30,7 +30,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       return Promise.resolve(hook);
     } else {
       if (hook.params.user === undefined) {
-        if (hook.result.data.length > 0) {
+        if (hook.result.data !== undefined && hook.result.data.length > 0) {
           let facility = hook.result.data[0];
           hook.result.data.forEach(facility => {
             delete facility.email;
