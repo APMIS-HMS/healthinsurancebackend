@@ -45,6 +45,7 @@ const claimPayments = require('./claim-payments/claim-payments.service.js');
 const capitationFees = require('./capitation-fees/capitation-fees.service.js');
 const referrals = require('./referrals/referrals.service.js');
 const premiumPayments = require('./premium-payments/premium-payments.service.js');
+const professions = require('./professions/professions.service.js');
 module.exports = function() {
     const app = this; // eslint-disable-line no-unused-vars
     app.configure(users);
@@ -94,4 +95,5 @@ module.exports = function() {
     app.configure(capitationFees);
     app.configure(referrals);
     app.configure(premiumPayments);
+    app.configure(professions);
 };

@@ -1,6 +1,12 @@
 'use strict';
 var Client = require('node-rest-client').Client;
 
+function addDays(date, days) {
+    const result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+};
+
 module.exports = function(app) {
     return function(req, res, next) {
         if (req.body.reference !== undefined) {
@@ -29,9 +35,23 @@ module.exports = function(app) {
                                 app.service('policies').get(paidPolicy.policyCollectionId).then(returnPolicy => {
                                     console.log('Found Policy');
                                     // Updated policy.
-                                    returnPolicy.isActive = true;
+                                    if (returnPolicy.validityPeriods.length > 0) {
+                                        returnPolicy.validityPeriods[returnPolicy.validityPeriods.length - 1].isActive = false;
+                                    }
                                     returnPolicy.isPaid = true;
                                     returnPolicy.premiumPaymentRef = updatedPremium._id;
+                                    // Find the last index and change isActive to false
+
+                                    returnPolicy.validityPeriods.push({
+                                        duration: returnPolicy.premiumPackageId.duration,
+                                        category: returnPolicy.premiumCategoryId.name,
+                                        unit: returnPolicy.premiumPackageId.unit.name,
+                                        isActive: true,
+                                        startDate: new Date(),
+                                        createdAt: new Date(),
+                                        validTill: addDays(new Date(), returnPolicy.premiumPackageId.unit.days)
+                                    });
+
                                     app.service('policies').update(returnPolicy._id, returnPolicy).then(updatedPolicy => {
                                         if (policyCounter === i) {
                                             console.log('Updated Policy');
