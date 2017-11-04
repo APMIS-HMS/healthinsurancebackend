@@ -9,16 +9,20 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     // that resolves with the `hook` object for asynchronous operations
     promise.push(hook.app.service("policies").find({ query: { "platformOwnerId": hook.data.platformOwnerId, $limit: 0 } }));
     return Promise.all(promise).then(payload => {
-      var counter = payload.total + 1;
-      console.log(counter);
-      var formatedCounter = "P" + ("0000" + counter).slice(-5);
-      hook.data.policyId = formatedCounter;
-      console.log(hook.data.policyId);
-      hook.data.dependantBeneficiaries.forEach(function (bPolicyId) {
-        bPolicyId.policyId = formatedCounter;
-      });
-    })
-    //return Promise.resolve(hook);
+      var availableLength = 0;
+      var counter = 0;
+      for (var i = payload[0].total + 1; i <= payload[0].total + payload.length; i++) {
+        console.log(i);
+        let formatedValue = ("00000" + i).slice(-5);
+        var formatedCounter = "P" + formatedValue;
+        hook.data.policyId = formatedCounter;
+        console.log(hook.data.policyId);
+        if (i == payload[0].total + payload.length) {
+          hook.data.dependantBeneficiaries.forEach(function (bPolicyId) {
+            bPolicyId.policyId = formatedCounter;
+          });
+        }
+      }
+    });
   };
 };
-
