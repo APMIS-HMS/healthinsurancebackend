@@ -9,7 +9,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return function lashmaId(hook) {
     // Hooks can either return nothing or a promise
     // that resolves with the `hook` object for asynchronous operations
-    console.log(hook.data.platformOwnerId._id);
+    
     promise.push(hook.app.service("beneficiaries").find({ query: { "platformOwnerId._id": hook.data.platformOwnerId._id, $limit: 0 } }));
     return Promise.all(promise).then(payload2 => {
       console.log(payload2);
