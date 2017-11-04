@@ -1,30 +1,28 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 
+const promise = [];
+
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return function policyId(hook) {
     // Hooks can either return nothing or a promise
     // that resolves with the `hook` object for asynchronous operations
-    if (hook.method === 'create') {
-      return hook.app.service("policies").find({ query: { "platformOwnerId": hook.data.platformOwnerId, $limit: 0 } }).then(payload => {
-        var counter = payload.total + 1;
-        console.log(counter);
-        var formatedCounter = "P" + ("0000" + counter).slice(-5);
+    promise.push(hook.app.service("policies").find({ query: { "platformOwnerId": hook.data.platformOwnerId, $limit: 0 } }));
+    return Promise.all(promise).then(payload => {
+      var availableLength = 0;
+      var counter = 0;
+      for (var i = payload[0].total + 1; i <= payload[0].total + payload.length; i++) {
+        console.log(i);
+        let formatedValue = ("00000" + i).slice(-5);
+        var formatedCounter = "P" + formatedValue;
         hook.data.policyId = formatedCounter;
         console.log(hook.data.policyId);
-        hook.data.dependantBeneficiaries.forEach(function (bPolicyId, i) {
-          bPolicyId.policyId = formatedCounter + '-' + i + 1;
-        });
-      })
-      return Promise.resolve(hook);
-    }else if(hook.method === 'update'){
-      hook.data.dependantBeneficiaries.forEach(function (bPolicyId, i) {
-        if(bPolicyId.policyId === undefined){
-          bPolicyId.policyId = hook.data.policyId + '-' + i + 1;
-        }  
-      });
-      return Promise.resolve(hook);
-    }
-
+        if (i == payload[0].total + payload.length) {
+          hook.data.dependantBeneficiaries.forEach(function (bPolicyId) {
+            bPolicyId.policyId = formatedCounter;
+          });
+        }
+      }
+    });
   };
 };
