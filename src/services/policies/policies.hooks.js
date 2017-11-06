@@ -66,6 +66,8 @@ const planSchema = {
 
 const premiumValue = require('../../hooks/premium-value');
 
+const policyNotifier = require('../../hooks/policy-notifier');
+
 module.exports = {
   before: {
     all: [authenticate('jwt') ],
@@ -81,8 +83,8 @@ module.exports = {
     all: [],
     find: [populate({ schema: principalBeneficiarySchema }), populate({ schema: providerSchema }), populate({ schema: planSchema })],
     get: [populate({ schema: principalBeneficiarySchema }), populate({ schema: providerSchema }), populate({ schema: planSchema })],
-    create: [],
-    update: [],
+    create: [policyNotifier()],
+    update: [policyNotifier()],
     patch: [],
     remove: []
   },
