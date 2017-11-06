@@ -14,7 +14,7 @@ module.exports = {
   },
 
   after: {
-    all: [returnLimitedFacilityInfo()],
+    all: [],//returnLimitedFacilityInfo()],
     find: [],
     get: [],
     create: [generateItUser()],

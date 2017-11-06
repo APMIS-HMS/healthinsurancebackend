@@ -18,7 +18,7 @@ const personSchema = {
   include: [{
     service: 'people',
     nameAs: 'personId',
-    parentField: 'personId',
+    parentField: 'personId._id',
     childField: '_id',
     query: {
       $select: ['email', 'firstName',

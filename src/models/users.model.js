@@ -23,6 +23,7 @@ module.exports = function(app) {
         cader: { type: Schema.Types.Mixed },
         roles: [{ type: Schema.Types.Mixed }],
         isActive: { type: Schema.Types.Boolean, default: false },
+        completeRegistration: { type: Schema.Types.Boolean, default: false },
         createdAt: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }
     });
