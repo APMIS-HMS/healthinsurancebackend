@@ -7,10 +7,12 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return function policyId(hook) {
     // Hooks can either return nothing or a promise
     // that resolves with the `hook` object for asynchronous operations
-    promise.push(hook.app.service("policies").find({ query: { "platformOwnerId": hook.data.platformOwnerId, $limit: 0 } }));
+    promise.push(hook.app.service("policies").find({ query: { "platformOwnerId._id": hook.data.platformOwnerId._id, $limit: 0 } }));
     return Promise.all(promise).then(payload => {
       var availableLength = 0;
       var counter = 0;
+      console.log(payload);
+      console.log(payload.length);
       for (var i = payload[0].total + 1; i <= payload[0].total + payload.length; i++) {
         console.log(i);
         let formatedValue = ("00000" + i).slice(-5);
@@ -20,6 +22,8 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         if (i == payload[0].total + payload.length) {
           hook.data.dependantBeneficiaries.forEach(function (bPolicyId) {
             bPolicyId.policyId = formatedCounter;
+            console.log("--Policy--");
+            console.log(bPolicyId.policyId);
           });
         }
       }
