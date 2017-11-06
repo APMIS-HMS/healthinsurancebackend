@@ -1,33 +1,78 @@
 'use strict';
 
+var errorMessage = {
+    "State": "Failed",
+    "Transaction": "Creating Beneficiary"
+};
+
 var SPONSORSHIP = [
     { 'id': 1, 'name': 'Self' },
     { 'id': 2, 'name': 'Organization' }
 ];
 
-function PolicyIDRecurtion(beneficiaries, principal, policy, res, next, app) {
+var userModel = {};
+
+function PolicyIDRecurtion(beneficiaries, principal, policy, res, req, next, app) {
     policy.principalBeneficiary = principal;
     policy.dependantBeneficiaries = beneficiaries;
     app.service('policies').create(policy).then(policyObject => {
-        res.send({ policyObject });
-        next;
+        app.service('user-types').find({
+            query: { 'name': { $regex: "Beneficiary", '$options': 'i' } }
+        }).then(userType => {
+            console.log(userType);
+            if (userType.data.length > 0) {
+                app.service('roles').find({
+                    query: { 'name': { $regex: "Beneficiary", '$options': 'i' } }
+                }).then(roles => {
+                    if (roles.data.length > 0) {
+                        console.log(req.body.principal);
+                        userModel.roles = [];
+                        userModel.roles.push(roles.data[0]);
+                        userModel.userType = userType.data[0];
+                        userModel.platformOwnerId = policyObject.platformOwnerId;
+                        console.log(userModel);
+                        app.service('users').create(userModel).then(userModelObject => {
+                            policyObject.user = userModelObject;
+                            res.send({ policyObject });
+                            next;
+                        }, error => {
+                            console.log(error);
+                            errorMessage.Details = "Policy created but USER CREATION FAILED because " + error.message + " please contact LASHMA Admin";
+                            errorMessage.Time = new Date();
+                            res.send(errorMessage);
+                        });
+                    } else {
+                        errorMessage.Details = "Policy created but USER CREATION FAILED because ROLE donot exist please contact LASHMA Admin";
+                        errorMessage.Time = new Date();
+                        res.send(errorMessage);
+                    }
+                });
+            }
+            else {
+                errorMessage.Details = "Policy created but USER CREATION FAILED because User-Type donot exist please contact LASHMA Admin";
+                errorMessage.Time = new Date();
+                res.send(errorMessage);
+            }
+        });
     })
 };
 
 
 module.exports = function (app) {
     return function (req, res, next) {
-        var errorMessage = {
-            "State": "Failed",
-            "Transaction": "Creating Beneficiary"
-        };
-
         var counter = 0;
         var persons = [];
         var reqPolicy = req.body.policy;
         var reqbeneficiaries = req.body.dependent;
         var beneficiaries = [];
-        var principal = req.body.principal
+        var principal = req.body.principal;
+        userModel.email = req.body.principal.email;
+        userModel.firstName = req.body.principal.firstName;
+        userModel.lastName = req.body.principal.lastName;
+        userModel.otherNames = req.body.principal.otherNames;
+        userModel.phoneNumber = req.body.principal.phoneNumber;
+        userModel.isActive = true;
+        userModel.completeRegistration = true;
         app.service('countries').find({
             query:
             {
@@ -188,7 +233,7 @@ module.exports = function (app) {
                                                                                                                                                         }
                                                                                                                                                     }).then(plans => {
                                                                                                                                                         if (plans.data[0] != undefined) {
-                                                                                                                                                            
+
                                                                                                                                                             reqPolicy.planId = {
                                                                                                                                                                 "_id": plans.data[0]._id,
                                                                                                                                                                 "name": plans.data[0].name
@@ -243,7 +288,7 @@ module.exports = function (app) {
                                                                                                                                                                                                         counter += 1;
 
                                                                                                                                                                                                         if (counter == req.body.dependent.length) {
-                                                                                                                                                                                                            PolicyIDRecurtion(beneficiaries, beneficiary, reqPolicy, res, next, app)
+                                                                                                                                                                                                            PolicyIDRecurtion(beneficiaries, beneficiary, reqPolicy, res, req, next, app)
                                                                                                                                                                                                         }
                                                                                                                                                                                                     })
 
