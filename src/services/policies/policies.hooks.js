@@ -30,7 +30,7 @@ const principalBeneficiarySchema = {
     childField: '_id',
     query: {
       $select: ['platformOwnerId.name', 'platformOwnerId._id', 'platformOwnerNumber', 'isActive', 'numberOfUnderAge', 'personId.firstName',
-        'personId.lastName', 'personId.otherNames', 'personId.gender', 'personId.dateOfBirth', 'personId.homeAddress'],
+        'personId.lastName', 'personId.otherNames', 'personId.gender', 'personId.dateOfBirth', 'personId.homeAddress', 'personId.title'],
       $sort: { createdAt: -1 },
     }
   }]
@@ -80,7 +80,7 @@ module.exports = {
   after: {
     all: [],
     find: [populate({ schema: principalBeneficiarySchema }), populate({ schema: providerSchema }), populate({ schema: planSchema })],
-    get: [populate({ schema: principalBeneficiarySchema }), populate({ schema: providerSchema })],
+    get: [populate({ schema: principalBeneficiarySchema }), populate({ schema: providerSchema }), populate({ schema: planSchema })],
     create: [],
     update: [],
     patch: [],

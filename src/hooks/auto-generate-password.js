@@ -17,13 +17,16 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
                 }
             } else if (hook.type === 'after') {
                 let password = hook.params.password;
-                console.log(password)
                 if (hook.data.platformOwnerId !== undefined) {
                     let sender = hook.data.platformOwnerId.shortName;
                     let message = "Your " + sender + " auto-generated password is: " + password + " kindly change your password";
 
                     const url = 'http://portal.bulksmsnigeria.net/api/?username=apmis&password=apmis&message=' + message + '&sender=' + sender + '&mobiles=@@' + hook.data.phoneNumber + '@@';
-                    var response = request.get(url);
+                    var response = request.get(url, function (error, response, body){
+                        if(error){
+                            // console.log(error);
+                        }
+                    });
                 }
 
             }
