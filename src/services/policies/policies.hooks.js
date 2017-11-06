@@ -68,7 +68,7 @@ const premiumValue = require('../../hooks/premium-value');
 
 module.exports = {
   before: {
-    all: [],//authenticate('jwt') ],
+    all: [authenticate('jwt') ],
     find: [],
     get: [],
     create: [policyId(), premiumValue()],
