@@ -28,10 +28,11 @@ const policySchema = {
 const planSchema = {
     include: [{
         service: 'plans',
-        nameAs: 'planObject',
-        parentField: 'planId',
+        nameAs: 'policyId.planId',
+        parentField: 'policyId.planId',
         childField: '_id',
         query: {
+            $select: ['name', 'isActive'],
             $sort: { createdAt: -1 }
         }
     }]
