@@ -17,16 +17,16 @@ const restrict = [
 module.exports = {
     before: {
         all: [],
-        find: [],
-        get: [],
-        // get: [...restrict],
+        find: [ authenticate('jwt')],
+        // get: [],
+        get: [...restrict],
         create: [autoGeneratePassword(), hashPassword()],
-        // update: [...restrict, hashPassword()],
-        // patch: [...restrict, hashPassword()],
-        // remove: [...restrict]
-        update: [hashPassword()],
-        patch: [hashPassword()],
-        remove: []
+        update: [...restrict, hashPassword()],
+        patch: [...restrict, hashPassword()],
+        remove: [...restrict]
+        // update: [hashPassword()],
+        // patch: [hashPassword()],
+        // remove: []
     },
 
     after: {
@@ -36,7 +36,7 @@ module.exports = {
                 commonHooks.discard('password')
             ),
             // populateRoleWithAccessibilities()
-            returnLimitedUserInfo()
+            // returnLimitedUserInfo()
         ],
         find: [],
         get: [],
