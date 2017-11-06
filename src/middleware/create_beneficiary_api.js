@@ -8,7 +8,6 @@ var SPONSORSHIP = [
 function PolicyIDRecurtion(beneficiaries, principal, policy, res, next, app) {
     policy.principalBeneficiary = principal;
     policy.dependantBeneficiaries = beneficiaries;
-    console.log(policy);
     app.service('policies').create(policy).then(policyObject => {
         res.send({ policyObject });
         next;
