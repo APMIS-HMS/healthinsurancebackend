@@ -44,7 +44,7 @@ const providerSchema = {
     childField: '_id',
     query: {
       $sort: { createdAt: -1 },
-      $select: ['platformOwnerId.name', 'platformOwnerId._id','address', 'name','phoneNumber', 'logo'],
+      $select: ['platformOwnerId.name', 'platformOwnerId._id','address', 'name','phoneNumber', 'logo', 'facilityType'],
     }
   }]
 };
