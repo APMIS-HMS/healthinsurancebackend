@@ -30,7 +30,7 @@ const principalBeneficiarySchema = {
         childField: '_id',
         query: {
             $select: ['platformOwnerId.name', 'platformOwnerId._id', 'platformOwnerNumber', 'isActive', 'numberOfUnderAge', 'personId.firstName',
-                'personId.lastName', 'personId.otherNames', 'personId.gender', 'personId.dateOfBirth', 'personId.homeAddress', 'personId.title'
+                'personId.lastName', 'personId.otherNames', 'personId.gender', 'personId.dateOfBirth', 'personId.email', 'personId.homeAddress', 'personId.title'
             ],
             $sort: { createdAt: -1 },
         }
@@ -80,15 +80,15 @@ module.exports = {
         remove: []
     },
 
-  after: {
-    all: [],
-    find: [populate({ schema: principalBeneficiarySchema }), populate({ schema: providerSchema }), populate({ schema: planSchema })],
-    get: [populate({ schema: principalBeneficiarySchema }), populate({ schema: providerSchema }), populate({ schema: planSchema })],
-    create: [policyNotifier()],
-    update: [policyNotifier()],
-    patch: [],
-    remove: []
-  },
+    after: {
+        all: [],
+        find: [populate({ schema: principalBeneficiarySchema }), populate({ schema: providerSchema }), populate({ schema: planSchema })],
+        get: [populate({ schema: principalBeneficiarySchema }), populate({ schema: providerSchema }), populate({ schema: planSchema })],
+        create: [policyNotifier()],
+        update: [policyNotifier()],
+        patch: [],
+        remove: []
+    },
 
     error: {
         all: [],
