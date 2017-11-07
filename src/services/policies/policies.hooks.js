@@ -80,15 +80,15 @@ module.exports = {
         remove: []
     },
 
-    after: {
-        all: [],
-        find: [populate({ schema: principalBeneficiarySchema }), populate({ schema: providerSchema }), populate({ schema: planSchema })],
-        get: [populate({ schema: principalBeneficiarySchema }), populate({ schema: providerSchema }), populate({ schema: planSchema })],
-        create: [policyNotifier()],
-        update: [policyNotifier()],
-        patch: [],
-        remove: []
-    },
+  after: {
+    all: [],
+    find: [populate({ schema: principalBeneficiarySchema }), populate({ schema: providerSchema }), populate({ schema: planSchema })],
+    get: [populate({ schema: principalBeneficiarySchema }), populate({ schema: providerSchema }), populate({ schema: planSchema })],
+    create: [policyNotifier(),populate({ schema: principalBeneficiarySchema })],
+    update: [policyNotifier(),populate({ schema: principalBeneficiarySchema })],
+    patch: [],
+    remove: []
+  },
 
     error: {
         all: [],
