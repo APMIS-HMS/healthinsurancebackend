@@ -9,17 +9,13 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       let hia = data.hiaId._id;
       let provider = data.providerId._id;
       let user = connection.user;
-      console.log(connection.user);
-      console.log(user.userType.name);
       if (user.userType.name === 'Beneficiary') {
-        console.log(connection.user);
-        console.log(user.userType.name);
+        console.log("It is a beneficiary");
         //notify hia, provider
         return (connection.user.facilityId._id === hia) || (connection.user.facilityId._id === provider) ? data : false;
       } else if (user.userType.name === 'Health Insurance Agent') {
         // notify provider, beneficiary
-        console.log(connection.user);
-        console.log(user.userType.name);
+        console.log("Health Insurance Agent");
         return (connection.user.facilityId._id === hia) || (connection.user.facilityId._id === provider) ? data : false;
       }
       var notifier = {

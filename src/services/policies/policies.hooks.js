@@ -71,7 +71,7 @@ const policyNotifier = require('../../hooks/policy-notifier');
 
 module.exports = {
     before: {
-        all: [authenticate('jwt')],
+        all: [],//authenticate('jwt')],
         find: [],
         get: [],
         create: [policyId(), premiumValue()],

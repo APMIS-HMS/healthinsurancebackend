@@ -16,14 +16,12 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       for (var i = payload[0].total + 1; i <= payload[0].total + payload.length; i++) {
         console.log(i);
         let formatedValue = ("00000" + i).slice(-5);
-        var formatedCounter = "P" + formatedValue;
+        var formatedCounter = "P" + formatedValue + "-1";
         hook.data.policyId = formatedCounter;
         console.log(hook.data.policyId);
         if (i == payload[0].total + payload.length) {
-          hook.data.dependantBeneficiaries.forEach(function (bPolicyId) {
-            bPolicyId.policyId = formatedCounter + "-D";
-            console.log("--Policy--");
-            console.log(bPolicyId.policyId);
+          hook.data.dependantBeneficiaries.forEach(function (bPolicyId, index) {
+            bPolicyId.policyId = formatedCounter + "-" + index + 1;
           });
         }
       }
