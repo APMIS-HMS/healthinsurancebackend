@@ -12,6 +12,7 @@ const claims_payment = require('../middleware/claims-payment');
 const claims_payment_pay = require('../middleware/claims-payment-pay');
 const sendSMS = require('../middleware/send-sms');
 const validateAge = require('../middleware/validate-age-greater-than-eighteen');
+const searchPolicy = require('../middleware/seach-policy');
 const paystackVerification = require('../middleware/paystack-verification');
 var multer = require('multer');
 const handler = require('feathers-errors/handler');
@@ -96,6 +97,7 @@ module.exports = function () {
     app.post('/api/beneficiaries', create_beneficiary_api(app));
     app.post('/api/send-sms', sendSMS(app));
     app.get('/api/validate-age', validateAge(app));
+    app.get('/api/search-policy', searchPolicy(app));
 
 
 
