@@ -21,7 +21,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         console.log(hook.data.policyId);
         if (i == payload[0].total + payload.length) {
           hook.data.dependantBeneficiaries.forEach(function (bPolicyId) {
-            bPolicyId.policyId = formatedCounter;
+            bPolicyId.policyId = formatedCounter + "-D";
             console.log("--Policy--");
             console.log(bPolicyId.policyId);
           });

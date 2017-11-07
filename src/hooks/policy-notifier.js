@@ -9,6 +9,8 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       let hia = data.hiaId._id;
       let provider = data.providerId._id;
       let user = connection.user;
+      console.log(connection.user);
+      console.log(user.userType.name);
       if (user.userType.name === 'Beneficiary') {
         console.log(connection.user);
         console.log(user.userType.name);
