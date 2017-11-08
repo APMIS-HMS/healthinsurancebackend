@@ -8,25 +8,25 @@ const populateRoleWithAccessibilities = require('../../hooks/populate-role-with-
 const returnLimitedUserInfo = require('../../hooks/return-limited-user-info');
 const restrict = [
     authenticate('jwt'),
-    restrictToOwner({
-        idField: '_id',
-        ownerField: '_id'
-    })
+    // restrictToOwner({
+    //     idField: '_id',
+    //     ownerField: '_id'
+    // })
 ];
 
 module.exports = {
     before: {
         all: [],
-        find: [],// authenticate('jwt')],
+        find: [], // authenticate('jwt')],
         // get: [],
         get: [...restrict],
         create: [autoGeneratePassword(), hashPassword()],
         update: [...restrict, hashPassword()],
         patch: [...restrict, hashPassword()],
         remove: [...restrict]
-        // update: [hashPassword()],
-        // patch: [hashPassword()],
-        // remove: []
+            // update: [hashPassword()],
+            // patch: [hashPassword()],
+            // remove: []
     },
 
     after: {
