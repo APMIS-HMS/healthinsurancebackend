@@ -61,8 +61,10 @@ module.exports = {
     find: [
       populate({ schema: beneficiarySchemaList }),
       verifyOtp(),
-      hasCheckInToday(),populate({ schema: policySchemaList }),
-      populate({ schema: personSchemaList }),populate({ schema: preAuthSchemaList })      
+      hasCheckInToday(),
+      populate({ schema: policySchemaList }),
+      // populate({ schema: personSchemaList }),
+      populate({ schema: preAuthSchemaList })      
     ],
     get: [ populate({ schema: beneficiarySchemaList }),populate({ schema: policySchemaList })],
     create: [otpSms()],

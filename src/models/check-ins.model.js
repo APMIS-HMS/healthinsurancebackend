@@ -11,7 +11,7 @@ module.exports = function (app) {
     providerFacilityId: { type: Schema.Types.Mixed, required: true },
     beneficiaryId: { type: Schema.Types.ObjectId, required: true },
     policyId: { type: Schema.Types.ObjectId, required: false },
-    principalBeneficiaryId: { type: Schema.Types.Mixed, required: true },
+    principalBeneficiaryId: { type: Schema.Types.ObjectId, required: true },
     encounterDateTime: { type: Schema.Types.Date, required: true },
     encounterStatus: { type: Schema.Types.Mixed, required: true },
     encounterType: { type: Schema.Types.Mixed, required: true },
@@ -27,6 +27,7 @@ module.exports = function (app) {
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
   });
+
 
   return mongooseClient.model('checkIns', checkIns);
 };

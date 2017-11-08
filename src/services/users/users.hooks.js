@@ -8,10 +8,10 @@ const populateRoleWithAccessibilities = require('../../hooks/populate-role-with-
 const returnLimitedUserInfo = require('../../hooks/return-limited-user-info');
 const restrict = [
     authenticate('jwt'),
-    restrictToOwner({
-        idField: '_id',
-        ownerField: '_id'
-    })
+    // restrictToOwner({
+    //     idField: '_id',
+    //     ownerField: '_id'
+    // })
 ];
 
 module.exports = {

@@ -94,7 +94,7 @@ module.exports = function (app) {
             let personObj = req.body.person;
             console.log(personObj);
             app.service('people').create(personObj).then(person => {
-                
+
                 var beneficiaryDetails = req.body.beneficiary;
                 beneficiaryDetails.personId = person;
                 app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
@@ -112,51 +112,56 @@ module.exports = function (app) {
             var beneficiaries = [];
             var counter = 0;
             console.log(req.body.persons);
-            req.body.persons.forEach(function (item) {
-                counter = counter + 1;
-                console.log(counter);
-                app.service('people').create(item.person).then(person => {
-                    persons.push(person);
-                    var beneficiaryDetails = item.beneficiary;
-                    beneficiaryDetails.personId = person;
-                    app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
-                        var beneficiary_policy = {
-                            "beneficiary": beneficiary,
-                            "relationshipId": item.relationship
-                        };
+            if (req.body.persons.length > 0) {
+                req.body.persons.forEach(function (item) {
+                    counter = counter + 1;
+                    console.log(counter);
+                    app.service('people').create(item.person).then(person => {
+                        persons.push(person);
+                        var beneficiaryDetails = item.beneficiary;
+                        beneficiaryDetails.personId = person;
+                        app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
+                            var beneficiary_policy = {
+                                "beneficiary": beneficiary,
+                                "relationshipId": item.relationship
+                            };
 
-                        beneficiaries.push(beneficiary_policy);
+                            beneficiaries.push(beneficiary_policy);
 
-                        if (counter == req.body.persons.length) {
-                            PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res, next, app)
-                        }
-                    })
-                    // generateLashmaID(app, req.body.platform).then(result => {
-                    //     counter += 1;
-                    //     let lastVal = result[1] + counter;
-                    //     let strLastVal = formatValue(lastVal);
-                    //     let resultVal = result[0] + "-" + strLastVal;
-                    //     beneficiaryDetails.platformOwnerNumber = resultVal;
-                    //     app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
-                    //         var beneficiary_policy = {
-                    //             "beneficiary": beneficiary,
-                    //             "relationshipId": item.relationship
-                    //         };
+                            if (counter == req.body.persons.length) {
+                                PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res, next, app)
+                            }
+                        })
+                        // generateLashmaID(app, req.body.platform).then(result => {
+                        //     counter += 1;
+                        //     let lastVal = result[1] + counter;
+                        //     let strLastVal = formatValue(lastVal);
+                        //     let resultVal = result[0] + "-" + strLastVal;
+                        //     beneficiaryDetails.platformOwnerNumber = resultVal;
+                        //     app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
+                        //         var beneficiary_policy = {
+                        //             "beneficiary": beneficiary,
+                        //             "relationshipId": item.relationship
+                        //         };
 
-                    //         beneficiaries.push(beneficiary_policy);
+                        //         beneficiaries.push(beneficiary_policy);
 
-                    //         if (counter == req.body.persons.length) {
-                    //             PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res, next, app)
-                    //         }
-                    //     })
-                    // });
-                }, error => {
-                    res.send(error);
-                }).catch(err => {
-                    res.send(err);
-                    next
+                        //         if (counter == req.body.persons.length) {
+                        //             PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res, next, app)
+                        //         }
+                        //     })
+                        // });
+                    }, error => {
+                        res.send(error);
+                    }).catch(err => {
+                        res.send(err);
+                        next
+                    });
                 });
-            });
+            }else{
+                beneficiaries = [];
+                PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res, next, app)
+            }
         }
     };
 };
