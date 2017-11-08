@@ -18,7 +18,7 @@ module.exports = function(app) {
         premiumCategoryId: { type: Schema.Types.Mixed, required: true },
         premiumPackageId: { type: Schema.Types.Mixed, required: true },
         sponsorshipId: { type: Schema.Types.Mixed, required: true },
-        sponsorshipType: { type: Schema.Types.Mixed, required: true },
+        sponsorshipType: { type: Schema.Types.Mixed, required: false },
         sponsor: { type: Schema.Types.Mixed, required: false },
         dependantBeneficiaries: [beneficiaryPolicySchema],
         validityPeriods: [{ type: Schema.Types.Mixed, required: false }],
