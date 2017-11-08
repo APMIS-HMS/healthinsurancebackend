@@ -75,8 +75,8 @@ module.exports = {
 
     after: {
         all: [],
-        find: [populate({ schema: personSchema }), populate({ schema: policySchema }), populate({ schema: beneficiarySchema }), populate({ schema: checkinSchema }), populate({ schema: planSchema })],
-        get: [populate({ schema: personSchema }), populate({ schema: policySchema }), populate({ schema: beneficiarySchema }), populate({ schema: checkinSchema }), populate({ schema: planSchema })],
+        find: [populate({ schema: personSchema }), populate({ schema: policySchema }), populate({ schema: beneficiarySchema }), populate({ schema: checkinSchema })],
+        get: [populate({ schema: personSchema }), populate({ schema: policySchema }), populate({ schema: beneficiarySchema }), populate({ schema: checkinSchema })],
         create: [],
         update: [],
         patch: [],
