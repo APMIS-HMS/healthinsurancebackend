@@ -1,38 +1,32 @@
 'use strict';
 
+var userModel = {};
+
 function PolicyIDRecurtion(beneficiaries, principal, policy, res, next, app) {
-    policy.principalBeneficiary = principal;
-    policy.dependantBeneficiaries = beneficiaries;
-    // console.log('__________________Start________________________');
-    // console.log(policy);
-    // console.log('__________________end________________________');
-    console.log(policy);
-    app.service('policies').create(policy).then(policyObject => {
-        res.send({ policyObject });
-        next;
-    })
-    // var policyValueId = validatePolicyID();
-    // return app.service('policies').find({
-    //     query: { policyId: policyValueId }
-    // }).then(policyItem => {
-    //     if (policyItem.data.length == 0) {
-    //         beneficiaries.forEach(function(element, n) {
-    //             element.policyId = policyValueId + "-" + formatMonthValue(n);
-    //         })
-    //         policy.policyId = policyValueId;
-    //         policy.principalBeneficiary = principal;
-    //         policy.dependantBeneficiaries = beneficiaries;
-    //         // console.log('__________________Start________________________');
-    //         // console.log(policy);
-    //         // console.log('__________________end________________________');
-    //         app.service('policies').create(policy).then(policyObject => {
-    //             res.send({ policyObject });
-    //             next;
-    //         })
-    //     } else {
-    //         return PolicyIDRecurtion(value, policy, res, app);
-    //     }
-    // });
+    app.service('users').find({
+        query: {
+            'email': { $regex: principal.personId.email.toString(), '$options': 'i' }
+        }
+    }).then(users => {
+       
+        if (users.data.length > 0) {
+            let updatedUser = users.data[0];
+            console.log(updatedUser);
+            updatedUser.platformOwnerId = principal.platformOwnerId;
+            app.service('users').update(updatedUser._id,updatedUser).then(payload => {
+                policy.principalBeneficiary = principal;
+                policy.dependantBeneficiaries = beneficiaries;
+                //console.log(policy);
+                app.service('policies').create(policy).then(policyObject => {
+                    res.send({ policyObject });
+                    next;
+                });
+
+            }, error => {
+                res.send("Failed to update user");
+            });
+        }
+    });
 };
 
 function validatePolicyID() {
@@ -90,32 +84,76 @@ function aphaformator() {
 module.exports = function (app) {
     return function (req, res, next) {
         if (req.method == "POST") {
-            console.log(req.body);
+            //console.log(req.body);
+            console.log("a");
             let personObj = req.body.person;
-            console.log(personObj);
-            app.service('people').create(personObj).then(person => {
+            userModel.email = req.body.person.email;
+            userModel.firstName = req.body.person.firstName;
+            userModel.lastName = req.body.person.lastName;
+            userModel.otherNames = req.body.person.otherNames;
+            userModel.phoneNumber = req.body.person.phoneNumber;
+            userModel.isActive = true;
+            userModel.completeRegistration = true;
+            //console.log(personObj);
+            app.service('users').find({
+                query: {
+                    'email': { $regex: req.body.person.email.toString(), '$options': 'i' }
+                }
+            }).then(users => {
+                console.log("a---1");
+                if (users.data.length == 0) {
+                    app.service('user-types').find({
+                        query: { 'name': { $regex: "Beneficiary", '$options': 'i' } }
+                    }).then(userType => {
+                        console.log("a-----2");
+                        if (userType.data.length > 0) {
+                            app.service('roles').find({
+                                query: { 'name': { $regex: "Beneficiary", '$options': 'i' } }
+                            }).then(roles => {
+                                console.log(roles.data.length);
+                                if (roles.data.length > 0) {
+                                    console.log("b---2");
+                                    userModel.roles = [];
+                                    userModel.roles.push(roles.data[0]);
+                                    userModel.userType = userType.data[0];
+                                    
+                                    app.service('users').create(userModel).then(userModelObject => {
+                                        app.service('people').create(personObj).then(person => {
+                                            var beneficiaryDetails = req.body.beneficiary;
+                                            beneficiaryDetails.personId = person;
+                                            console.log("c");
+                                            app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
+                                                res.send({ userModelObject, person, beneficiary });
+                                                next;
+                                            })
+                                        }, error => {
+                                            res.send(error);
+                                        }).catch(err => {
+                                            res.send(err);
+                                            next
+                                        });
+                                    }, error => {
+                                        res.send(error.message);
+                                    });
+                                }
+                            })
+                        }
+                    });
 
-                var beneficiaryDetails = req.body.beneficiary;
-                beneficiaryDetails.personId = person;
-                app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
-                    res.send({ person, beneficiary });
-                    next;
-                })
-            }, error => {
-                res.send(error);
-            }).catch(err => {
-                res.send(err);
-                next
-            });
+                } else {
+                    res.send("Email exist!!!");
+                }
+            })
+
         } else {
             var persons = [];
             var beneficiaries = [];
             var counter = 0;
-            console.log(req.body.persons);
+            //console.log(req.body.persons);
             if (req.body.persons.length > 0) {
                 req.body.persons.forEach(function (item) {
                     counter = counter + 1;
-                    console.log(counter);
+                    //console.log(counter);
                     app.service('people').create(item.person).then(person => {
                         persons.push(person);
                         var beneficiaryDetails = item.beneficiary;
@@ -158,7 +196,7 @@ module.exports = function (app) {
                         next
                     });
                 });
-            }else{
+            } else {
                 beneficiaries = [];
                 PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res, next, app)
             }
