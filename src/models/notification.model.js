@@ -6,7 +6,7 @@ module.exports = function (app) {
   const mongooseClient = app.get('mongooseClient');
   const { Schema } = mongooseClient;
   const notification = new Schema({
-    name: { type: String, required: true },
+    title: { type: String, required: true },
     body: { type: String, required: true },
     isRead:{ type: Schema.Types.Boolean, default: false },
     createdAt: { type: Date, default: Date.now },
