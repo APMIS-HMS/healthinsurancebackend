@@ -9,6 +9,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
       let hia = data.hiaId._id;
       let provider = data.providerId._id;
       let user = connection.user;
+      console.log(user.userType.name);
       console.log(connection.user.facilityId._id + " ------FacilityId");
       console.log(hia + " ---HIA");
       console.log(provider + " ---provider");

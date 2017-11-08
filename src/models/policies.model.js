@@ -11,6 +11,7 @@ module.exports = function(app) {
         policyId: { type: String, required: true },
         platformOwnerId: { type: Schema.Types.Mixed, required: true }, // platform owner object
         principalBeneficiary: { type: Schema.Types.ObjectId, required: true }, // platform owner object
+        principalPolicyId: { type: String, required: false },
         hiaId: { type: Schema.Types.Mixed, required: true }, // lashma/hia
         providerId: { type: Schema.Types.Mixed, required: true }, // provider
         planTypeId: { type: Schema.Types.Mixed, required: true }, // planType
