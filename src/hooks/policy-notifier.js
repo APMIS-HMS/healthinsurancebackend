@@ -45,6 +45,6 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     });
 
 
-    return Promise.resolve(hook);
-  };
+        return Promise.resolve(hook);
+    };
 };
