@@ -8,6 +8,8 @@ module.exports = function (app) {
   const notification = new Schema({
     title: { type: String, required: true },
     body: { type: String, required: true },
+    policyId:{ type: Schema.Types.ObjectId, required: false },
+    userType: { type: Schema.Types.Mixed, required: false  },
     isRead:{ type: Schema.Types.Boolean, default: false },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
