@@ -21,10 +21,12 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         // notify provider, beneficiary
         console.log("Health Insurance Agent");
         return (connection.user.facilityId._id === hia) || (connection.user.facilityId._id === provider) ? data : false;
+      }else{
+        return data;
       }
       var notifier = {
-        "name": hook.type,
-        "body": data.policyId
+        "name": hook.method,
+        "body": connection.user.firstName + " "+connection.user.lastName+ " ("+connection.user.userType.name+") made a/an "+ hook.method +" on " +data.policyId+ " at around " + data.createdAt;
       };
       hook.app.service("notifications").create(notifier).then(payload => {
         console.log(payload);
