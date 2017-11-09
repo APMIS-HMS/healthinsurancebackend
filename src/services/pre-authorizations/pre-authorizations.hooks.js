@@ -28,7 +28,7 @@ const policySchema = {
 const planSchema = {
     include: [{
         service: 'plans',
-        nameAs: 'policyId.planId',
+        nameAs: 'planId',
         parentField: 'policyId.planId',
         childField: '_id',
         query: {
@@ -75,8 +75,8 @@ module.exports = {
 
     after: {
         all: [],
-        find: [populate({ schema: personSchema }), populate({ schema: policySchema }), populate({ schema: beneficiarySchema }), populate({ schema: checkinSchema })],
-        get: [populate({ schema: personSchema }), populate({ schema: policySchema }), populate({ schema: beneficiarySchema }), populate({ schema: checkinSchema })],
+        find: [populate({ schema: personSchema }), populate({ schema: policySchema }), populate({ schema: beneficiarySchema }), populate({ schema: checkinSchema }), populate({ schema: planSchema })],
+        get: [populate({ schema: personSchema }), populate({ schema: policySchema }), populate({ schema: beneficiarySchema }), populate({ schema: checkinSchema }), populate({ schema: planSchema })],
         create: [],
         update: [],
         patch: [],
