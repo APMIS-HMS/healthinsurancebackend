@@ -200,169 +200,170 @@ module.exports = function (app) {
                                                                                                                             }).then(bPlatformOwner => {
                                                                                                                                 if (bPlatformOwner.data[0] != undefined) {
                                                                                                                                     reqItem.platformOwnerId = bPlatformOwner.data[0].platformOwnerId;
-                                                                                                                                    app.service('facilities').find({
-                                                                                                                                        query:
-                                                                                                                                        {
-                                                                                                                                            'hia.nhisNumber': { $regex: reqPolicy.nhisNumber.toString(), '$options': 'i' }
-                                                                                                                                        }
-                                                                                                                                    }).then(hias => {
-                                                                                                                                        if (hias.data[0] != undefined) {
-                                                                                                                                            reqPolicy.hiaId = {
-                                                                                                                                                "name": hias.data[0].name,
-                                                                                                                                                "_id": hias.data[0]._id,
-                                                                                                                                                "hia": hias.data[0].hia
-                                                                                                                                            };
-                                                                                                                                            app.service('facilities').find({
-                                                                                                                                                query:
-                                                                                                                                                {
-                                                                                                                                                    'provider.providerId': { $regex: reqPolicy.provider.toString(), '$options': 'i' }
-                                                                                                                                                }
-                                                                                                                                            }).then(Providers => {
-                                                                                                                                                if (Providers.data[0] != undefined) {
-                                                                                                                                                    reqPolicy.providerId = Providers.data[0].provider;
-                                                                                                                                                    app.service('plan-types').find({
-                                                                                                                                                        query:
-                                                                                                                                                        {
-                                                                                                                                                            'name': { $regex: reqPolicy.planType.toString(), '$options': 'i' }
-                                                                                                                                                        }
-                                                                                                                                                    }).then(planTypes => {
-                                                                                                                                                        if (planTypes.data[0] != undefined) {
-                                                                                                                                                            reqPolicy.planTypeId = planTypes.data[0];
-
-                                                                                                                                                            app.service('plans').find({
-                                                                                                                                                                query:
-                                                                                                                                                                {
-                                                                                                                                                                    'name': { $regex: reqPolicy.plan.toString(), '$options': 'i' }
-                                                                                                                                                                }
-                                                                                                                                                            }).then(plans => {
-                                                                                                                                                                if (plans.data[0] != undefined) {
-
-                                                                                                                                                                    reqPolicy.planId = {
-                                                                                                                                                                        "_id": plans.data[0]._id,
-                                                                                                                                                                        "name": plans.data[0].name
-                                                                                                                                                                    };
-                                                                                                                                                                    let premium = plans.data[0].premiums.filter(x => x.category.name == reqPolicy.premiumPackage);
-                                                                                                                                                                    if (premium[0] != undefined) {
-                                                                                                                                                                        reqPolicy.premiumPackageId = premium[0];
-
-                                                                                                                                                                        app.service('premium-types').find({
-                                                                                                                                                                            query:
-                                                                                                                                                                            {
-                                                                                                                                                                                'name': { $regex: reqPolicy.premiumCategory.toString(), '$options': 'i' }
-                                                                                                                                                                            }
-                                                                                                                                                                        }).then(premiumCategory => {
-                                                                                                                                                                            if (premiumCategory.data[0] != undefined) {
-                                                                                                                                                                                reqPolicy.premiumCategoryId = premiumCategory.data[0];
-
-                                                                                                                                                                                let sponsorshipItem = SPONSORSHIP.filter(x => x.name.toLowerCase() == reqPolicy.sponsorship.toLowerCase());
-                                                                                                                                                                                if (sponsorshipItem[0] != undefined) {
-
-                                                                                                                                                                                    app.service('facilities').find({
-                                                                                                                                                                                        query:
-                                                                                                                                                                                        {
-                                                                                                                                                                                            'platformOwnerId.name': { $regex: reqPolicy.platformOwner.toString(), '$options': 'i' }
-                                                                                                                                                                                        }
-                                                                                                                                                                                    }).then(pPlatformOwner => {
-                                                                                                                                                                                        if (pPlatformOwner.data[0] != undefined) {
-                                                                                                                                                                                            reqPolicy.platformOwnerId = pPlatformOwner.data[0].platformOwnerId;
-                                                                                                                                                                                            reqPolicy.sponsorshipId = sponsorshipItem[0];
-                                                                                                                                                                                            var beneficiaryDetails = {
-                                                                                                                                                                                                "numberOfUnderAge": principal.numberOfUnderAge,
-                                                                                                                                                                                                "platformOwnerId": principal.platformOwnerId
-                                                                                                                                                                                            };
-
-                                                                                                                                                                                            app.service('people').create(principal).then(person => {
-
-                                                                                                                                                                                                beneficiaryDetails.personId = person;
-                                                                                                                                                                                                app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
-                                                                                                                                                                                                    reqbeneficiaries.forEach(function (item) {
-                                                                                                                                                                                                        var beneficiaryDetailDependant = {
-                                                                                                                                                                                                            "numberOfUnderAge": item.numberOfUnderAge,
-                                                                                                                                                                                                            "platformOwnerId": item.platformOwnerId
-                                                                                                                                                                                                        };
-                                                                                                                                                                                                        var beneficiary_policy = {
-                                                                                                                                                                                                            "relationshipId": item.relationship
-                                                                                                                                                                                                        };
-                                                                                                                                                                                                        app.service('people').create(item).then(person2 => {
-                                                                                                                                                                                                            beneficiaryDetailDependant.personId = person2;
-                                                                                                                                                                                                            app.service('beneficiaries').create(beneficiaryDetailDependant).then(beneficiary2 => {
-                                                                                                                                                                                                                beneficiary_policy.beneficiary = beneficiary2;
-                                                                                                                                                                                                                beneficiaries.push(beneficiary_policy);
-                                                                                                                                                                                                                counter += 1;
-
-                                                                                                                                                                                                                if (counter == req.body.dependent.length) {
-                                                                                                                                                                                                                    PolicyIDRecurtion(beneficiaries, beneficiary, reqPolicy, res, req, next, app)
-                                                                                                                                                                                                                }
-                                                                                                                                                                                                            })
-
-                                                                                                                                                                                                        }, error => {
-                                                                                                                                                                                                            res.send(error);
-                                                                                                                                                                                                        }).catch(err => {
-                                                                                                                                                                                                            res.send(err);
-                                                                                                                                                                                                            next
+                                                                                                                                    if(index == reqbeneficiaries.length-1){
+                                                                                                                                        app.service('facilities').find({
+                                                                                                                                            query:
+                                                                                                                                            {
+                                                                                                                                                'hia.nhisNumber': { $regex: reqPolicy.nhisNumber.toString(), '$options': 'i' }
+                                                                                                                                            }
+                                                                                                                                        }).then(hias => {
+                                                                                                                                            if (hias.data[0] != undefined) {
+                                                                                                                                                reqPolicy.hiaId = {
+                                                                                                                                                    "name": hias.data[0].name,
+                                                                                                                                                    "_id": hias.data[0]._id,
+                                                                                                                                                    "hia": hias.data[0].hia
+                                                                                                                                                };
+                                                                                                                                                app.service('facilities').find({
+                                                                                                                                                    query:
+                                                                                                                                                    {
+                                                                                                                                                        'provider.providerId': { $regex: reqPolicy.provider.toString(), '$options': 'i' }
+                                                                                                                                                    }
+                                                                                                                                                }).then(Providers => {
+                                                                                                                                                    if (Providers.data[0] != undefined) {
+                                                                                                                                                        reqPolicy.providerId = Providers.data[0].provider;
+                                                                                                                                                        app.service('plan-types').find({
+                                                                                                                                                            query:
+                                                                                                                                                            {
+                                                                                                                                                                'name': { $regex: reqPolicy.planType.toString(), '$options': 'i' }
+                                                                                                                                                            }
+                                                                                                                                                        }).then(planTypes => {
+                                                                                                                                                            if (planTypes.data[0] != undefined) {
+                                                                                                                                                                reqPolicy.planTypeId = planTypes.data[0];
+    
+                                                                                                                                                                app.service('plans').find({
+                                                                                                                                                                    query:
+                                                                                                                                                                    {
+                                                                                                                                                                        'name': { $regex: reqPolicy.plan.toString(), '$options': 'i' }
+                                                                                                                                                                    }
+                                                                                                                                                                }).then(plans => {
+                                                                                                                                                                    if (plans.data[0] != undefined) {
+    
+                                                                                                                                                                        reqPolicy.planId = {
+                                                                                                                                                                            "_id": plans.data[0]._id,
+                                                                                                                                                                            "name": plans.data[0].name
+                                                                                                                                                                        };
+                                                                                                                                                                        let premium = plans.data[0].premiums.filter(x => x.category.name == reqPolicy.premiumPackage);
+                                                                                                                                                                        if (premium[0] != undefined) {
+                                                                                                                                                                            reqPolicy.premiumPackageId = premium[0];
+    
+                                                                                                                                                                            app.service('premium-types').find({
+                                                                                                                                                                                query:
+                                                                                                                                                                                {
+                                                                                                                                                                                    'name': { $regex: reqPolicy.premiumCategory.toString(), '$options': 'i' }
+                                                                                                                                                                                }
+                                                                                                                                                                            }).then(premiumCategory => {
+                                                                                                                                                                                if (premiumCategory.data[0] != undefined) {
+                                                                                                                                                                                    reqPolicy.premiumCategoryId = premiumCategory.data[0];
+    
+                                                                                                                                                                                    let sponsorshipItem = SPONSORSHIP.filter(x => x.name.toLowerCase() == reqPolicy.sponsorship.toLowerCase());
+                                                                                                                                                                                    if (sponsorshipItem[0] != undefined) {
+    
+                                                                                                                                                                                        app.service('facilities').find({
+                                                                                                                                                                                            query:
+                                                                                                                                                                                            {
+                                                                                                                                                                                                'platformOwnerId.name': { $regex: reqPolicy.platformOwner.toString(), '$options': 'i' }
+                                                                                                                                                                                            }
+                                                                                                                                                                                        }).then(pPlatformOwner => {
+                                                                                                                                                                                            if (pPlatformOwner.data[0] != undefined) {
+                                                                                                                                                                                                reqPolicy.platformOwnerId = pPlatformOwner.data[0].platformOwnerId;
+                                                                                                                                                                                                reqPolicy.sponsorshipId = sponsorshipItem[0];
+                                                                                                                                                                                                var beneficiaryDetails = {
+                                                                                                                                                                                                    "numberOfUnderAge": principal.numberOfUnderAge,
+                                                                                                                                                                                                    "platformOwnerId": principal.platformOwnerId
+                                                                                                                                                                                                };
+    
+                                                                                                                                                                                                app.service('people').create(principal).then(person => {
+    
+                                                                                                                                                                                                    beneficiaryDetails.personId = person;
+                                                                                                                                                                                                    app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
+                                                                                                                                                                                                        reqbeneficiaries.forEach(function (item) {
+                                                                                                                                                                                                            var beneficiaryDetailDependant = {
+                                                                                                                                                                                                                "numberOfUnderAge": item.numberOfUnderAge,
+                                                                                                                                                                                                                "platformOwnerId": item.platformOwnerId
+                                                                                                                                                                                                            };
+                                                                                                                                                                                                            var beneficiary_policy = {
+                                                                                                                                                                                                                "relationshipId": item.relationship
+                                                                                                                                                                                                            };
+                                                                                                                                                                                                            app.service('people').create(item).then(person2 => {
+                                                                                                                                                                                                                beneficiaryDetailDependant.personId = person2;
+                                                                                                                                                                                                                app.service('beneficiaries').create(beneficiaryDetailDependant).then(beneficiary2 => {
+                                                                                                                                                                                                                    beneficiary_policy.beneficiary = beneficiary2;
+                                                                                                                                                                                                                    beneficiaries.push(beneficiary_policy);
+                                                                                                                                                                                                                    counter += 1;
+    
+                                                                                                                                                                                                                    if (counter == req.body.dependent.length) {
+                                                                                                                                                                                                                        PolicyIDRecurtion(beneficiaries, beneficiary, reqPolicy, res, req, next, app)
+                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                })
+    
+                                                                                                                                                                                                            }, error => {
+                                                                                                                                                                                                                res.send(error);
+                                                                                                                                                                                                            }).catch(err => {
+                                                                                                                                                                                                                res.send(err);
+                                                                                                                                                                                                                next
+                                                                                                                                                                                                            });
                                                                                                                                                                                                         });
                                                                                                                                                                                                     });
+    
+                                                                                                                                                                                                }, error => {
+                                                                                                                                                                                                    res.send(error);
+                                                                                                                                                                                                }).catch(err => {
+                                                                                                                                                                                                    res.send(err);
+                                                                                                                                                                                                    next
                                                                                                                                                                                                 });
-
-                                                                                                                                                                                            }, error => {
-                                                                                                                                                                                                res.send(error);
-                                                                                                                                                                                            }).catch(err => {
-                                                                                                                                                                                                res.send(err);
-                                                                                                                                                                                                next
-                                                                                                                                                                                            });
-
-                                                                                                                                                                                        } else {
-                                                                                                                                                                                            errorMessage.Details = reqPolicy.platformOwner + " donot exist as a Policy PlatformOwner";
-                                                                                                                                                                                            errorMessage.Time = new Date();
-                                                                                                                                                                                            res.send(errorMessage);
-                                                                                                                                                                                        }
-
-                                                                                                                                                                                    })
+    
+                                                                                                                                                                                            } else {
+                                                                                                                                                                                                errorMessage.Details = reqPolicy.platformOwner + " donot exist as a Policy PlatformOwner";
+                                                                                                                                                                                                errorMessage.Time = new Date();
+                                                                                                                                                                                                res.send(errorMessage);
+                                                                                                                                                                                            }
+    
+                                                                                                                                                                                        })
+                                                                                                                                                                                    } else {
+                                                                                                                                                                                        errorMessage.Details = reqPolicy.sponsorship + " donot exist as a Sponsorship";
+                                                                                                                                                                                        errorMessage.Time = new Date();
+                                                                                                                                                                                        res.send(errorMessage);
+                                                                                                                                                                                    }
+    
                                                                                                                                                                                 } else {
-                                                                                                                                                                                    errorMessage.Details = reqPolicy.sponsorship + " donot exist as a Sponsorship";
+                                                                                                                                                                                    errorMessage.Details = reqPolicy.premiumCategory + " donot exist as a Premium Category";
                                                                                                                                                                                     errorMessage.Time = new Date();
                                                                                                                                                                                     res.send(errorMessage);
                                                                                                                                                                                 }
-
-                                                                                                                                                                            } else {
-                                                                                                                                                                                errorMessage.Details = reqPolicy.premiumCategory + " donot exist as a Premium Category";
-                                                                                                                                                                                errorMessage.Time = new Date();
-                                                                                                                                                                                res.send(errorMessage);
-                                                                                                                                                                            }
-                                                                                                                                                                        });
-
+                                                                                                                                                                            });
+    
+                                                                                                                                                                        } else {
+                                                                                                                                                                            errorMessage.Details = reqPolicy.premiumPackage + " donot exist as a Premium Package";
+                                                                                                                                                                            errorMessage.Time = new Date();
+                                                                                                                                                                            res.send(errorMessage);
+                                                                                                                                                                        }
+    
+    
                                                                                                                                                                     } else {
-                                                                                                                                                                        errorMessage.Details = reqPolicy.premiumPackage + " donot exist as a Premium Package";
+                                                                                                                                                                        errorMessage.Details = reqPolicy.plan + " donot exist as an Plan";
                                                                                                                                                                         errorMessage.Time = new Date();
                                                                                                                                                                         res.send(errorMessage);
                                                                                                                                                                     }
-
-
-                                                                                                                                                                } else {
-                                                                                                                                                                    errorMessage.Details = reqPolicy.plan + " donot exist as an Plan";
-                                                                                                                                                                    errorMessage.Time = new Date();
-                                                                                                                                                                    res.send(errorMessage);
-                                                                                                                                                                }
-                                                                                                                                                            });
-                                                                                                                                                        } else {
-                                                                                                                                                            errorMessage.Details = reqPolicy.planType + " donot exist as an PlanType";
-                                                                                                                                                            errorMessage.Time = new Date();
-                                                                                                                                                            res.send(errorMessage);
-                                                                                                                                                        }
-                                                                                                                                                    });
-                                                                                                                                                } else {
-                                                                                                                                                    errorMessage.Details = reqPolicy.provider + " donot exist as a Provider";
-                                                                                                                                                    errorMessage.Time = new Date();
-                                                                                                                                                    res.send(errorMessage);
-                                                                                                                                                }
-                                                                                                                                            });
-                                                                                                                                        } else {
-                                                                                                                                            errorMessage.Details = reqPolicy.nhisNumber + " donot exist as an NHIS Number";
-                                                                                                                                            errorMessage.Time = new Date();
-                                                                                                                                            res.send(errorMessage);
-                                                                                                                                        }
-                                                                                                                                    });
-
+                                                                                                                                                                });
+                                                                                                                                                            } else {
+                                                                                                                                                                errorMessage.Details = reqPolicy.planType + " donot exist as an PlanType";
+                                                                                                                                                                errorMessage.Time = new Date();
+                                                                                                                                                                res.send(errorMessage);
+                                                                                                                                                            }
+                                                                                                                                                        });
+                                                                                                                                                    } else {
+                                                                                                                                                        errorMessage.Details = reqPolicy.provider + " donot exist as a Provider";
+                                                                                                                                                        errorMessage.Time = new Date();
+                                                                                                                                                        res.send(errorMessage);
+                                                                                                                                                    }
+                                                                                                                                                });
+                                                                                                                                            } else {
+                                                                                                                                                errorMessage.Details = reqPolicy.nhisNumber + " donot exist as an NHIS Number";
+                                                                                                                                                errorMessage.Time = new Date();
+                                                                                                                                                res.send(errorMessage);
+                                                                                                                                            }
+                                                                                                                                        });
+                                                                                                                                    }
                                                                                                                                 } else {
                                                                                                                                     errorMessage.Details = "Index " + index + " Beneficial " + "'" + reqItem.platformOwner + "'" + + " donot exist as an PlatformOwner";
                                                                                                                                     errorMessage.Time = new Date();
