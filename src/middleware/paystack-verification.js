@@ -12,7 +12,6 @@ module.exports = function(app) {
         if (req.body.reference !== undefined) {
             let ref = req.body.reference.reference;
             let premiumId = req.body.premiumId;
-            console.log(premiumId);
 
             let url = "https://api.paystack.co/transaction/verify/" + ref;
             var client = new Client();
@@ -31,15 +30,9 @@ module.exports = function(app) {
                             const policyCounter = updatedPremium.policies.length;
                             updatedPremium.policies.forEach(function(paidPolicy, i) {
                                 i++;
-                                console.log('_________Paid Policy_____________');
-                                console.log(paidPolicy);
-                                console.log('_________End Paid Policy_____________');
                                 // Get Policy
                                 app.service('policies').get(paidPolicy.policyCollectionId, {}).then(returnPolicy => {
                                     console.log('Found Policy');
-                                    console.log('_________returnPolicy_____________');
-                                    console.log(returnPolicy);
-                                    console.log('_________End returnPolicy_____________');
                                     // Updated policy.
                                     if (returnPolicy.validityPeriods.length > 0) {
                                         returnPolicy.validityPeriods[returnPolicy.validityPeriods.length - 1].isActive = false;
@@ -60,13 +53,7 @@ module.exports = function(app) {
                                     // Change principalBeneficiary
                                     returnPolicy.principalBeneficiary == returnPolicy.principalBeneficiary._id;
 
-                                    console.log('_________return Updated Policy_____________');
-                                    console.log(returnPolicy);
-                                    console.log('_________End return Updated Policy_____________');
                                     app.service('policies').update(returnPolicy._id, returnPolicy).then(updatedPolicy => {
-                                        console.log('_________Updated Policy_____________');
-                                        console.log(updatedPolicy);
-                                        console.log('_________End Updated Policy_____________');
                                         if (policyCounter === i) {
                                             console.log('Updated Policy');
                                             res.send(updatedPolicy);
