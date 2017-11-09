@@ -213,14 +213,16 @@ module.exports = function (app) {
                                                                                                                                                     "_id": hias.data[0]._id,
                                                                                                                                                     "hia": hias.data[0].hia
                                                                                                                                                 };
+                                                                                                                                                
                                                                                                                                                 app.service('facilities').find({
-                                                                                                                                                    query:
-                                                                                                                                                    {
-                                                                                                                                                        'provider.providerId': { $regex: reqPolicy.provider.toString(), '$options': 'i' }
-                                                                                                                                                    }
+                                                                                                                                                    query: {
+                                                                                                                                                        'facilityType.name': { $regex: reqPolicy.facilityType.toString(), '$options': 'i' },
+                                                                                                                                                        'platformOwnerId._id': principal.platformOwnerId._id,
+                                                                                                                                                        $select: ['name', 'provider']
+                                                                                                                                                      }
                                                                                                                                                 }).then(Providers => {
                                                                                                                                                     if (Providers.data[0] != undefined) {
-                                                                                                                                                        reqPolicy.providerId = Providers.data[0].provider;
+                                                                                                                                                        reqPolicy.providerId = Providers.data[0];
                                                                                                                                                         app.service('plan-types').find({
                                                                                                                                                             query:
                                                                                                                                                             {
