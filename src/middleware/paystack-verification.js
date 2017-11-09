@@ -12,7 +12,6 @@ module.exports = function(app) {
         if (req.body.reference !== undefined) {
             let ref = req.body.reference.reference;
             let premiumId = req.body.premiumId;
-            console.log(premiumId);
 
             let url = "https://api.paystack.co/transaction/verify/" + ref;
             var client = new Client();
@@ -32,7 +31,7 @@ module.exports = function(app) {
                             updatedPremium.policies.forEach(function(paidPolicy, i) {
                                 i++;
                                 // Get Policy
-                                app.service('policies').get(paidPolicy.policyCollectionId).then(returnPolicy => {
+                                app.service('policies').get(paidPolicy.policyCollectionId, {}).then(returnPolicy => {
                                     console.log('Found Policy');
                                     // Updated policy.
                                     if (returnPolicy.validityPeriods.length > 0) {
@@ -51,6 +50,8 @@ module.exports = function(app) {
                                         createdAt: new Date(),
                                         validTill: addDays(new Date(), returnPolicy.premiumPackageId.unit.days)
                                     });
+                                    // Change principalBeneficiary
+                                    returnPolicy.principalBeneficiary == returnPolicy.principalBeneficiary._id;
 
                                     app.service('policies').update(returnPolicy._id, returnPolicy).then(updatedPolicy => {
                                         if (policyCounter === i) {
