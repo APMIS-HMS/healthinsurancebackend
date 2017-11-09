@@ -34,7 +34,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
         console.log("------Insider HIA--------");
         //postNotification(user,hook);
         var notifier = {
-          "title": hook.method + "ed a Policy:"+data.policyId,
+          "title": hook.method + " a Policy:"+data.policyId,
           "body": connection.user.firstName + " " + connection.user.lastName + " (" +
           connection.user.userType.name + ") made a/an " + hook.method + " on " +
           data.policyId + " at around " + data.createdAt,
