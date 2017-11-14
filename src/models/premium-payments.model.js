@@ -10,6 +10,7 @@ module.exports = function(app) {
         reference: { type: Schema.Types.Mixed, required: false }, // Reference from paystack.
         policies: [{ type: Schema.Types.Mixed, required: true }], // Array of policy ids.
         paidBy: { type: Schema.Types.Mixed, required: true },
+        batchNo: { type: Schema.Types.String, required: false },
         requestedAmount: { type: Number, required: true }, // Amount to be paid from our end.
         amountPaid: { type: Number, required: true }, // Amount paid at paystack's end.
         isActive: { type: Boolean, default: false }, // This will be set to true if payment is confirmed.

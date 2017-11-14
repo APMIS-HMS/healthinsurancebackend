@@ -9,6 +9,7 @@ function addDays(date, days) {
 
 module.exports = function(app) {
     return function(req, res, next) {
+        console.log('Got here');
         if (req.body.reference !== undefined) {
             let ref = req.body.reference.reference;
             let premiumId = req.body.premiumId;
@@ -18,6 +19,7 @@ module.exports = function(app) {
             var args = {
                 headers: { "Authorization": "Bearer sk_test_4abd1bb16878d813b87391105f6975aa72a9bb3c" }
             };
+            console.log(req.body);
             client.get(url, args, function(data, raw) {
                 if (data.status) {
                     // Get premium-payment
