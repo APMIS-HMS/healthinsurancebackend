@@ -63,8 +63,7 @@ module.exports = {
       populate({ schema: preAuthSchemaList })      
     ],
     get: [ populate({ schema: beneficiarySchemaList }),populate({ schema: policySchemaList })],
-    create: [],
-    // create: [otpSms()],
+    create: [otpSms()],
     update: [],
     patch: [populate({ schema: beneficiarySchemaList }),populate({ schema: policySchemaList })],
     remove: []
