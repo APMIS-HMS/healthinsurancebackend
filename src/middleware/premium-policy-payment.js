@@ -9,15 +9,17 @@ function addDays(date, days) {
 
 module.exports = function(app) {
     return function(req, res, next) {
-        console.log(req.body);
-        if (req.body.amountPaid !== undefined) {
-            let premium = req.body;
+        let premium = req.body.premiumPaymentId;
+        let ref = req.body.ref;
+        let action = req.body.action;
+        if (action === 'create') {
+            console.log('Create');
             app.service('premium-payments').create(premium).then(premium => {
                 const premiumCounter = premium.policies.length;
                 premium.policies.forEach(function(paidPolicy, i) {
                     i++;
                     // Get Policy
-                    app.service('policies').get(paidPolicy.policyCollectionId, {}).then(returnPolicy => {
+                    app.service('policies').get(policy.policyCollectionId, {}).then(returnPolicy => {
                         console.log('Found Policy');
                         // Updated policy.
                         if (returnPolicy.validityPeriods.length > 0) {
@@ -51,6 +53,47 @@ module.exports = function(app) {
                         res.send(err);
                         next;
                     });
+                });
+            }).catch(err => {
+                console.log(err);
+                res.send(err);
+                next;
+            });
+        } else if (action === 'update') {
+            // This is for batch payment after payment has been done on paystack.
+            // Get premium payment
+            console.log('Updated');
+            app.service('premium-payments').get(premium, {}).then(foundPremium => {
+                console.log('Found');
+                const premiumCounter = foundPremium.policies.length;
+                foundPremium.reference = ref;
+
+                // Update premium payment
+                app.service('premium-payments').update(foundPremium._id, foundPremium).then(updatedPremium => {
+                    console.log('Updated');
+                    let verificationData = {
+                        reference: updatedPremium.reference,
+                        premiumId: updatedPremium._id
+                    };
+                    // Call the paystack verification middleware.
+                    let url = req.protocol + '://' + req.headers.host + '/paystack-verification';
+                    let client = new Client();
+                    let args = {
+                        data: verificationData,
+                        headers: { "Content-Type": "application/json" }
+                    };
+
+                    client.post(url, args, function(data, response) {
+                        // parsed response body as js object 
+                        if (data) {
+                            res.send(data);
+                            next;
+                        }
+                    });
+                }).catch(err => {
+                    console.log(err);
+                    res.send(err);
+                    next;
                 });
             }).catch(err => {
                 console.log(err);
