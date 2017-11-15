@@ -42,9 +42,6 @@ const preAuthSchemaList = {
   }]
 };
 
-//policies
-//const beneficiaryHook = require('../../hooks/beneficiary-hook');
-
 module.exports = {
   before: {
     all: [authenticate('jwt'), hooks.client('verify', 'hasCheckInToday')],
@@ -63,13 +60,13 @@ module.exports = {
       verifyOtp(),
       hasCheckInToday(),
       populate({ schema: policySchemaList }),
-      // populate({ schema: personSchemaList }),
       populate({ schema: preAuthSchemaList })      
     ],
     get: [ populate({ schema: beneficiarySchemaList }),populate({ schema: policySchemaList })],
-    create: [otpSms()],
+    create: [],
+    // create: [otpSms()],
     update: [],
-    patch: [],
+    patch: [populate({ schema: beneficiarySchemaList }),populate({ schema: policySchemaList })],
     remove: []
   },
 

@@ -24,7 +24,7 @@ module.exports = function (app) {
     transitionCheckInId: { type: Schema.Types.Mixed, required: false },
     confirmation: { type: Schema.Types.Date, required: false },
     otp: otpSchema,
-    isCheckedOut:{type: Schema.Types.Boolean, required: false, 'default':true},
+    isCheckedOut:{type: Schema.Types.Boolean, required: false, 'default':false},
     checkOut: checkOutSchema,
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
