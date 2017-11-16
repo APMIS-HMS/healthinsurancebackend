@@ -9,17 +9,17 @@ function addDays(date, days) {
 
 module.exports = function(app) {
     return function(req, res, next) {
-        let premium = req.body.premiumPaymentId;
+        let premiumId = req.body.premiumPaymentId;
+        let premium = req.body;
         let ref = req.body.ref;
         let action = req.body.action;
         if (action === 'create') {
-            console.log('Create');
             app.service('premium-payments').create(premium).then(premium => {
                 const premiumCounter = premium.policies.length;
                 premium.policies.forEach(function(paidPolicy, i) {
                     i++;
                     // Get Policy
-                    app.service('policies').get(policy.policyCollectionId, {}).then(returnPolicy => {
+                    app.service('policies').get(paidPolicy.policyCollectionId, {}).then(returnPolicy => {
                         console.log('Found Policy');
                         // Updated policy.
                         if (returnPolicy.validityPeriods.length > 0) {
@@ -63,7 +63,7 @@ module.exports = function(app) {
             // This is for batch payment after payment has been done on paystack.
             // Get premium payment
             console.log('Updated');
-            app.service('premium-payments').get(premium, {}).then(foundPremium => {
+            app.service('premium-payments').get(premiumId, {}).then(foundPremium => {
                 console.log('Found');
                 const premiumCounter = foundPremium.policies.length;
                 foundPremium.reference = ref;
