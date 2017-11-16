@@ -182,7 +182,7 @@ module.exports = function () {
                                     'premiumCategory': item.AI,
                                     'premiumPackage': item.AJ,
                                     'sponsorship': item.AK,
-                                    'nhisNumber': item.AL,
+                                    'hia': item.AL,
                                     'facilityType': item.AM,
                                     'planType': item.AN,
                                     'plan': item.AO

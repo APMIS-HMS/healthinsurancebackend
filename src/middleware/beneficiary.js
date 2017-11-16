@@ -146,12 +146,13 @@ module.exports = function (app) {
             })
 
         } else {
+            console.log(req.body);
             var persons = [];
             var beneficiaries = [];
             var counter = 0;
             //console.log(req.body.persons);
             if (req.body.persons.length > 0) {
-                req.body.persons.forEach(function (item) {
+                req.body.persons.forEach(function (item,index) {
                     counter = counter + 1;
                     //console.log(counter);
                     app.service('people').create(item.person).then(person => {
@@ -166,7 +167,7 @@ module.exports = function (app) {
 
                             beneficiaries.push(beneficiary_policy);
 
-                            if (counter == req.body.persons.length) {
+                            if (index == req.body.persons.length-1) {
                                 PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res, next, app)
                             }
                         })
