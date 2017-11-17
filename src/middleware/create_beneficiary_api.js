@@ -10,9 +10,9 @@ var SPONSORSHIP = [
     { 'id': 2, 'name': 'Organization' }
 ];
 
-var userModel = {};
 
-function PolicyIDRecurtion(beneficiaries, principal, policy, res, req, next, app) {
+
+function PolicyIDRecurtion(beneficiaries, principal, policy, res, req, next, app, userModel) {
     policy.principalBeneficiary = principal;
     policy.dependantBeneficiaries = beneficiaries;
     app.service('policies').create(policy).then(policyObject => {
@@ -63,6 +63,7 @@ module.exports = function (app) {
         var reqbeneficiaries = req.body.dependent;
         var beneficiaries = [];
         var principal = req.body.principal;
+        var userModel = {};
         userModel.email = req.body.principal.email;
         userModel.firstName = req.body.principal.firstName;
         userModel.lastName = req.body.principal.lastName;
@@ -281,7 +282,7 @@ module.exports = function (app) {
                                                                                                                                                                                                 counter += 1;
 
                                                                                                                                                                                                 if (counter == req.body.dependent.length) {
-                                                                                                                                                                                                    PolicyIDRecurtion(beneficiaries, beneficiary, reqPolicy, res, req, next, app)
+                                                                                                                                                                                                    PolicyIDRecurtion(beneficiaries, beneficiary, reqPolicy, res, req, next, app,userModel)
                                                                                                                                                                                                 }
                                                                                                                                                                                             })
 
