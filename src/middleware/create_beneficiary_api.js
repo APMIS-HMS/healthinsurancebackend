@@ -70,12 +70,15 @@ module.exports = function (app) {
         userModel.phoneNumber = req.body.principal.phoneNumber;
         userModel.isActive = true;
         userModel.completeRegistration = true;
+        console.log("-----------Enter Api-----------------------")
         app.service('users').find({
             query: {
                 'email': req.body.principal.email
             }
         }).then(users => {
+            console.log("a");
             if (users.data.length == 0) {
+                console.log("b");
                 app.service('countries').find({
                     query:
                     {
@@ -83,6 +86,7 @@ module.exports = function (app) {
                         $select: { 'states.$': 1 }
                     }
                 }).then(country => {
+                    console.log("c");
                     if (country.data[0] != undefined) {
                         let state = country.data[0].states[0];
                         delete state.cities;
@@ -190,12 +194,12 @@ module.exports = function (app) {
                                                                                                                 }).then(bRelationship => {
                                                                                                                     if (bRelationship.data[0] != undefined) {
                                                                                                                         reqItem.relationshipId = bRelationship.data[0];
-                                                                                                                        reqItem.platformOwnerId = bPlatformOwner.data[0].platformOwnerId;
+                                                                                                                        reqItem.platformOwnerId = principal.platformOwnerId;
                                                                                                                         if(index + 1 == reqbeneficiaries.length){
                                                                                                                             app.service('facilities').find({
                                                                                                                                 query:
                                                                                                                                 {
-                                                                                                                                    'facilityType.name': { $regex: reqPolicy.hia.toString(), '$options': 'i' }
+                                                                                                                                    'name': { $regex: reqPolicy.hia.toString(), '$options': 'i' }
                                                                                                                                 }
                                                                                                                             }).then(hias => {
                                                                                                                                 if (hias.data[0] != undefined) {
@@ -335,7 +339,7 @@ module.exports = function (app) {
                                                                                                                                         }
                                                                                                                                     });
                                                                                                                                 } else {
-                                                                                                                                    errorMessage.Details = reqPolicy.nhisNumber + " donot exist as an NHIS Number";
+                                                                                                                                    errorMessage.Details = reqPolicy.nhisNumber + " donot exist as an Hia";
                                                                                                                                     errorMessage.Time = new Date();
                                                                                                                                     res.send(errorMessage);
                                                                                                                                 }
