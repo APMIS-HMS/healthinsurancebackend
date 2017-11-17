@@ -194,7 +194,7 @@ module.exports = function () {
                                 && item.X != undefined && item.Y != undefined && item.Z != undefined && item.AA != undefined && item.AB != undefined
                                 && item.AC != undefined && item.AD != undefined && item.AE != undefined && item.AF != undefined && item.AG != undefined) {
                                 beneficiaries.push({
-                                    'dateOfBirth': item.R,
+                                    'dateOfBirth': new Date(item.R),
                                     'email': item.S,
                                     'gender': item.T,
                                     'lastName': item.U,
