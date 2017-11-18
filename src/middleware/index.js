@@ -26,6 +26,7 @@ const logger = require('../hooks/logger');
 const fs = require('fs');
 var mongoose = require('mongoose');
 var Thumbnail = require('thumbnail');
+const express = require('express');
 
 
 const excelToJson = require('convert-excel-to-json');
@@ -108,6 +109,7 @@ module.exports = function () {
 
     //-------------USSD API PLUG START-------------------
     app.get('/api/ussd/verify-user', user_verification(app));
+    //-------------USSD API PLUG END-------------------
 
     app.post('/upload-excel', function (req, res) {
         var exceltojson;
@@ -158,7 +160,7 @@ module.exports = function () {
                                 console.log('A');
                                 beneficiaries = [];
                                 principal = {
-                                    'dateOfBirth': item.A,
+                                    'dateOfBirth': new Date((item.A).toString()),
                                     'email': item.B,
                                     'gender': item.C,
                                     'homeAddress': {
@@ -194,7 +196,7 @@ module.exports = function () {
                                 && item.X != undefined && item.Y != undefined && item.Z != undefined && item.AA != undefined && item.AB != undefined
                                 && item.AC != undefined && item.AD != undefined && item.AE != undefined && item.AF != undefined && item.AG != undefined) {
                                 beneficiaries.push({
-                                    'dateOfBirth': new Date(item.R),
+                                    'dateOfBirth': new Date((item.R).toString()),
                                     'email': item.S,
                                     'gender': item.T,
                                     'lastName': item.U,
@@ -226,7 +228,7 @@ module.exports = function () {
                                 });
                                 console.log(bodyObj);
                                 res.send(bodyObj);
-                            } 
+                            }
                             else {
                                 try {
                                     if (result.Sheet1[counter].A != undefined
@@ -268,4 +270,7 @@ module.exports = function () {
             }
         });
     });
+
+    //app.use('/download-excel', express.static(path.join(__dirname, 'public')))
+    
 };
