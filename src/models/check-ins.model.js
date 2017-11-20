@@ -11,6 +11,7 @@ module.exports = function (app) {
     providerFacilityId: { type: Schema.Types.Mixed, required: true },
     beneficiaryId: { type: Schema.Types.ObjectId, required: true },
     policyId: { type: Schema.Types.ObjectId, required: false },
+    isCheckedOut:{ type: Schema.Types.Boolean,default: false },
     principalBeneficiaryId: { type: Schema.Types.ObjectId, required: true },
     encounterDateTime: { type: Schema.Types.Date, required: true },
     encounterStatus: { type: Schema.Types.Mixed, required: true },
