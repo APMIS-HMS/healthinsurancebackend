@@ -7,11 +7,20 @@ const options = {
 const AfricasTalking = require('africastalking')(options);
 module.exports = function (app) {
     return function (req, res, next) {
-        // Perform actions
-        // let password = req.query;
-        // console.log(password);
-        res.send('CON '+req.body.phoneNumber);
-        next;
-    }
-};
+        let sessionId = req.body.sessionId;
+        let phoneNumber = req.body.phoneNumber;
+        let serviceCode = req.body.serviceCode;
+        let text = req.body.text;
+
+        if (text == '') {
+            // This is the first request
+            let response = 'CON Welcome to APMIS Insurance USSG Gateway \n'
+            response += '1. Verify Registrationtion \n'
+            response += '2. Register \n'
+            response += '3. Get Policy \n'
+            response += '4. Pay Premium '
+            res.send(response);
+            next;
+        }
+    };
 
