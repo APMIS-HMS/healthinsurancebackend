@@ -9,6 +9,7 @@ const gender = require('../middleware/gender');
 const beneficiary = require('../middleware/beneficiary');
 const hia = require('../middleware/hia');
 const hia_plans = require('../middleware/hia_plans');
+const compare_password = require('../middleware/compare_password');
 const hia_premiums = require('../middleware/hia_premiums');
 const beneficiary_api = require('../middleware/beneficiary_api');
 const create_beneficiary_api = require('../middleware/create_beneficiary_api');
@@ -20,6 +21,7 @@ const validateAge = require('../middleware/validate-age-greater-than-eighteen');
 const searchPolicy = require('../middleware/seach-policy');
 const paymentVerification = require('../middleware/payment-verification');
 const premiumCashPayment = require('../middleware/premium-policy-payment');
+const get_beneficiary_count = require('../middleware/get-beneficiary-count');
 var multer = require('multer');
 const handler = require('feathers-errors/handler');
 const logger = require('../hooks/logger');
@@ -106,11 +108,12 @@ module.exports = function() {
     app.post('/api/send-sms', sendSMS(app));
     app.get('/api/validate-age', validateAge(app));
     app.get('/api/search-policy', searchPolicy(app));
+    app.get('/api/compare-password', compare_password(app));
+    app.get('/api/get-beneficiary-count', get_beneficiary_count(app));
 
     //-------------USSD API PLUG START-------------------
     app.get('/api/ussd/verify-user', user_verification(app));
     //-------------USSD API PLUG END-------------------
-
     app.post('/upload-excel', function(req, res) {
         var exceltojson;
         uploadexcel.data.upload(req, res, function(err) {

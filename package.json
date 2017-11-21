@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "async": "^2.5.0",
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.18.1",
     "compression": "^1.7.0",
     "convert-excel-to-json": "^1.2.0",

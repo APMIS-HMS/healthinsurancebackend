@@ -5,7 +5,8 @@
 module.exports = function (app) {
   const mongooseClient = app.get('mongooseClient');
   const { Schema } = mongooseClient;
-  const otpSchema = require('../viewmodels/otp-model')
+  const otpSchema = require('../viewmodels/otp-model');
+  const checkOutSchema = require('../viewmodels/check-out-model');
   const checkIns = new Schema({
     platformOwnerId: { type: Schema.Types.Mixed, required: true },
     providerFacilityId: { type: Schema.Types.Mixed, required: true },
@@ -24,7 +25,8 @@ module.exports = function (app) {
     transitionCheckInId: { type: Schema.Types.Mixed, required: false },
     confirmation: { type: Schema.Types.Date, required: false },
     otp: otpSchema,
-    checkOut: { type: Schema.Types.Mixed, required: false },
+    isCheckedOut:{type: Schema.Types.Boolean, required: false, 'default':false},
+    checkOut: checkOutSchema,
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
   });
