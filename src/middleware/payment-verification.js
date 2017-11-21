@@ -101,17 +101,12 @@ module.exports = function(app) {
                     console.log('---------- Raw data--------');
                     console.log(data);
                     console.log('---------- End Raw data--------');
-                    //if (data.status === 'success') {
-                    getAndUpdatePremium(app, req, res, next, premiumId, data);
-                    // } else {
-                    //     resObject = json({
-                    //         data: { item1: "item1val", item2: "item2val" },
-                    //         anArray: ["item1", "item2"],
-                    //         another: "item"
-                    //     });
-                    //     res.json();
-                    //     next;
-                    // }
+                    if (data.status === 'success') {
+                        getAndUpdatePremium(app, req, res, next, premiumId, data);
+                    } else {
+                        jsend.error(data.data.message);
+                        next;
+                    }
                 }).on('error', function(err) {
                     console.log('request error', err);
                 });
@@ -161,28 +156,29 @@ module.exports = function(app) {
                                             if (policyCounter === i) {
                                                 console.log('Updated Policy');
                                                 res.send(updatedPolicy);
+                                                jsend.success(updatedPolicy);
                                             }
                                         }).catch(err => {
-                                            res.send(err);
+                                            jsend.error(err);
                                             next;
                                         });
                                     }).catch(err => {
                                         console.log(err);
-                                        res.send(err);
+                                        jsend.error(err);
                                         next;
                                     });
                                 });
                             }).catch(err => {
                                 console.log(err);
-                                res.send(err);
+                                jsend.error(err);
                                 next;
                             });
                         }).catch(err => {
-                            res.send(err);
+                            jsend.error(err);
                             next;
                         });
                     } else {
-                        res.send(data);
+                        jsend.error(data);
                     }
                 });
             }
