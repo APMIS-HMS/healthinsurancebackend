@@ -2,7 +2,6 @@
 module.exports = function (app) {
     return function (req, res, next) {
         let platformOwnerId = req.query.platformOwnerId;
-        console.log(platformOwnerId);
         let count = 0;
         app.service('policies').find({
             query: {
@@ -24,7 +23,10 @@ module.exports = function (app) {
             while(j--){
                 count = count + payload.data[j].dependantBeneficiaries.length + 1;
             }
-            res.send(count.toString());
+            let cn = {
+                count: count
+            }
+            res.send(cn);
             next;
         }).catch(err => {
             res.send(err)
