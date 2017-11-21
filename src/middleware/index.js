@@ -128,6 +128,7 @@ module.exports = function() {
                 });
                 return;
             }
+            
             /** Multer gives us file info in req.file object */
             if (!req.file) {
                 console.log('no file');
