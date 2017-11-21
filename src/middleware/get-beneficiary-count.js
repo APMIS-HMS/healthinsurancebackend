@@ -1,5 +1,4 @@
 'use strict';
-const bcrypt = require('bcryptjs');
 module.exports = function (app) {
     return function (req, res, next) {
         let platformOwnerId = req.query.platformOwnerId;
