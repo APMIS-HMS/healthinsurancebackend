@@ -10,9 +10,9 @@ var SPONSORSHIP = [
     { 'id': 2, 'name': 'Organization' }
 ];
 
-var userModel = {};
 
-function PolicyIDRecurtion(beneficiaries, principal, policy, res, req, next, app) {
+
+function PolicyIDRecurtion(beneficiaries, principal, policy, res, req, next, app, userModel) {
     policy.principalBeneficiary = principal;
     policy.dependantBeneficiaries = beneficiaries;
     app.service('policies').create(policy).then(policyObject => {
@@ -63,6 +63,7 @@ module.exports = function (app) {
         var reqbeneficiaries = req.body.dependent;
         var beneficiaries = [];
         var principal = req.body.principal;
+        var userModel = {};
         userModel.email = req.body.principal.email;
         userModel.firstName = req.body.principal.firstName;
         userModel.lastName = req.body.principal.lastName;
@@ -70,12 +71,15 @@ module.exports = function (app) {
         userModel.phoneNumber = req.body.principal.phoneNumber;
         userModel.isActive = true;
         userModel.completeRegistration = true;
+        console.log("-----------Enter Api-----------------------")
         app.service('users').find({
             query: {
                 'email': req.body.principal.email
             }
         }).then(users => {
+            console.log("a");
             if (users.data.length == 0) {
+                console.log("b");
                 app.service('countries').find({
                     query:
                     {
@@ -83,6 +87,7 @@ module.exports = function (app) {
                         $select: { 'states.$': 1 }
                     }
                 }).then(country => {
+                    console.log("c");
                     if (country.data[0] != undefined) {
                         let state = country.data[0].states[0];
                         delete state.cities;
@@ -190,12 +195,16 @@ module.exports = function (app) {
                                                                                                                 }).then(bRelationship => {
                                                                                                                     if (bRelationship.data[0] != undefined) {
                                                                                                                         reqItem.relationshipId = bRelationship.data[0];
-                                                                                                                        reqItem.platformOwnerId = bPlatformOwner.data[0].platformOwnerId;
+                                                                                                                        reqItem.platformOwnerId = principal.platformOwnerId;
                                                                                                                         if(index + 1 == reqbeneficiaries.length){
                                                                                                                             app.service('facilities').find({
                                                                                                                                 query:
                                                                                                                                 {
+<<<<<<< HEAD
                                                                                                                                     'facilityType.name': { $regex: reqPolicy.hia.toString(), '$options': 'i' }
+=======
+                                                                                                                                    'name': { $regex: reqPolicy.hia.toString(), '$options': 'i' }
+>>>>>>> ab111d706422adf21171cc64786d6e4b5ddf0f8c
                                                                                                                                 }
                                                                                                                             }).then(hias => {
                                                                                                                                 if (hias.data[0] != undefined) {
@@ -277,7 +286,7 @@ module.exports = function (app) {
                                                                                                                                                                                                 counter += 1;
 
                                                                                                                                                                                                 if (counter == req.body.dependent.length) {
-                                                                                                                                                                                                    PolicyIDRecurtion(beneficiaries, beneficiary, reqPolicy, res, req, next, app)
+                                                                                                                                                                                                    PolicyIDRecurtion(beneficiaries, beneficiary, reqPolicy, res, req, next, app,userModel)
                                                                                                                                                                                                 }
                                                                                                                                                                                             })
 
@@ -335,7 +344,7 @@ module.exports = function (app) {
                                                                                                                                         }
                                                                                                                                     });
                                                                                                                                 } else {
-                                                                                                                                    errorMessage.Details = reqPolicy.nhisNumber + " donot exist as an NHIS Number";
+                                                                                                                                    errorMessage.Details = reqPolicy.nhisNumber + " donot exist as an Hia";
                                                                                                                                     errorMessage.Time = new Date();
                                                                                                                                     res.send(errorMessage);
                                                                                                                                 }

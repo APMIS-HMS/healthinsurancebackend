@@ -2,7 +2,7 @@
 //
 // See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
-module.exports = function(app) {
+module.exports = function (app) {
     const mongooseClient = app.get('mongooseClient');
     const userType = require('../models/user-types.model');
     const loggedInUserStatus = require('../models/loggin-user-status-model');
@@ -21,6 +21,7 @@ module.exports = function(app) {
         facilityId: { type: Schema.Types.Mixed },
         profession: { type: Schema.Types.Mixed },
         cader: { type: Schema.Types.Mixed },
+        unit: { type: String, required: false },
         roles: [{ type: Schema.Types.Mixed }],
         isActive: { type: Schema.Types.Boolean, default: false },
         completeRegistration: { type: Schema.Types.Boolean, default: false },

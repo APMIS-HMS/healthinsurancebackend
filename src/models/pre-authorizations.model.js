@@ -17,7 +17,7 @@ module.exports = function (app) {
     beneficiaryId: { type: Schema.Types.ObjectId, required: true },
     documentation: [preAuthDoc],
     approval: { type: Schema.Types.Date, required: false },
-    medicalPersonelName: { type: String, required: true },
+    medicalPersonelName: { type: Schema.Types.Mixed, required: true },
     medicalPersonelUnit: { type: String, required: true },
     authorizationCode: { type: String, required: false },
     approvedDocumentation: [preAuthDoc],
