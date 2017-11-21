@@ -10,7 +10,7 @@ module.exports = function (app) {
         // Perform actions
         // let password = req.query;
         // console.log(password);
-        res.send('CON welcome to apmis');
+        res.send('CON '+res.phoneNumber);
         next;
     }
 };
