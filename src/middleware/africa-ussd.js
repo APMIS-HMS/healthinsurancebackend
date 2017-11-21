@@ -10,7 +10,7 @@ module.exports = function (app) {
         // Perform actions
         // let password = req.query;
         // console.log(password);
-        res.send('CON '+res.phoneNumber);
+        res.send('CON '+req.query.phoneNumber);
         next;
     }
 };
