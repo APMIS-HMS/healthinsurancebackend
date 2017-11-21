@@ -5,7 +5,7 @@ module.exports = function (app) {
         // Perform actions
         // let password = req.query;
         // console.log(password);
-        res.send('welcome to apmis');
+        res.send('CON welcome to apmis');
         next;
     }
 };
