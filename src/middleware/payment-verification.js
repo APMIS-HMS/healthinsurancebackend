@@ -7,17 +7,22 @@ function addDays(date, days) {
     return result;
 };
 
-function getAndUpdatePremium(app, req, res, next, premiumId) {
+function getAndUpdatePremium(app, req, res, next, premiumId, data) {
     // Get premium-payment
     app.service('premium-payments').get(premiumId).then(returnPremium => {
         console.log('---------- Found Premium --------');
         console.log(returnPremium);
         console.log('---------- End Found Premium --------');
         // Update premium payment
+        console.log('Call updated');
         returnPremium.isActive = true;
         returnPremium.paymentResponse = data;
+        console.log('Call Update');
         app.service('premium-payments').update(returnPremium._id, returnPremium).then(updatedPremium => {
             const policyCounter = updatedPremium.policies.length;
+            console.log('---------- Updated updatedPremium --------');
+            console.log(updatedPremium);
+            console.log('---------- End Updated updatedPremium --------');
             updatedPremium.policies.forEach(function(paidPolicy, i) {
                 i++;
                 // Get Policy
@@ -96,7 +101,17 @@ module.exports = function(app) {
                     console.log('---------- Raw data--------');
                     console.log(data);
                     console.log('---------- End Raw data--------');
-                    getAndUpdatePremium(app, req, res, next, premiumId);
+                    //if (data.status === 'success') {
+                    getAndUpdatePremium(app, req, res, next, premiumId, data);
+                    // } else {
+                    //     resObject = json({
+                    //         data: { item1: "item1val", item2: "item2val" },
+                    //         anArray: ["item1", "item2"],
+                    //         another: "item"
+                    //     });
+                    //     res.json();
+                    //     next;
+                    // }
                 }).on('error', function(err) {
                     console.log('request error', err);
                 });
@@ -104,7 +119,7 @@ module.exports = function(app) {
                 let url = "https://api.paystack.co/transaction/verify/" + ref;
                 var client = new Client();
                 var args = {
-                    headers: { "Authorization": "Bearer sk_test_4abd1bb16878d813b87391105f6975aa72a9bb3c" }
+                    headers: { "Authorization": "Bearer " + process.env.PAYSTACKSECRETKEY }
                 };
                 console.log(req.body);
                 client.get(url, args, function(data, raw) {

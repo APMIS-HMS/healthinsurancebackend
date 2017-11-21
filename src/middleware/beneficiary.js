@@ -141,8 +141,16 @@ module.exports = function (app) {
             if (req.body.persons.length > 0) {
                 var bPeoples = req.body.persons.map(x => x.person);
                 app.service('people').create(bPeoples).then(callback_persons => {
-                    for(var i=callback_persons.length-1;i<callback_persons.length-1;i++){
-                        
+                    var beneficiaryDetails = [];
+                    for (var i = 0, len = callback_persons.length - 1; i < len; i++) {
+                        let beneficiary = req.body.persons[i].beneficiary;
+                        beneficiary.personId = callback_persons[i];
+                        beneficiaryDetails.push(beneficiary);
+                    }
+                    if (beneficiaryDetails.length > 0) {
+                        app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
+                            PolicyIDRecurtion(beneficiaryDetails, req.body.principal, req.body.policy, res, next, app)
+                        })
                     }
                 })
                 //req.body.persons.forEach(function (item,index) {
