@@ -114,7 +114,6 @@ module.exports = function() {
     //-------------USSD API PLUG START-------------------
     app.get('/api/ussd/verify-user', user_verification(app));
     //-------------USSD API PLUG END-------------------
-
     app.post('/upload-excel', function(req, res) {
         var exceltojson;
         uploadexcel.data.upload(req, res, function(err) {
