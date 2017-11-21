@@ -200,11 +200,7 @@ module.exports = function (app) {
                                                                                                                             app.service('facilities').find({
                                                                                                                                 query:
                                                                                                                                 {
-<<<<<<< HEAD
-                                                                                                                                    'facilityType.name': { $regex: reqPolicy.hia.toString(), '$options': 'i' }
-=======
                                                                                                                                     'name': { $regex: reqPolicy.hia.toString(), '$options': 'i' }
->>>>>>> ab111d706422adf21171cc64786d6e4b5ddf0f8c
                                                                                                                                 }
                                                                                                                             }).then(hias => {
                                                                                                                                 if (hias.data[0] != undefined) {

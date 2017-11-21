@@ -2,6 +2,7 @@
 module.exports = function (app) {
     return function (req, res, next) {
         let platformOwnerId = req.query.platformOwnerId;
+        console.log(platformOwnerId);
         let count = 0;
         app.service('policies').find({
             query: {
