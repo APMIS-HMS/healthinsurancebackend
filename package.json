@@ -34,6 +34,7 @@
     "convert-excel-to-json": "^1.2.0",
     "cors": "^2.8.4",
     "date-fns": "^1.29.0",
+    "dotenv": "^4.0.0",
     "feathers": "^2.2.0",
     "feathers-authentication": "^1.2.7",
     "feathers-authentication-hooks": "^0.1.4",
