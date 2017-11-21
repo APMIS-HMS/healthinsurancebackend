@@ -8,11 +8,11 @@ function PolicyIDRecurtion(beneficiaries, principal, policy, res, next, app) {
             'email': { $regex: principal.personId.email.toString(), '$options': 'i' }
         }
     }).then(users => {
-
+       
         if (users.data.length > 0) {
             let updatedUser = users.data[0];
             updatedUser.platformOwnerId = principal.platformOwnerId;
-            app.service('users').update(updatedUser._id, updatedUser).then(payload => {
+            app.service('users').update(updatedUser._id,updatedUser).then(payload => {
                 policy.principalBeneficiary = principal;
                 policy.dependantBeneficiaries = beneficiaries;
                 app.service('policies').create(policy).then(policyObject => {
@@ -106,7 +106,7 @@ module.exports = function (app) {
                                     userModel.roles = [];
                                     userModel.roles.push(roles.data[0]);
                                     userModel.userType = userType.data[0];
-
+                                    
                                     app.service('users').create(userModel).then(userModelObject => {
                                         app.service('people').create(personObj).then(person => {
                                             var beneficiaryDetails = req.body.beneficiary;
@@ -139,46 +139,32 @@ module.exports = function (app) {
             var beneficiaries = [];
             var counter = 0;
             if (req.body.persons.length > 0) {
-                var bPeoples = req.body.persons.map(x => x.person);
-                app.service('people').create(bPeoples).then(callback_persons => {
-                    var beneficiaryDetails = [];
-                    for (var i = 0, len = callback_persons.length - 1; i < len; i++) {
-                        let beneficiary = req.body.persons[i].beneficiary;
-                        beneficiary.personId = callback_persons[i];
-                        beneficiaryDetails.push(beneficiary);
-                    }
-                    if (beneficiaryDetails.length > 0) {
+                req.body.persons.forEach(function (item,index) {
+                    counter = counter + 1;
+                    app.service('people').create(item.person).then(person => {
+                        persons.push(person);
+                        var beneficiaryDetails = item.beneficiary;
+                        beneficiaryDetails.personId = person;
                         app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
-                            PolicyIDRecurtion(beneficiaryDetails, req.body.principal, req.body.policy, res, next, app)
+                            var beneficiary_policy = {
+                                "beneficiary": beneficiary,
+                                "relationshipId": item.relationship
+                            };
+
+                            beneficiaries.push(beneficiary_policy);
+
+                            if (index == req.body.persons.length-1) {
+                                PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res, next, app)
+                            }
                         })
-                    }
-                })
-                //req.body.persons.forEach(function (item,index) {
-                // app.service('people').create(item.person).then(person => {
-                //     persons.push(person);
-                //     var beneficiaryDetails = item.beneficiary;
-                //     beneficiaryDetails.personId = person;
-                //     app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
-                //         var beneficiary_policy = {
-                //             "beneficiary": beneficiary,
-                //             "relationshipId": item.relationship
-                //         };
-
-                //         beneficiaries.push(beneficiary_policy);
-
-                //         if (index == req.body.persons.length-1) {
-                //             PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res, next, app)
-                //         }
-                //     })
-
-                // }, error => {
-                //     res.send(error);
-                // }).catch(err => {
-                //     res.send(err);
-                //     next
-                // });
-                //});
-
+                        
+                    }, error => {
+                        res.send(error);
+                    }).catch(err => {
+                        res.send(err);
+                        next
+                    });
+                });
             } else {
                 beneficiaries = [];
                 PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res, next, app)
