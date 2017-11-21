@@ -29,8 +29,8 @@ const principalBeneficiarySchema = {
         parentField: 'principalBeneficiary',
         childField: '_id',
         query: {
-            $select: ['platformOwnerId.name', 'platformOwnerId._id', 'platformOwnerNumber', 'isActive', 'numberOfUnderAge', 'personId.firstName',
-                'personId.lastName', 'personId.otherNames', 'personId.gender', 'personId.dateOfBirth', 'personId.email', 'personId.homeAddress', 'personId.title'
+            $select: ['platformOwnerId.name', 'platformOwnerId._id','platformOwnerId.shortName', 'platformOwnerNumber', 'isActive', 'numberOfUnderAge', 'personId.firstName',
+                'personId.lastName', 'personId.otherNames', 'personId.gender', 'personId.phoneNumber', 'personId.dateOfBirth', 'personId.email', 'personId.homeAddress', 'personId.title'
             ],
             $sort: { createdAt: -1 },
         }
@@ -69,6 +69,8 @@ const premiumValue = require('../../hooks/premium-value');
 
 const policyNotifier = require('../../hooks/policy-notifier');
 
+const sendPolicySmsNotice = require('../../hooks/send-policy-sms-notice');
+
 module.exports = {
     before: {
         all: [], //authenticate('jwt')],
@@ -84,7 +86,11 @@ module.exports = {
         all: [],
         find: [populate({ schema: principalBeneficiarySchema }), populate({ schema: providerSchema }), populate({ schema: planSchema })],
         get: [populate({ schema: principalBeneficiarySchema }), populate({ schema: providerSchema }), populate({ schema: planSchema })],
-        create: [policyNotifier(), populate({ schema: principalBeneficiarySchema })],
+        create: [
+            policyNotifier(),
+            populate({ schema: principalBeneficiarySchema }),
+            sendPolicySmsNotice()
+        ],
         update: [policyNotifier(), populate({ schema: principalBeneficiarySchema })],
         patch: [],
         remove: []
