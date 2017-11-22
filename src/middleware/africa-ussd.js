@@ -15,10 +15,7 @@ module.exports = function (app) {
         if (text == '') {
             // This is the first request
             let response = 'CON Welcome to APMIS Insurance USSG Gateway \n'
-            response += '1. Verify Registrationtion \n'
-            response += '2. Register \n'
-            response += '3. Get Policy \n'
-            response += '4. Pay Premium '
+            response += '1. Verify Registrationtion'
             res.send(response);
             next;
         }
