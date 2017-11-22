@@ -3,8 +3,6 @@ module.exports = function (app) {
     return function (req, res, next) {
         let _id = req.query._id;
         let userType = req.query.userType;
-        console.log(_id);
-        console.log(userType);
         let count = 0;
         let query;
         if(userType === 'Platform Owner'){
@@ -48,7 +46,6 @@ module.exports = function (app) {
             let cn = {
                 count: count
             }
-            console.log(cn);
             res.send(cn);
             next;
         }).catch(err => {
