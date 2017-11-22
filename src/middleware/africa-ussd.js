@@ -1,11 +1,13 @@
 'use strict';
-const bcrypt = require('bcryptjs');
+
 module.exports = function (app) {
     return function (req, res, next) {
-        // Perform actions
-        // let password = req.query;
-        // console.log(password);
-        res.send('CON welcome to apmis');
+        let sessionId = req.body.sessionId;
+        let phoneNumber = req.body.phoneNumber;
+        let serviceCode = req.body.serviceCode;
+        let text = req.body.text;
+
+        res.send('CON '+req.body.text);
         next;
     }
 };

@@ -1,13 +1,33 @@
 'use strict';
 module.exports = function (app) {
     return function (req, res, next) {
-        let platformOwnerId = req.query.platformOwnerId;
+        let _id = req.query._id;
+        let userType = req.query.userType;
         let count = 0;
-        app.service('policies').find({
-            query: {
-                'platformOwnerId._id':platformOwnerId,
+        let query;
+        if(userType === 'Platform Owner'){
+            query = {
+                'platformOwnerId._id':_id,
                 $select: ['dependantBeneficiaries.policyId']
             }
+        }else if(userType === 'Health Insurance Agent'){
+            query = {
+                'hiaId._id':_id,
+                $select: ['dependantBeneficiaries.policyId']
+            }
+        }else if(userType === 'Provider'){
+            query = {
+                'providerId._id':_id,
+                $select: ['dependantBeneficiaries.policyId']
+            }
+        }else if(userType === 'Employer'){
+            query = {
+                'sponsor._id':_id,
+                $select: ['dependantBeneficiaries.policyId']
+            }
+        }
+        app.service('policies').find({
+            query: query
         }).then(payload => {
             // payload.data.forEach(obj => {
             //     count = count + obj.dependantBeneficiaries.length + 1;
