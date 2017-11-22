@@ -14,7 +14,7 @@ module.exports = function (app) {
 
         console.log(req.body);
         // let my = Object.keys(req.body[0]);
-        res.send(text);
+        res.send('CON' + text);
         next;
         // if (text == undefined || text == null) {
         //     // This is the first request
