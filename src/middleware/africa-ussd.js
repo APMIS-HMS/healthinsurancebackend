@@ -118,7 +118,7 @@ module.exports = function (app) {
             // reply with menu
           }
         
-          res.contentType('text/plain');
+        //   res.contentType('text/plain');
           res.send(message, 200);
        
     };
