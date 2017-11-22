@@ -11,9 +11,19 @@ module.exports = function (app) {
         let phoneNumber = req.body.phoneNumber;
         let serviceCode = req.body.serviceCode;
         let text = req.body.text;
-        
-        res.send('CON '+req.body.text);
-        next;
-    }
-};
+
+        if (text == undefined || text == null) {
+            // This is the first request
+            let response = 'CON Welcome to APMIS Insurance USSG Gateway \n'
+            response += '1. Verify Registrationtion \n'
+            response += '2. Register \n'
+            response += '3. Get Policy \n'
+            response += '4. Pay Premium'
+            res.send(response);
+            next;
+        }else{
+            res.send(serviceCode);
+            next;
+        }
+    };
 
