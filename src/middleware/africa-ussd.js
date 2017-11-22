@@ -30,19 +30,10 @@ module.exports = function (app) {
         // add device
         else if (text === '1') {
             // check if user is agent
-            //   message = 'CON Enter device IMEI number';
-            app.service("policies").find({}).then(payload => {
-                if (payload.data.length > 0) {
-                    message = 'END Your PolicyID is: '+ payload.data[0].policyId+'\n';
-                    res.contentType('text/plain');
-                    res.send(message, 200);
-                } else {
-                    message = 'END  You have no existing Policy\n';
-                    res.contentType('text/plain');
-                    res.send(message, 200);
-                }
-
-            })
+            console.log('am here');
+            // message = 'CON Enter device IMEI number';
+            message = 'END Policy checked';
+            var options = text.split('*');
         }
         else if (length === 2 && txt[0] === '1') {
             message = 'CON Enter device color';
