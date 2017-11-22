@@ -54,22 +54,22 @@ function addDays(date, days) {
 //                             params.res.jsend.success(updatedPolicy);
 //                         }
 //                     }).catch(err => {
-//                         params.res.jsend.send(err);
+//                         params.res.jsend.error(err);
 //                         params.next;
 //                     });
 //                 }).catch(err => {
 //                     console.log(err);
-//                     params.res.jsend.send(err);
+//                     params.res.jsend.error(err);
 //                     params.next;
 //                 });
 //             });
 //         }).catch(err => {
 //             console.log(err);
-//             params.res.jsend.send(err);
+//             params.res.jsend.error(err);
 //             params.next;
 //         });
 //     }).catch(err => {
-//         params.res.jsend.send(err);
+//         params.res.jsend.error(err);
 //         params.next;
 //     });
 // }
@@ -93,7 +93,8 @@ module.exports = function(app) {
                 var args = {
                     data: {
                         "SECKEY": process.env.FLUTTERWAVESECRETKEY, //use the secret key from the paybutton generated on the rave dashboard
-                        "flw_ref": ref.flwRef //use the reference of the payment from the rave checkout after payment
+                        "flw_ref": ref.flwRef, //use the reference of the payment from the rave checkout after payment
+                        "normalize": 1
                     },
                     headers: { "Content-Type": "application/json" }
                 };
@@ -113,6 +114,7 @@ module.exports = function(app) {
                         // put params in an object so that you don't bother about order. 
                         // var fnObj = { app: app, req: req, next: next, premiumId: premiumId, data: data };
                         // getAndUpdatePremium(fnObj);
+                        // Get premium-payment
                         app.service('premium-payments').get(premiumId).then(returnPremium => {
                             console.log('---------- Found Premium --------');
                             console.log(returnPremium);
@@ -158,22 +160,22 @@ module.exports = function(app) {
                                                 res.jsend.success(updatedPolicy);
                                             }
                                         }).catch(err => {
-                                            res.jsend.send(err);
+                                            res.jsend.error(err);
                                             next;
                                         });
                                     }).catch(err => {
                                         console.log(err);
-                                        res.jsend.send(err);
+                                        res.jsend.error(err);
                                         next;
                                     });
                                 });
                             }).catch(err => {
                                 console.log(err);
-                                res.jsend.send(err);
+                                res.jsend.error(err);
                                 next;
                             });
                         }).catch(err => {
-                            res.jsend.send(err);
+                            res.jsend.error(err);
                             next;
                         });
                     } else {
