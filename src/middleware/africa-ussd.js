@@ -31,7 +31,7 @@ module.exports = function (app) {
         else if (text === '1') {
             // check if user is agent
             //   message = 'CON Enter device IMEI number';
-            return hook.app.service("policies").find({}).then(payload => {
+            app.service("policies").find({}).then(payload => {
                 if (payload.data.length > 0) {
                     message = 'END Your PolicyID is: '+ payload.data[0].policyId+'\n';
                     res.contentType('text/plain');
