@@ -10,7 +10,7 @@ module.exports = function (app) {
         let sessionId = req.body.sessionId;
         let phoneNumber = req.body.phoneNumber;
         let serviceCode = req.body.serviceCode;
-        let text = req.body.text;
+        // let text = req.body.text;
 
         console.log(req.body);
         // let my = Object.keys(req.body[0]);
