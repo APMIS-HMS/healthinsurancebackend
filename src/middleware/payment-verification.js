@@ -7,9 +7,9 @@ function addDays(date, days) {
     return result;
 };
 
-function getAndUpdatePremium(app, req, res, next, premiumId, data) {
+function getAndUpdatePremium(params) {
     // Get premium-payment
-    app.service('premium-payments').get(premiumId).then(returnPremium => {
+    params.app.service('premium-payments').get(params.premiumId).then(returnPremium => {
         console.log('---------- Found Premium --------');
         console.log(returnPremium);
         console.log('---------- End Found Premium --------');
@@ -18,7 +18,7 @@ function getAndUpdatePremium(app, req, res, next, premiumId, data) {
         returnPremium.isActive = true;
         returnPremium.paymentResponse = data;
         console.log('Call Update');
-        app.service('premium-payments').update(returnPremium._id, returnPremium).then(updatedPremium => {
+        params.app.service('premium-payments').update(returnPremium._id, returnPremium).then(updatedPremium => {
             const policyCounter = updatedPremium.policies.length;
             console.log('---------- Updated updatedPremium --------');
             console.log(updatedPremium);
@@ -26,7 +26,7 @@ function getAndUpdatePremium(app, req, res, next, premiumId, data) {
             updatedPremium.policies.forEach(function(paidPolicy, i) {
                 i++;
                 // Get Policy
-                app.service('policies').get(paidPolicy.policyCollectionId, {}).then(returnPolicy => {
+                params.app.service('policies').get(paidPolicy.policyCollectionId, {}).then(returnPolicy => {
                     console.log('Found Policy');
                     // Updated policy.
                     if (returnPolicy.validityPeriods.length > 0) {
@@ -48,29 +48,29 @@ function getAndUpdatePremium(app, req, res, next, premiumId, data) {
                     // Change principalBeneficiary
                     returnPolicy.principalBeneficiary == returnPolicy.principalBeneficiary._id;
 
-                    app.service('policies').update(returnPolicy._id, returnPolicy).then(updatedPolicy => {
+                    params.app.service('policies').update(returnPolicy._id, returnPolicy).then(updatedPolicy => {
                         if (policyCounter === i) {
                             console.log('Updated Policy');
-                            res.send(updatedPolicy);
+                            params.res.send(updatedPolicy);
                         }
                     }).catch(err => {
-                        res.send(err);
-                        next;
+                        params.res.send(err);
+                        params.next;
                     });
                 }).catch(err => {
                     console.log(err);
-                    res.send(err);
-                    next;
+                    params.res.send(err);
+                    params.next;
                 });
             });
         }).catch(err => {
             console.log(err);
-            res.send(err);
-            next;
+            params.res.send(err);
+            params.next;
         });
     }).catch(err => {
-        res.send(err);
-        next;
+        params.res.send(err);
+        params.next;
     });
 }
 
@@ -101,17 +101,14 @@ module.exports = function(app) {
                     console.log('---------- Raw data--------');
                     console.log(data);
                     console.log('---------- End Raw data--------');
-                    //if (data.status === 'success') {
-                    getAndUpdatePremium(app, req, res, next, premiumId, data);
-                    // } else {
-                    //     resObject = json({
-                    //         data: { item1: "item1val", item2: "item2val" },
-                    //         anArray: ["item1", "item2"],
-                    //         another: "item"
-                    //     });
-                    //     res.json();
-                    //     next;
-                    // }
+                    if (data.status === 'success') {
+                        // put params in an object so that you don't bother about order. 
+                        var fnObj = { app: app, req: req, next: next, premiumId: premiumId, data: data };
+                        getAndUpdatePremium(fnObj);
+                    } else {
+                        jsend.error(data.data.message);
+                        next;
+                    }
                 }).on('error', function(err) {
                     console.log('request error', err);
                 });
@@ -161,28 +158,29 @@ module.exports = function(app) {
                                             if (policyCounter === i) {
                                                 console.log('Updated Policy');
                                                 res.send(updatedPolicy);
+                                                jsend.success(updatedPolicy);
                                             }
                                         }).catch(err => {
-                                            res.send(err);
+                                            jsend.error(err);
                                             next;
                                         });
                                     }).catch(err => {
                                         console.log(err);
-                                        res.send(err);
+                                        jsend.error(err);
                                         next;
                                     });
                                 });
                             }).catch(err => {
                                 console.log(err);
-                                res.send(err);
+                                jsend.error(err);
                                 next;
                             });
                         }).catch(err => {
-                            res.send(err);
+                            jsend.error(err);
                             next;
                         });
                     } else {
-                        res.send(data);
+                        jsend.error(data);
                     }
                 });
             }
