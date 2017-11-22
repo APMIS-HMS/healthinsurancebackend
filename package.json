@@ -28,6 +28,7 @@
     "mocha": "mocha test/ --recursive"
   },
   "dependencies": {
+    "africastalking": "^0.2.0",
     "async": "^2.5.0",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.1",
