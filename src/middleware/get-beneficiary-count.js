@@ -23,7 +23,10 @@ module.exports = function (app) {
             while(j--){
                 count = count + payload.data[j].dependantBeneficiaries.length + 1;
             }
-            res.send(count.toString());
+            let cn = {
+                count: count
+            }
+            res.send(cn);
             next;
         }).catch(err => {
             res.send(err)
