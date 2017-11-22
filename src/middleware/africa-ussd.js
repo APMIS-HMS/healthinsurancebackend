@@ -11,18 +11,9 @@ module.exports = function (app) {
         let phoneNumber = req.body.phoneNumber;
         let serviceCode = req.body.serviceCode;
         let text = req.body.text;
-
-        if (text == '') {
-            // This is the first request. Note how we start the response with CON
-            let response = 'CON What would you want to check \n'
-            response += '1. My Account \n'
-            response += '2. My phone number'
-            // res.send(response)
-            res.send('CON ' + req.body.phoneNumber);
-            next;
-        }else{
-            res.send('CON ' + req.body.serviceCode);
-            next; 
-        }
-    };
+        
+        res.send('CON '+req.body.text);
+        next;
+    }
+};
 
