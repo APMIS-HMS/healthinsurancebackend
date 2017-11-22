@@ -120,6 +120,7 @@ module.exports = function (app) {
         
         //   res.contentType('text/plain');
           res.send(message, 200);
+          next;
        
     };
 }
