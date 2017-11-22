@@ -12,7 +12,7 @@ module.exports = function (app) {
         let serviceCode = req.body.serviceCode;
         let text = req.body.text;
         
-        res.send('CON '+req.body.serviceCode);
+        res.send('CON '+req.body.sessionId);
         next;
     }
 };
