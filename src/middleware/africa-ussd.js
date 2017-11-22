@@ -20,7 +20,7 @@ module.exports = function (app) {
           var txt = text.split('*');
         
           if (text === '') {
-              message = 'CON Welcome to Wired Networks Ltd \n';
+              message = 'CON Welcome to APMIS Health Insurance \n';
               message += '1: Enter new device \n';
               message += '2: Enter sales person\n';
               message += '3: Check status of mobile device\n';
