@@ -21,10 +21,10 @@ module.exports = function (app) {
         
           if (text === '') {
               message = 'CON Welcome to APMIS Health Insurance \n';
-              message += '1: Enter new device \n';
-              message += '2: Enter sales person\n';
-              message += '3: Check status of mobile device\n';
-              message += '4: Mark device as sold';
+              message += '1: Verify Registrationtion \n';
+              message += '2: Register\n';
+              message += '3: Get Policy\n';
+              message += '4: Pay Premium';
           }
         
           // add device
@@ -118,9 +118,8 @@ module.exports = function (app) {
             // reply with menu
           }
         
-        //   res.contentType('text/plain');
+          res.contentType('text/plain');
           res.send(message, 200);
-          next;
        
     };
 }
