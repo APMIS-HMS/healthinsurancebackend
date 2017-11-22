@@ -7,72 +7,72 @@ function addDays(date, days) {
     return result;
 };
 
-function getAndUpdatePremium(params) {
-    // Get premium-payment
-    params.app.service('premium-payments').get(params.premiumId).then(returnPremium => {
-        console.log('---------- Found Premium --------');
-        console.log(returnPremium);
-        console.log('---------- End Found Premium --------');
-        // Update premium payment
-        console.log('Call updated');
-        returnPremium.isActive = true;
-        returnPremium.paymentResponse = data;
-        console.log('Call Update');
-        params.app.service('premium-payments').update(returnPremium._id, returnPremium).then(updatedPremium => {
-            const policyCounter = updatedPremium.policies.length;
-            console.log('---------- Updated updatedPremium --------');
-            console.log(updatedPremium);
-            console.log('---------- End Updated updatedPremium --------');
-            updatedPremium.policies.forEach(function(paidPolicy, i) {
-                i++;
-                // Get Policy
-                params.app.service('policies').get(paidPolicy.policyCollectionId, {}).then(returnPolicy => {
-                    console.log('Found Policy');
-                    // Updated policy.
-                    if (returnPolicy.validityPeriods.length > 0) {
-                        returnPolicy.validityPeriods[returnPolicy.validityPeriods.length - 1].isActive = false;
-                    }
-                    returnPolicy.isPaid = true;
-                    returnPolicy.premiumPaymentRef = updatedPremium._id;
-                    // Find the last index and change isActive to false
+// function getAndUpdatePremium(params) {
+//     // Get premium-payment
+//     params.app.service('premium-payments').get(params.premiumId).then(returnPremium => {
+//         console.log('---------- Found Premium --------');
+//         console.log(returnPremium);
+//         console.log('---------- End Found Premium --------');
+//         // Update premium payment
+//         console.log('Call updated');
+//         returnPremium.isActive = true;
+//         returnPremium.paymentResponse = data;
+//         console.log('Call Update');
+//         params.app.service('premium-payments').update(returnPremium._id, returnPremium).then(updatedPremium => {
+//             const policyCounter = updatedPremium.policies.length;
+//             console.log('---------- Updated updatedPremium --------');
+//             console.log(updatedPremium);
+//             console.log('---------- End Updated updatedPremium --------');
+//             updatedPremium.policies.forEach(function(paidPolicy, i) {
+//                 i++;
+//                 // Get Policy
+//                 params.app.service('policies').get(paidPolicy.policyCollectionId, {}).then(returnPolicy => {
+//                     console.log('Found Policy');
+//                     // Updated policy.
+//                     if (returnPolicy.validityPeriods.length > 0) {
+//                         returnPolicy.validityPeriods[returnPolicy.validityPeriods.length - 1].isActive = false;
+//                     }
+//                     returnPolicy.isPaid = true;
+//                     returnPolicy.premiumPaymentRef = updatedPremium._id;
+//                     // Find the last index and change isActive to false
 
-                    returnPolicy.validityPeriods.push({
-                        duration: returnPolicy.premiumPackageId.duration,
-                        category: returnPolicy.premiumCategoryId.name,
-                        unit: returnPolicy.premiumPackageId.unit.name,
-                        isActive: true,
-                        startDate: new Date(),
-                        createdAt: new Date(),
-                        validTill: addDays(new Date(), returnPolicy.premiumPackageId.unit.days)
-                    });
-                    // Change principalBeneficiary
-                    returnPolicy.principalBeneficiary == returnPolicy.principalBeneficiary._id;
+//                     returnPolicy.validityPeriods.push({
+//                         duration: returnPolicy.premiumPackageId.duration,
+//                         category: returnPolicy.premiumCategoryId.name,
+//                         unit: returnPolicy.premiumPackageId.unit.name,
+//                         isActive: true,
+//                         startDate: new Date(),
+//                         createdAt: new Date(),
+//                         validTill: addDays(new Date(), returnPolicy.premiumPackageId.unit.days)
+//                     });
+//                     // Change principalBeneficiary
+//                     returnPolicy.principalBeneficiary == returnPolicy.principalBeneficiary._id;
 
-                    params.app.service('policies').update(returnPolicy._id, returnPolicy).then(updatedPolicy => {
-                        if (policyCounter === i) {
-                            console.log('Updated Policy');
-                            params.res.jsend.success(updatedPolicy);
-                        }
-                    }).catch(err => {
-                        params.res.jsend.send(err);
-                        params.next;
-                    });
-                }).catch(err => {
-                    console.log(err);
-                    params.res.jsend.send(err);
-                    params.next;
-                });
-            });
-        }).catch(err => {
-            console.log(err);
-            params.res.jsend.send(err);
-            params.next;
-        });
-    }).catch(err => {
-        params.res.jsend.send(err);
-        params.next;
-    });
-}
+//                     params.app.service('policies').update(returnPolicy._id, returnPolicy).then(updatedPolicy => {
+//                         if (policyCounter === i) {
+//                             console.log('Updated Policy');
+//                             params.res.jsend.success(updatedPolicy);
+//                         }
+//                     }).catch(err => {
+//                         params.res.jsend.send(err);
+//                         params.next;
+//                     });
+//                 }).catch(err => {
+//                     console.log(err);
+//                     params.res.jsend.send(err);
+//                     params.next;
+//                 });
+//             });
+//         }).catch(err => {
+//             console.log(err);
+//             params.res.jsend.send(err);
+//             params.next;
+//         });
+//     }).catch(err => {
+//         params.res.jsend.send(err);
+//         params.next;
+//     });
+// }
 
 module.exports = function(app) {
     return function(req, res, next) {
@@ -93,7 +93,7 @@ module.exports = function(app) {
                 var args = {
                     data: {
                         "SECKEY": process.env.FLUTTERWAVESECRETKEY, //use the secret key from the paybutton generated on the rave dashboard
-                        "flw_ref": ref.txRef //use the reference of the payment from the rave checkout after payment
+                        "flw_ref": ref.flwRef //use the reference of the payment from the rave checkout after payment
                     },
                     headers: { "Content-Type": "application/json" }
                 };
@@ -111,8 +111,71 @@ module.exports = function(app) {
                     // }
                     if (data.status === 'success') {
                         // put params in an object so that you don't bother about order. 
-                        var fnObj = { app: app, req: req, next: next, premiumId: premiumId, data: data };
-                        getAndUpdatePremium(fnObj);
+                        // var fnObj = { app: app, req: req, next: next, premiumId: premiumId, data: data };
+                        // getAndUpdatePremium(fnObj);
+                        app.service('premium-payments').get(premiumId).then(returnPremium => {
+                            console.log('---------- Found Premium --------');
+                            console.log(returnPremium);
+                            console.log('---------- End Found Premium --------');
+                            // Update premium payment
+                            console.log('Call updated');
+                            returnPremium.isActive = true;
+                            returnPremium.paymentResponse = data;
+                            console.log('Call Update');
+                            app.service('premium-payments').update(returnPremium._id, returnPremium).then(updatedPremium => {
+                                const policyCounter = updatedPremium.policies.length;
+                                console.log('---------- Updated updatedPremium --------');
+                                console.log(updatedPremium);
+                                console.log('---------- End Updated updatedPremium --------');
+                                updatedPremium.policies.forEach(function(paidPolicy, i) {
+                                    i++;
+                                    // Get Policy
+                                    app.service('policies').get(paidPolicy.policyCollectionId, {}).then(returnPolicy => {
+                                        console.log('Found Policy');
+                                        // Updated policy.
+                                        if (returnPolicy.validityPeriods.length > 0) {
+                                            returnPolicy.validityPeriods[returnPolicy.validityPeriods.length - 1].isActive = false;
+                                        }
+                                        returnPolicy.isPaid = true;
+                                        returnPolicy.premiumPaymentRef = updatedPremium._id;
+                                        // Find the last index and change isActive to false
+
+                                        returnPolicy.validityPeriods.push({
+                                            duration: returnPolicy.premiumPackageId.duration,
+                                            category: returnPolicy.premiumCategoryId.name,
+                                            unit: returnPolicy.premiumPackageId.unit.name,
+                                            isActive: true,
+                                            startDate: new Date(),
+                                            createdAt: new Date(),
+                                            validTill: addDays(new Date(), returnPolicy.premiumPackageId.unit.days)
+                                        });
+                                        // Change principalBeneficiary
+                                        returnPolicy.principalBeneficiary == returnPolicy.principalBeneficiary._id;
+
+                                        app.service('policies').update(returnPolicy._id, returnPolicy).then(updatedPolicy => {
+                                            if (policyCounter === i) {
+                                                console.log('Updated Policy');
+                                                res.jsend.success(updatedPolicy);
+                                            }
+                                        }).catch(err => {
+                                            res.jsend.send(err);
+                                            next;
+                                        });
+                                    }).catch(err => {
+                                        console.log(err);
+                                        res.jsend.send(err);
+                                        next;
+                                    });
+                                });
+                            }).catch(err => {
+                                console.log(err);
+                                res.jsend.send(err);
+                                next;
+                            });
+                        }).catch(err => {
+                            res.jsend.send(err);
+                            next;
+                        });
                     } else {
                         res.jsend.error(data.message);
                         next;
