@@ -12,7 +12,7 @@ module.exports = function (app) {
         let serviceCode = req.body.serviceCode;
         let text = req.body.text;
 
-        res.send(Object.keys(req.body).length);
+        res.send(Object.keys(req.body).length.toString());
         next;
         // if (text == undefined || text == null) {
         //     // This is the first request
@@ -28,4 +28,5 @@ module.exports = function (app) {
         //     next;
         // }
     };
+}
 
