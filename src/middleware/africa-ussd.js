@@ -12,6 +12,7 @@ module.exports = function (app) {
         let serviceCode = req.body.serviceCode;
         let text = req.body.text;
 
+        console.log(req.body);
         let my = Object.keys(req.body[0]);
         res.send(my);
         next;
