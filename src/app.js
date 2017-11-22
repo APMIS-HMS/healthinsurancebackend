@@ -4,6 +4,7 @@ const compress = require('compression');
 const cors = require('cors');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
+const jsend = require('jsend');
 
 require('dotenv').config();
 
@@ -35,6 +36,7 @@ app.use(compress());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
+app.use(jsend.middleware); // wrapper for standard json response.
 // Host the public folder
 app.use('/', feathers.static(app.get('public')));
 

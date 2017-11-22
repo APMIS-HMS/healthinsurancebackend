@@ -51,25 +51,25 @@ function getAndUpdatePremium(params) {
                     params.app.service('policies').update(returnPolicy._id, returnPolicy).then(updatedPolicy => {
                         if (policyCounter === i) {
                             console.log('Updated Policy');
-                            params.res.send(updatedPolicy);
+                            params.res.jsend.success(updatedPolicy);
                         }
                     }).catch(err => {
-                        params.res.send(err);
+                        params.res.jsend.send(err);
                         params.next;
                     });
                 }).catch(err => {
                     console.log(err);
-                    params.res.send(err);
+                    params.res.jsend.send(err);
                     params.next;
                 });
             });
         }).catch(err => {
             console.log(err);
-            params.res.send(err);
+            params.res.jsend.send(err);
             params.next;
         });
     }).catch(err => {
-        params.res.send(err);
+        params.res.jsend.send(err);
         params.next;
     });
 }
@@ -87,7 +87,8 @@ module.exports = function(app) {
 
             if (payment === 'flutterwave') {
                 console.log('Make a request');
-                var url = "http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/verify";
+                console.log(ref);
+                var url = process.env.FLUTTERWAVEVERIFICATIONURL;
                 var client = new Client();
                 var args = {
                     data: {
@@ -101,19 +102,26 @@ module.exports = function(app) {
                     console.log('---------- Raw data--------');
                     console.log(data);
                     console.log('---------- End Raw data--------');
+                    // if (response.body.status === "success") {
+                    //     //check if the amount is same as amount you wanted to charge just to be very sure
+                    //     if (response.body.data.amount === amount_to_charge) {
+                    //         console.log("Payment successful");
+                    //         //then give value for the payment
+                    //     }
+                    // }
                     if (data.status === 'success') {
                         // put params in an object so that you don't bother about order. 
                         var fnObj = { app: app, req: req, next: next, premiumId: premiumId, data: data };
                         getAndUpdatePremium(fnObj);
                     } else {
-                        jsend.error(data.data.message);
+                        res.jsend.error(data.message);
                         next;
                     }
                 }).on('error', function(err) {
                     console.log('request error', err);
                 });
             } else {
-                let url = "https://api.paystack.co/transaction/verify/" + ref;
+                let url = process.env.PAYSTACKVERIFICATIONURL + ref;
                 var client = new Client();
                 var args = {
                     headers: { "Authorization": "Bearer " + process.env.PAYSTACKSECRETKEY }
@@ -157,33 +165,35 @@ module.exports = function(app) {
                                         app.service('policies').update(returnPolicy._id, returnPolicy).then(updatedPolicy => {
                                             if (policyCounter === i) {
                                                 console.log('Updated Policy');
-                                                res.send(updatedPolicy);
-                                                jsend.success(updatedPolicy);
+                                                // res.send(updatedPolicy);
+                                                res.jsend.success(updatedPolicy);
                                             }
                                         }).catch(err => {
-                                            jsend.error(err);
+                                            res.jsend.error(err);
                                             next;
                                         });
                                     }).catch(err => {
                                         console.log(err);
-                                        jsend.error(err);
+                                        res.jsend.error(err);
                                         next;
                                     });
                                 });
                             }).catch(err => {
                                 console.log(err);
-                                jsend.error(err);
+                                res.jsend.error(err);
                                 next;
                             });
                         }).catch(err => {
-                            jsend.error(err);
+                            res.jsend.error(err);
                             next;
                         });
                     } else {
-                        jsend.error(data);
+                        res.jsend.error(data);
                     }
                 });
             }
+        } else {
+            res.jsend.error('reference property not found');
         }
     };
 };
