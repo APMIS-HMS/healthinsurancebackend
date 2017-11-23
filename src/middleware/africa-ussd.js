@@ -65,7 +65,10 @@ menu.state('buyAirtime.amount', {
 });
 
 const AfricasTalking = require('africastalking')(options);
+let _app;
 module.exports = function (app) {
+    _app = app;
+    console.log(_app);
     return function (req, res, next) {
         menu.run(req.body, ussdResult => {
             res.send(ussdResult);
