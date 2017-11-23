@@ -333,6 +333,7 @@ module.exports = function () {
 
 
     app.post('/africa-ussd', app => {
+        console.log('wow');
         // console.log(menu)
         // let args = {
         //     phoneNumber: req.body.phoneNumber,
