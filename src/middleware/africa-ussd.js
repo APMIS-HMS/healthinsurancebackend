@@ -32,8 +32,22 @@ module.exports = function (app) {
             // check if user is agent
             console.log('am here');
             // message = 'CON Enter device IMEI number';
-            message = 'END Policy checked';
-            var options = text.split('*');
+            app.service('policies').find({}).then(payload => {
+                // res.send(payload.data[0].policyId);
+                message = 'END Policy checked';
+                var options = text.split('*');
+                res.contentType('text/plain');
+                res.send(message, 200);
+            }).catch(err => {
+                message = 'END Policy error';
+                var options = text.split('*');
+                res.contentType('text/plain');
+                res.send(message, 200);
+            });
+
+
+
+
         }
         else if (length === 2 && txt[0] === '1') {
             message = 'CON Enter device color';
@@ -121,8 +135,8 @@ module.exports = function (app) {
             // reply with menu
         }
 
-        res.contentType('text/plain');
-        res.send(message, 200);
+        // res.contentType('text/plain');
+        // res.send(message, 200);
 
     };
 }
