@@ -114,7 +114,7 @@ module.exports = function() {
     app.get('/api/search-policy', searchPolicy(app));
     app.get('/api/compare-password', compare_password(app));
     app.get('/api/get-beneficiary-count', get_beneficiary_count(app));
-    // app.post('/api/africa-ussd', africa_ussd(app));
+    app.post('/api/africa-ussd', africa_ussd(app));
 
     //-------------USSD API PLUG START-------------------
     app.get('/api/ussd/verify-user', user_verification(app));
@@ -332,20 +332,20 @@ module.exports = function() {
     // });
 
 
-    app.post('/africa-ussd', (req, res) => {
-        console.log(menu)
-        let args = {
-            phoneNumber: req.body.phoneNumber,
-            sessionId: req.body.sessionId,
-            serviceCode: req.body.serviceCode,
-            text: req.body.text
-        };
-        // menu.run(args, resMsg => {
-        //     res.send(resMsg);
-        // });
-        message = 'CON Welcome to APMIS Health Insurance \n';
-        res.send(message);
-    })
+    // app.post('/africa-ussd', (req, res) => {
+    //     console.log(menu)
+    //     let args = {
+    //         phoneNumber: req.body.phoneNumber,
+    //         sessionId: req.body.sessionId,
+    //         serviceCode: req.body.serviceCode,
+    //         text: req.body.text
+    //     };
+    //     // menu.run(args, resMsg => {
+    //     //     res.send(resMsg);
+    //     // });
+    //     message = 'CON Welcome to APMIS Health Insurance \n';
+    //     res.send(message);
+    // })
     //app.use('/download-excel', express.static(path.join(__dirname, 'public')))
 
 };
