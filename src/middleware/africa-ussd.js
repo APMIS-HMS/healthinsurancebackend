@@ -56,8 +56,8 @@ module.exports = function (app) {
             });
 
 
-            message = 'END Your Policy ID is ' + txt[1];
-            var options = text.split('*');
+            // message = 'END Your Policy ID is ' + txt[1];
+            // var options = text.split('*');
         }
         else if (length === 3 && txt[0] === '1') {
             message = 'CON Enter device model\n';
