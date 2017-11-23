@@ -333,7 +333,7 @@ module.exports = function() {
 
 
     app.post('/africa-ussd',function(req, res) {
-        console.log(menu)
+        // console.log(menu)
         let args = {
             phoneNumber: req.body.phoneNumber,
             sessionId: req.body.sessionId,
@@ -344,7 +344,9 @@ module.exports = function() {
         //     res.send(resMsg);
         // });
         message = 'CON Welcome to APMIS Health Insurance \n';
-        res.send(message);
+        res.contentType('text/plain');
+        // res.send(message, 200);
+        res.status(200).send(message)
     })
     //app.use('/download-excel', express.static(path.join(__dirname, 'public')))
 
