@@ -340,9 +340,11 @@ module.exports = function() {
             serviceCode: req.body.serviceCode,
             text: req.body.text
         };
-        menu.run(args, resMsg => {
-            res.send(resMsg);
-        });
+        // menu.run(args, resMsg => {
+        //     res.send(resMsg);
+        // });
+        message = 'CON Welcome to APMIS Health Insurance \n';
+        res.send(message);
     })
     //app.use('/download-excel', express.static(path.join(__dirname, 'public')))
 
