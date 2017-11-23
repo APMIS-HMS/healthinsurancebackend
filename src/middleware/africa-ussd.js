@@ -3,6 +3,7 @@ const options = {
     apiKey: '2d4e0c15346ba6e810bcfd74ed300cb4042a000fba6effeadbcb775e538bce44',         // Use sandbox API key for sandbox development
     username: 'sandbox',      // Use "sandbox" for sandbox development
 };
+const promise = [];
 
 const AfricasTalking = require('africastalking')(options);
 module.exports = function (app) {
@@ -36,28 +37,23 @@ module.exports = function (app) {
         }
         else if (length === 2 && txt[0] === '1') {
 
-            app.service('policies').find({
-                query: {
-                    policyId: txt[1].toString()
-                }
-            }).then(payload => {
-                // res.send(payload.data[0].policyId);
+
+            promise.push(hook.app.service("policies")
+            .find({ query: { policyId: txt[1].toString()} }));
+            return Promise.all(promise).then(payload2 => {
                 console.log('fine')
                 message = 'END Policy checked';
                 var options = text.split('*');
-                // res.contentType('text/plain');
-                // res.send(message, 200);
-            }).catch(err => {
+            }).catch(err =>{
                 console.log('error')
                 message = 'END Policy error';
                 var options = text.split('*');
-                // res.contentType('text/plain');
-                // res.send(message, 200);
-            });
+            })
 
 
-            // message = 'END Your Policy ID is ' + txt[1];
-            // var options = text.split('*');
+
+
+
         }
         else if (length === 3 && txt[0] === '1') {
             message = 'CON Enter device model\n';
