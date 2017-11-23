@@ -25,11 +25,11 @@ menu.startState({
 menu.state('signUp', {
     run: () => {
         menu.con('Choose:' +
-            '\n1. REGISTER' +
-            '\n2. CHOOSE PLAN' +
-            '\n3. ADD DEPENDENTS' +
-            '\n4. ADD NEXT OF KIN' +
-            '\n5. GET POLICY ID');
+            '\n1. Register' +
+            '\n2. Choose Plan' +
+            '\n3. Add Dependant' +
+            '\n4. Add Next Of Kin' +
+            '\n5. Get Your Policy ID');
     },
     next: {
         '1': 'register',
@@ -42,11 +42,13 @@ menu.state('signUp', {
 
 menu.state('register', {
     run: () => {
-        menu.end('You have choose register:');
-    },
-    next: {
-        // using regex to match user input to next state
-        '*\\d+': 'buyAirtime.amount'
+        menu.con('Enter Your LastName:');
+    }
+});
+
+menu.state('register.firstName', {
+    run: () => {
+        menu.con('Enter Your FirstName:');
     }
 });
 
