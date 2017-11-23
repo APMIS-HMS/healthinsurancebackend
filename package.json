@@ -61,6 +61,7 @@
     "serve-favicon": "^2.4.4",
     "superagent-use": "^0.1.0",
     "thumbnail": "^0.1.9",
+    "ussd-menu-builder": "^1.0.0",
     "winston": "^2.3.1"
   },
   "devDependencies": {
