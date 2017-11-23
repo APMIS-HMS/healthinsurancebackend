@@ -37,8 +37,8 @@ menu.state('showBalance', {
             console.log('fine')
             menu.end('Your balance is KES ' + payload.data[0].policyId);
         }).catch(err => {
-            console.log('error')
-            menu.end(' There is an ERROR');
+            console.log(err)
+            menu.end(err);
         });
     }
 });
