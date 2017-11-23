@@ -30,8 +30,8 @@ menu.state('showBalance', {
         //     menu.end('Your balance is KES ' + bal);
         // });
         console.log('1');
-        console.log(app);
-        app.service('policies').find({query:{
+        // console.log(app);
+        _app.service('policies').find({query:{
             policyId:'P00001'
         }}).then(payload => {
             console.log('fine')
@@ -68,7 +68,6 @@ const AfricasTalking = require('africastalking')(options);
 let _app;
 module.exports = function (app) {
     _app = app;
-    console.log(_app);
     return function (req, res, next) {
         menu.run(req.body, ussdResult => {
             res.send(ussdResult);
