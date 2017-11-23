@@ -325,12 +325,24 @@ module.exports = function() {
         }
     });
 
-    app.post('/africa-ussd', function(req, res){
-        menu.run(req.body, ussdResult => {
-            res.send(ussdResult);
-        });
-    });
+    // app.post('/africa-ussd', function(req, res){
+    //     menu.run(req.body, ussdResult => {
+    //         res.send(ussdResult);
+    //     });
+    // });
 
+
+    app.post('/africa-ussd', (req, res) => {
+        let args = {
+            phoneNumber: req.body.phoneNumber,
+            sessionId: req.body.sessionId,
+            serviceCode: req.body.serviceCode,
+            text: req.body.text
+        };
+        menu.run(args, resMsg => {
+            res.send(resMsg);
+        });
+    })
     //app.use('/download-excel', express.static(path.join(__dirname, 'public')))
 
 };
