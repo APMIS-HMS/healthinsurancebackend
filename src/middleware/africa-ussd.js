@@ -17,32 +17,15 @@ menu.startState({
     },
     // next object links to next state based on user input
     next: {
-        '1': 'REGISTER',
-        '2': 'CHOOSE PLAN',
-        '3': 'ADD DEPENDENTS',
-        '4': 'ADD NEXT OF KIN',
-        '5': 'GET POLICY ID'
+        '1': 'SIGN UP',
+        '2': 'PREMIUM PAYMENT'
     }
 });
 
-menu.state('REGISTER', {
+menu.state('SIGN UP', {
     run: () => {
-        // fetch balance
-        // fetchBalance(menu.args.phoneNumber).then(function (bal) {
-        //     // use menu.end() to send response and terminate session
-        //     menu.end('Your balance is KES ' + bal);
-        // });
-        console.log('1');
-        // console.log(app);
-        _app.service('policies').find({query:{
-            policyId:'P00013'
-        }}).then(payload => {
-            console.log(payload)
-            menu.end('Your balance is KES ' + payload.data[0].policyId);
-        }).catch(err => {
-            console.log(err)
-            menu.end(err);
-        });
+
+        menu.con('Enter amount:');
     }
 });
 
