@@ -17,12 +17,15 @@ menu.startState({
     },
     // next object links to next state based on user input
     next: {
-        '1': 'showBalance',
-        '2': 'buyAirtime'
+        '1': 'REGISTER',
+        '2': 'CHOOSE PLAN',
+        '3': 'ADD DEPENDENTS',
+        '4': 'ADD NEXT OF KIN',
+        '5': 'GET POLICY ID'
     }
 });
 
-menu.state('showBalance', {
+menu.state('REGISTER', {
     run: () => {
         // fetch balance
         // fetchBalance(menu.args.phoneNumber).then(function (bal) {
