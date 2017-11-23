@@ -25,9 +25,18 @@ menu.startState({
 menu.state('showBalance', {
     run: () => {
         // fetch balance
-        fetchBalance(menu.args.phoneNumber).then(function (bal) {
-            // use menu.end() to send response and terminate session
-            menu.end('Your balance is KES ' + bal);
+        // fetchBalance(menu.args.phoneNumber).then(function (bal) {
+        //     // use menu.end() to send response and terminate session
+        //     menu.end('Your balance is KES ' + bal);
+        // });
+        app.service('policies').find({query:{
+            policyId:'P00001'
+        }}).then(payload => {
+            console.log('fine')
+            menu.end('Your balance is KES ' + payload.data[0].policyId);
+        }).catch(err => {
+            console.log('error')
+            menu.end('ERROR');
         });
     }
 });
