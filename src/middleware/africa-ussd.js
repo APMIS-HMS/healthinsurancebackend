@@ -24,8 +24,12 @@ menu.startState({
 
 menu.state('SIGN UP', {
     run: () => {
-
-        menu.con('Enter amount:');
+        menu.con('Choose:' +
+            '\n1. REGISTER' +
+            '\n2. CHOOSE PLAN' +
+            '\n3. ADD DEPENDENTS' +
+            '\n2. ADD NEXT OF KIN' +
+            '\n2. GET POLICY ID');
     }
 });
 
