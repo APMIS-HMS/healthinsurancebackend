@@ -46,12 +46,31 @@ menu.state('register', {
     },
     next: {
         '*[a-zA-Z]+': 'register.firstName'
-    },
+    }
 });
 
 menu.state('register.firstName', {
     run: () => {
         menu.con('Enter Your FirstName:');
+    },
+    next: {
+        '*[a-zA-Z]+': 'register.gender'
+    }
+});
+menu.state('register.gender', {
+    run: () => {
+        menu.con('Choose Your Gender:'+
+                '\n1. Male' +
+                '\n2. Female');
+    },
+    next: {
+        '1': 'return',
+        '2': 'return'
+    }
+});
+menu.state('return', {
+    run: () => {
+        menu.end(menu.val);
     }
 });
 
