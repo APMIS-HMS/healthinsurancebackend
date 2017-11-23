@@ -12,30 +12,37 @@ menu.startState({
     run: () => {
         // use menu.con() to send response without terminating session      
         menu.con('Welcome. Health Insurance Platform:' +
-            '\n1. SIGN UP' +
-            '\n2. PREMIUM PAYMENT');
+            '\n1. Sign Up' +
+            '\n2. Premium Payment');
     },
     // next object links to next state based on user input
     next: {
-        '1': 'SIGN UP',
-        '2': 'PREMIUM PAYMENT'
+        '1': 'signUp',
+        '2': 'premiumPayment'
     }
 });
 
-menu.state('SIGN UP', {
+menu.state('signUp', {
     run: () => {
         menu.con('Choose:' +
             '\n1. REGISTER' +
             '\n2. CHOOSE PLAN' +
             '\n3. ADD DEPENDENTS' +
-            '\n2. ADD NEXT OF KIN' +
-            '\n2. GET POLICY ID');
+            '\n4. ADD NEXT OF KIN' +
+            '\n5. GET POLICY ID');
+    },
+    next: {
+        '1': 'register',
+        '2': 'choosePlan',
+        '3': 'addDependant',
+        '4': 'addNextOfKin',
+        '5': 'getPolicy'
     }
 });
 
-menu.state('buyAirtime', {
+menu.state('register', {
     run: () => {
-        menu.con('Enter amount:');
+        menu.con('You have choose register:');
     },
     next: {
         // using regex to match user input to next state
