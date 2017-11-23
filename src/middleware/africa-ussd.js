@@ -29,6 +29,8 @@ menu.state('showBalance', {
         //     // use menu.end() to send response and terminate session
         //     menu.end('Your balance is KES ' + bal);
         // });
+        console.log('1');
+        console.log(app);
         app.service('policies').find({query:{
             policyId:'P00001'
         }}).then(payload => {
