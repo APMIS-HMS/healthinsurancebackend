@@ -42,7 +42,17 @@ menu.state('signUp', {
 
 menu.state('register', {
     run: () => {
-        menu.con('You have choose register:');
+        menu.end('You have choose register:');
+    },
+    next: {
+        // using regex to match user input to next state
+        '*\\d+': 'buyAirtime.amount'
+    }
+});
+
+menu.state('choosePlan', {
+    run: () => {
+        menu.end('You have choosen to select paln:');
     },
     next: {
         // using regex to match user input to next state
@@ -51,15 +61,15 @@ menu.state('register', {
 });
 
 // nesting states
-menu.state('buyAirtime.amount', {
-    run: () => {
-        // use menu.val to access user input value
-        var amount = Number(menu.val);
-        buyAirtime(menu.args.phoneNumber, amount).then(function (res) {
-            menu.end('Airtime bought successfully.');
-        });
-    }
-});
+// menu.state('buyAirtime.amount', {
+//     run: () => {
+//         // use menu.val to access user input value
+//         var amount = Number(menu.val);
+//         buyAirtime(menu.args.phoneNumber, amount).then(function (res) {
+//             menu.end('Airtime bought successfully.');
+//         });
+//     }
+// });
 
 const AfricasTalking = require('africastalking')(options);
 let _app;
