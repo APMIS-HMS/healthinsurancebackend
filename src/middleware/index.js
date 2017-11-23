@@ -35,8 +35,6 @@ const express = require('express');
 const excelToJson = require('convert-excel-to-json');
 const uploadexcel = require('../helpers/upload-excel');
 
-const UssdMenu = require('ussd-menu-builder');
-let menu = new UssdMenu();
 
 module.exports = function () {
     const app = this;

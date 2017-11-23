@@ -5,6 +5,9 @@ const options = {
 };
 const promise = [];
 
+const UssdMenu = require('ussd-menu-builder');
+let menu = new UssdMenu();
+
 menu.startState({
     run: () => {
         // use menu.con() to send response without terminating session      
