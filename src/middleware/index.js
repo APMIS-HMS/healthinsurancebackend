@@ -332,7 +332,7 @@ module.exports = function () {
     // });
 
 
-    app.post('/africa-ussd', function (req, res) {
+    app.post('/africa-ussd', app => {
         // console.log(menu)
         // let args = {
         //     phoneNumber: req.body.phoneNumber,
