@@ -11,9 +11,9 @@ let menu = new UssdMenu();
 menu.startState({
     run: () => {
         // use menu.con() to send response without terminating session      
-        menu.con('Welcome. Choose option:' +
-            '\n1. Show Balance' +
-            '\n2. Buy Airtime');
+        menu.con('Welcome. Health Insurance Platform:' +
+            '\n1. SIGN UP' +
+            '\n2. PREMIUM PAYMENT');
     },
     // next object links to next state based on user input
     next: {
