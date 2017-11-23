@@ -35,9 +35,9 @@ module.exports = function (app) {
         
         }
         else if (length === 2 && txt[0] === '1') {
-            message = 'CON You '+ txt[1];
-            // message = 'END Device registered';
-            // var options = text.split('*');
+            // message = 'CON You '+ txt[1];
+            message = 'END Your Policy ID is'+ txt[1];
+            var options = text.split('*');
         }
         else if (length === 3 && txt[0] === '1') {
             message = 'CON Enter device model\n';
