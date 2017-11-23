@@ -7,7 +7,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     // that resolves with the `hook` object for asynchronous operations
     let numbers = hook.data.principalBeneficiary.personId.phoneNumber;
     let sender = hook.data.platformOwnerId.shortName;
-    let message = hook.data.providerId.name + " created an Health Insurance Policy on your behalf with PolicyID:" + hook.data.policyId + ". Your "+sender+"-ID is "+ hook.data.principalBeneficiary.platformOwnerNumber+". Thanks";
+    let message = hook.data.hiaId.name + " created an Health Insurance Policy on your behalf with PolicyID:" + hook.data.policyId + ". Your "+sender+"-ID is "+ hook.data.principalBeneficiary.platformOwnerNumber+". Thanks";
 
     const url = 'http://portal.bulksmsnigeria.net/api/?username=apmis&password=apmis&message=' + message + '&sender=' + sender + '&mobiles=@@' + numbers + '@@';
     var response = request.get(url);
