@@ -31,19 +31,19 @@ module.exports = function (app) {
         else if (text === '1') {
             // check if user is agent
             console.log('am here');
-            message = 'CON Enter device IMEI number';
-            // app.service('policies').find({}).then(payload => {
-            //     // res.send(payload.data[0].policyId);
-            //     message = 'END Policy checked';
-            //     var options = text.split('*');
-            //     res.contentType('text/plain');
-            //     res.send(message, 200);
-            // }).catch(err => {
-            //     message = 'END Policy error';
-            //     var options = text.split('*');
-            //     res.contentType('text/plain');
-            //     res.send(message, 200);
-            // });
+            // message = 'CON Enter device IMEI number';
+            app.service('policies').find({}).then(payload => {
+                // res.send(payload.data[0].policyId);
+                message = 'END Policy checked';
+                var options = text.split('*');
+                // res.contentType('text/plain');
+                // res.send(message, 200);
+            }).catch(err => {
+                message = 'END Policy error';
+                var options = text.split('*');
+                // res.contentType('text/plain');
+                // res.send(message, 200);
+            });
 
 
 
