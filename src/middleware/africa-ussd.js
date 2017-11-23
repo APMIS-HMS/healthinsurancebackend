@@ -32,7 +32,7 @@ menu.state('showBalance', {
         console.log('1');
         // console.log(app);
         _app.service('policies').find({query:{
-            policyId:'P00001'
+            policyId:'P00013'
         }}).then(payload => {
             console.log(payload)
             menu.end('Your balance is KES ' + payload.data[0].policyId);
