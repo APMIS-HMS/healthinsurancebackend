@@ -474,12 +474,9 @@ module.exports = function () {
             message = 'END Wrong input';
             // reply with menu
         }
-
         res.contentType('text/plain');
         // res.send(message, 200);
         res.status(200).send(message)
-
-
     })
     //app.use('/download-excel', express.static(path.join(__dirname, 'public')))
 
