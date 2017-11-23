@@ -34,11 +34,13 @@ module.exports = function (app) {
             // message = 'CON Enter device IMEI number';
             app.service('policies').find({}).then(payload => {
                 // res.send(payload.data[0].policyId);
+                console.log('fine')
                 message = 'END Policy checked';
                 var options = text.split('*');
                 // res.contentType('text/plain');
                 // res.send(message, 200);
             }).catch(err => {
+                console.log('error')
                 message = 'END Policy error';
                 var options = text.split('*');
                 // res.contentType('text/plain');
@@ -136,7 +138,8 @@ module.exports = function (app) {
         }
 
         res.contentType('text/plain');
-        res.send(message, 200);
+        // res.send(message, 200);
+        res.status(200).send(message)
 
     };
 }
