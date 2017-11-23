@@ -13,6 +13,7 @@ module.exports = function(app) {
         let premium = req.body;
         let ref = req.body.ref;
         let action = req.body.action;
+        let payment = req.body.payment;
         if (action === 'create') {
             app.service('premium-payments').create(premium).then(premium => {
                 const premiumCounter = premium.policies.length;
@@ -72,11 +73,13 @@ module.exports = function(app) {
                 app.service('premium-payments').update(foundPremium._id, foundPremium).then(updatedPremium => {
                     console.log('Updated');
                     let verificationData = {
-                        reference: updatedPremium.reference,
-                        premiumId: updatedPremium._id
+                        reference: updatedPremium.reference.tx,
+                        premiumId: updatedPremium._id,
+                        payment: payment
                     };
+
                     // Call the paystack verification middleware.
-                    let url = req.protocol + '://' + req.headers.host + '/paystack-verification';
+                    let url = req.protocol + '://' + req.headers.host + '/payment-verification';
                     let client = new Client();
                     let args = {
                         data: verificationData,
