@@ -43,7 +43,10 @@ menu.state('signUp', {
 menu.state('register', {
     run: () => {
         menu.con('Enter Your LastName:');
-    }
+    },
+    next: {
+        '*[a-zA-Z]+': 'register.firstName'
+    },
 });
 
 menu.state('register.firstName', {
