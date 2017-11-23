@@ -32,11 +32,31 @@ module.exports = function (app) {
             // check if user is agent
             console.log('am here');
             message = 'CON Enter Policy ID';
-        
+
         }
         else if (length === 2 && txt[0] === '1') {
-            // message = 'CON You '+ txt[1];
-            message = 'END Your Policy ID is'+ txt[1];
+
+            app.service('policies').find({
+                query: {
+                    policyId: txt[1].toString()
+                }
+            }).then(payload => {
+                // res.send(payload.data[0].policyId);
+                console.log('fine')
+                message = 'END Policy checked';
+                var options = text.split('*');
+                // res.contentType('text/plain');
+                // res.send(message, 200);
+            }).catch(err => {
+                console.log('error')
+                message = 'END Policy error';
+                var options = text.split('*');
+                // res.contentType('text/plain');
+                // res.send(message, 200);
+            });
+
+
+            message = 'END Your Policy ID is ' + txt[1];
             var options = text.split('*');
         }
         else if (length === 3 && txt[0] === '1') {
