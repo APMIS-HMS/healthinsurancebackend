@@ -333,6 +333,7 @@ module.exports = function() {
 
 
     app.post('/africa-ussd', (req, res) => {
+        console.log(menu)
         let args = {
             phoneNumber: req.body.phoneNumber,
             sessionId: req.body.sessionId,
