@@ -31,28 +31,11 @@ module.exports = function (app) {
         else if (text === '1') {
             // check if user is agent
             console.log('am here');
-            // message = 'CON Enter device IMEI number';
-            app.service('policies').find({}).then(payload => {
-                // res.send(payload.data[0].policyId);
-                console.log('fine')
-                message = 'END Policy checked';
-                var options = text.split('*');
-                // res.contentType('text/plain');
-                // res.send(message, 200);
-            }).catch(err => {
-                console.log('error')
-                message = 'END Policy error';
-                var options = text.split('*');
-                // res.contentType('text/plain');
-                // res.send(message, 200);
-            });
-
-
-
-
+            message = 'CON Enter Policy ID';
+        
         }
         else if (length === 2 && txt[0] === '1') {
-            message = 'CON Enter device color';
+            message = 'CON You are good';
         }
         else if (length === 3 && txt[0] === '1') {
             message = 'CON Enter device model\n';
