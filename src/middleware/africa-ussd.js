@@ -31,16 +31,16 @@ menu.sessionConfig({
     set: (sessionId, key, value, callback) => {
         // store key-value pair in current session
         // sessions[sessionId][key] = value;
-        console.log(sessionId);
-        console.log(key);
-        console.log(value)
+        // console.log(sessionId);
+        // console.log(key);
+        // console.log(value)
         localStorage.setItem(key, value)
         callback();
     },
     get: (sessionId, key, callback) => {
         // retrieve value by key in current session
         // let value = sessions[sessionId][key];
-        let value = localStorage.getItem(sessionId.key)
+        let value = localStorage.getItem(key)
         callback(null, value);
     }
 });
@@ -125,7 +125,7 @@ menu.state('return', {
 
         menu.session.get('lastName').then(lastName => {
             console.log(lastName)
-            menu.end("lastName");
+            menu.end(lastName);
         })
     }
 });
