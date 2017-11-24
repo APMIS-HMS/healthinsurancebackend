@@ -80,12 +80,7 @@ menu.state('signUp', {
 
 menu.state('register', {
     run: () => {
-        menu.con('Enter your last name:');
-        let lastName = menu.val;
-        menu.session.set('lastName', lastName)
-        .then( () => {
-            menu.con('Enter your first name');
-        })
+        menu.con('Enter Your LastName:');
     },
     next: {
         '*[a-zA-Z]+': 'register.firstName'
@@ -94,12 +89,11 @@ menu.state('register', {
 
 menu.state('register.firstName', {
     run: () => {
-        let firstName = menu.val;
-        menu.session.set('firstName', firstName)
+        let lastName = menu.val;
+        console.log(lastName)
+        menu.session.set('lastName', lastName)
         .then( () => {
-            menu.con('Choose Your Gender:' +
-            '\n1. Male' +
-            '\n2. Female');
+            menu.con('Enter your first name');
         })
     },
     next: {
@@ -108,9 +102,15 @@ menu.state('register.firstName', {
 });
 menu.state('register.gender', {
     run: () => {
-        menu.con('Choose Your Gender:' +
+
+        let firstName = menu.val;
+        console.log(firstName)
+        menu.session.set('firstName', firstName)
+        .then( () => {
+            menu.con('Choose Your Gender:' +
             '\n1. Male' +
             '\n2. Female');
+        })
     },
     next: {
         '1': 'return',
