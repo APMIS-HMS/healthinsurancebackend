@@ -1,3 +1,5 @@
+import { lastDayOfISOWeek } from 'date-fns';
+
 'use strict';
 const options = {
     apiKey: '2d4e0c15346ba6e810bcfd74ed300cb4042a000fba6effeadbcb775e538bce44',         // Use sandbox API key for sandbox development
@@ -96,7 +98,7 @@ menu.state('register.firstName', {
         console.log(lastName)
         menu.session.set('lastName', lastName)
         .then( () => {
-            menu.con('Enter your first name');
+            menu.con(lastName + ' Enter your first name');
         })
     },
     next: {
