@@ -1,5 +1,3 @@
-import { lastDayOfISOWeek } from 'date-fns';
-
 'use strict';
 const options = {
     apiKey: '2d4e0c15346ba6e810bcfd74ed300cb4042a000fba6effeadbcb775e538bce44',         // Use sandbox API key for sandbox development
@@ -98,7 +96,7 @@ menu.state('register.firstName', {
         console.log(lastName)
         menu.session.set('lastName', lastName)
         .then( () => {
-            menu.con(lastName + ' Enter your first name');
+            menu.con( lastName+' Enter your first name');
         })
     },
     next: {
@@ -130,7 +128,7 @@ menu.state('return', {
 
 menu.state('choosePlan', {
     run: () => {
-        menu.end('You have choosen to select paln:');
+        menu.end('You have choosen to select plan:');
     },
     next: {
         // using regex to match user input to next state
