@@ -8,6 +8,43 @@ const promise = [];
 const UssdMenu = require('ussd-menu-builder');
 let menu = new UssdMenu();
 
+menu.sessionConfig({
+    start: (sessionId, callback) => {
+        // initialize current session if it doesn't exist
+        // this is called by menu.run()
+        // if (!(sessionId in sessions))
+        //  sessions[sessionId] = {};
+        if (typeof localStorage === "undefined" || localStorage === null) {
+            var LocalStorage = require('node-localstorage').LocalStorage;
+            localStorage = new LocalStorage(sessionId);
+          }
+        callback();
+    },
+    end: (sessionId, callback) => {
+        // clear current session
+        // this is called by menu.end()
+        // delete sessions[sessionId];
+        removeItem(sessionId)
+        callback();
+    },
+    set: (sessionId, key, value, callback) => {
+        // store key-value pair in current session
+        // sessions[sessionId][key] = value;
+        setItem(sessionId.key, value)
+        callback();
+    },
+    get: (sessionId, key, callback) => {
+        // retrieve value by key in current session
+        // let value = sessions[sessionId][key];
+        let value = getItem(sessionId.key)
+        callback(null, value);
+    }
+});
+
+
+
+
+
 menu.startState({
     run: () => {
         // use menu.con() to send response without terminating session      
@@ -59,9 +96,9 @@ menu.state('register.firstName', {
 });
 menu.state('register.gender', {
     run: () => {
-        menu.con('Choose Your Gender:'+
-                '\n1. Male' +
-                '\n2. Female');
+        menu.con('Choose Your Gender:' +
+            '\n1. Male' +
+            '\n2. Female');
     },
     next: {
         '1': 'return',
