@@ -80,7 +80,12 @@ menu.state('signUp', {
 
 menu.state('register', {
     run: () => {
-        menu.con('Enter Your LastName:');
+        menu.con('Enter your last name:');
+        let lastName = menu.val;
+        menu.session.set('lastName', lastName)
+        .then( () => {
+            menu.con('Enter your first name');
+        })
     },
     next: {
         '*[a-zA-Z]+': 'register.firstName'
@@ -89,7 +94,13 @@ menu.state('register', {
 
 menu.state('register.firstName', {
     run: () => {
-        menu.con('Enter Your FirstName:');
+        let firstName = menu.val;
+        menu.session.set('firstName', firstName)
+        .then( () => {
+            menu.con('Choose Your Gender:' +
+            '\n1. Male' +
+            '\n2. Female');
+        })
     },
     next: {
         '*[a-zA-Z]+': 'register.gender'
