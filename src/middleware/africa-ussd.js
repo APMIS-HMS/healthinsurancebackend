@@ -7,7 +7,7 @@ const promise = [];
 
 const UssdMenu = require('ussd-menu-builder');
 let menu = new UssdMenu();
-
+var LocalStorage;
 menu.sessionConfig({
     start: (sessionId, callback) => {
         // initialize current session if it doesn't exist
@@ -15,7 +15,7 @@ menu.sessionConfig({
         // if (!(sessionId in sessions))
         //  sessions[sessionId] = {};
         if (typeof localStorage === "undefined" || localStorage === null) {
-            var LocalStorage = require('node-localstorage').LocalStorage;
+            LocalStorage = require('node-localstorage').LocalStorage;
             localStorage = new LocalStorage(sessionId);
           }
         callback();
@@ -24,19 +24,20 @@ menu.sessionConfig({
         // clear current session
         // this is called by menu.end()
         // delete sessions[sessionId];
-        removeItem(sessionId)
+        localStorage.removeItem(sessionId);
+        localStorage.clear();
         callback();
     },
     set: (sessionId, key, value, callback) => {
         // store key-value pair in current session
         // sessions[sessionId][key] = value;
-        setItem(sessionId.key, value)
+        localStorage.setItem(sessionId.key, value)
         callback();
     },
     get: (sessionId, key, callback) => {
         // retrieve value by key in current session
         // let value = sessions[sessionId][key];
-        let value = getItem(sessionId.key)
+        let value = localStorage.getItem(sessionId.key)
         callback(null, value);
     }
 });
