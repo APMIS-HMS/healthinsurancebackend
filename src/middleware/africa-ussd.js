@@ -105,9 +105,7 @@ menu.state('register.firstName', {
 });
 menu.state('register.gender', {
     run: () => {
-
         let firstName = menu.val;
-        console.log(firstName)
         menu.session.set('firstName', firstName)
             .then(() => {
                 menu.con('Choose Your Gender:' +
@@ -122,7 +120,6 @@ menu.state('register.gender', {
 });
 menu.state('return', {
     run: () => {
-
         menu.session.get('lastName').then(lastName => {
             console.log(lastName)
             menu.end(lastName);
