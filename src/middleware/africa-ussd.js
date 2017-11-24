@@ -124,7 +124,8 @@ menu.state('return', {
     run: () => {
 
         menu.session.get('lastName').then(lastName => {
-            menu.end(lastName);
+            console.log(lastName)
+            menu.end("lastName");
         })
     }
 });
