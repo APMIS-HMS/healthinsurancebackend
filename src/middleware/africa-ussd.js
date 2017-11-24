@@ -96,7 +96,7 @@ menu.state('register.firstName', {
         console.log(lastName)
         menu.session.set('lastName', lastName)
         .then( () => {
-            menu.con( lastName+' Enter your first name');
+            menu.con( lastName+' enter your first name');
         })
     },
     next: {
@@ -122,7 +122,7 @@ menu.state('register.gender', {
 });
 menu.state('return', {
     run: () => {
-        menu.end(menu.val);
+        menu.end(menu.session.get('lastName'));
     }
 });
 
