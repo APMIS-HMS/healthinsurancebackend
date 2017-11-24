@@ -31,7 +31,10 @@ menu.sessionConfig({
     set: (sessionId, key, value, callback) => {
         // store key-value pair in current session
         // sessions[sessionId][key] = value;
-        localStorage.setItem(sessionId.key, value)
+        console.log(sessionId);
+        console.log(key);
+        console.log(value)
+        localStorage.setItem(key, value)
         callback();
     },
     get: (sessionId, key, callback) => {
