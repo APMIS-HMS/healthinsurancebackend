@@ -212,7 +212,7 @@ module.exports = function (app) {
                                                                                                                                     
                                                                                                                                     app.service('facilities').find({
                                                                                                                                         query: {
-                                                                                                                                            'facilityType.name': { $regex: reqPolicy.facilityType.toString(), '$options': 'i' },
+                                                                                                                                            'provider.providerId': { $regex: reqPolicy.providerId.toString(), '$options': 'i' },
                                                                                                                                             'platformOwnerId._id': principal.platformOwnerId._id,
                                                                                                                                             $select: ['name', 'provider']
                                                                                                                                           }

@@ -194,7 +194,8 @@ module.exports = function () {
                                     'hia': item.AL,
                                     'facilityType': item.AM,
                                     'planType': item.AN,
-                                    'plan': item.AO
+                                    'plan': item.AO,
+                                    'providerId':item.AP
 
                                 };
                             }
