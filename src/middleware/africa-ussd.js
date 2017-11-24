@@ -17,7 +17,7 @@ menu.sessionConfig({
         if (typeof localStorage === "undefined" || localStorage === null) {
             var LocalStorage = require('node-localstorage').LocalStorage;
             localStorage = new LocalStorage(sessionId);
-          }
+        }
         callback();
     },
     end: (sessionId, callback) => {
@@ -95,9 +95,9 @@ menu.state('register.firstName', {
         let lastName = menu.val;
         console.log(lastName)
         menu.session.set('lastName', lastName)
-        .then( () => {
-            menu.con( lastName+' enter your first name');
-        })
+            .then(() => {
+                menu.con(lastName + ' enter your first name');
+            })
     },
     next: {
         '*[a-zA-Z]+': 'register.gender'
@@ -109,11 +109,11 @@ menu.state('register.gender', {
         let firstName = menu.val;
         console.log(firstName)
         menu.session.set('firstName', firstName)
-        .then( () => {
-            menu.con('Choose Your Gender:' +
-            '\n1. Male' +
-            '\n2. Female');
-        })
+            .then(() => {
+                menu.con('Choose Your Gender:' +
+                    '\n1. Male' +
+                    '\n2. Female');
+            })
     },
     next: {
         '1': 'return',
@@ -122,7 +122,10 @@ menu.state('register.gender', {
 });
 menu.state('return', {
     run: () => {
-        menu.end(menu.session.get('lastName'));
+
+        menu.session.get('lastName').then(lastName => {
+            menu.end(lastName);
+        })
     }
 });
 
