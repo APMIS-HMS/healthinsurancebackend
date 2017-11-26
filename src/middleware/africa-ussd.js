@@ -127,7 +127,7 @@ menu.state('register.dob', {
             });
     },
     next: {
-        '*\\w+@\\w+\\.\\w+': 'return',
+        '*^\\d{1,2}\\/\\d{1,2}\\/\\d{4}$': 'return',
     }
 });
 menu.state('return', {
