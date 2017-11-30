@@ -130,6 +130,7 @@ menu.state('register.dob', {
         '*^\\d{1,2}\\/\\d{1,2}\\/\\d{4}$': 'return',
     }
 });
+
 menu.state('return', {
     run: () => {
         menu.session.get('lastName').then(lastName => {
