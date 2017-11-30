@@ -20,7 +20,9 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
                 if (hook.data.platformOwnerId !== undefined) {
                     let sender = hook.data.platformOwnerId.shortName;
                     let message = "Your " + sender + " auto-generated password is: " + password + " kindly change your password";
-
+console.log("----------------Auto Pswd Start--------------------");
+console.log(message);
+console.log("----------------Auto Pswd End--------------------");
                     const url = 'http://portal.bulksmsnigeria.net/api/?username=apmis&password=apmis&message=' + message + '&sender=' + sender + '&mobiles=@@' + hook.data.phoneNumber + '@@';
                     var response = request.get(url, function (error, response, body){
                         if(error){

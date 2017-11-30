@@ -29,7 +29,7 @@ const planSchema = {
     include: [{
         service: 'plans',
         nameAs: 'planId',
-        parentField: 'policyId.planId',
+        parentField: 'policyId',
         childField: '_id',
         query: {
             $select: ['name', 'isActive'],
