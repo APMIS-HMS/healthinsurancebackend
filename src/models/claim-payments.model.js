@@ -1,5 +1,5 @@
 // claim-payments-model.js - A mongoose model
-// 
+//
 // See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
 module.exports = function(app) {
@@ -7,24 +7,15 @@ module.exports = function(app) {
     const claimDoc = require('../viewmodels/claim-document-model');
     const { Schema } = mongooseClient;
     const claimPayments = new Schema({
-        claimNo: { type: String, required: true },
-        providerFacilityId: { type: Schema.Types.Mixed, required: true },
-        checkedinDetail: { type: Schema.Types.Mixed, required: true },
-        CurentClaimStatus: { type: Schema.Types.Mixed, required: false },
-        claimType: { type: Schema.Types.Mixed, required: false }, // either fee for service or Capitation.
-        claimNote: { type: Schema.Types.Mixed, required: false }, // either fee for service or Capitation.
-        approval: { type: Schema.Types.Mixed, required: false },
-        medicalPersonelName: { type: Schema.Types.Mixed, required: true },
-        medicalPersonelShortName: { type: Schema.Types.Mixed, required: false },
-        authorizationCode: { type: String, required: false },
-        costingApprovalDocumentation: { type: Number, default: 0 },
-        paymentStatus: { type: Schema.Types.Mixed, required: false },
-        approvedDocumentation: claimDoc,
-        isQueuedForPayment: { type: Boolean, required: true },
-        isPaymentMade: { type: Boolean, required: true },
-        queuedBy: { type: Schema.Types.Mixed, required: false },
-        paidBy: { type: Schema.Types.Mixed, required: false },
-        dateClaimCreated: { type: Date, default: Date.now },
+        platformOwnerId: { type: Schema.Types.Mixed, required: true },
+        reference: { type: Schema.Types.Mixed, required: false }, // Reference from any payment gateway.
+        claims: [{ type: Schema.Types.Mixed, required: true }], // Array of claim ids.
+        paidBy: { type: Schema.Types.Mixed, required: true },
+        amount: { type: Number, required: true }, // Amount to be paid.
+        isActive: { type: Boolean, default: false }, // This will be set to true if payment is confirmed.
+        paymentResponse: { type: Schema.Types.Mixed, required: false }, // This is the response from paystack if payment has been made.
+        paymentType: { type: Schema.Types.Mixed, required: true },
+        createdAt: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }
     });
 
