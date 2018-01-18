@@ -60,7 +60,7 @@ module.exports = {
     all: [],
     find: [populate({ schema: beneficiarySchemaList }),  populate({ schema: facilitySchemaList })],
     get: [],
-    create: [],
+    create: [checkOut()],
     update: [],
     patch: [],
     remove: []
