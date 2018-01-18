@@ -1,5 +1,6 @@
 const { populate } = require('feathers-hooks-common');
 const claimUniqueNo = require('../../hooks/claim-unique-no');
+const checkOut = require('../../hooks/check-out');
 
 //const populateBeneficiary = require('../../hooks/populate-beneficiary');
 
