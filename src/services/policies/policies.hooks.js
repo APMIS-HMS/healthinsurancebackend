@@ -29,7 +29,7 @@ const principalBeneficiarySchema = {
         parentField: 'principalBeneficiary',
         childField: '_id',
         query: {
-            $select: ['platformOwnerId.name', 'platformOwnerId._id','platformOwnerId.shortName', 'platformOwnerNumber', 'isActive', 'numberOfUnderAge', 'personId.firstName',
+            $select: ['platformOwnerId.name', 'platformOwnerId._id', 'platformOwnerId.shortName', 'platformOwnerNumber', 'isActive', 'numberOfUnderAge', 'personId.firstName',
                 'personId.lastName', 'personId.otherNames', 'personId.gender', 'personId.phoneNumber', 'personId.dateOfBirth', 'personId.email', 'personId.homeAddress', 'personId.title'
             ],
             $sort: { createdAt: -1 },
@@ -45,7 +45,7 @@ const providerSchema = {
         childField: '_id',
         query: {
             $sort: { createdAt: -1 },
-            $select: ['platformOwnerId.name', 'platformOwnerId._id', 'address', 'name', 'phoneNumber', 'logo', 'facilityType'],
+            $select: ['platformOwnerId.name', 'platformOwnerId._id', 'address', 'name', 'provider', 'bankDetails', 'phoneNumber', 'logo', 'facilityType'],
         }
     }]
 };

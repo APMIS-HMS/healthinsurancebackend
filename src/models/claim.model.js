@@ -1,5 +1,5 @@
 // claim-model.js - A mongoose model
-// 
+//
 // See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
 module.exports = function(app) {
@@ -25,7 +25,7 @@ module.exports = function(app) {
         paymentStatus: { type: Schema.Types.Mixed, required: false },
         approvedDocumentation: claimDoc,
         notificationMessage: claimAlertMessage,
-        isQueuedForPayment: { type: Boolean, default: false },
+        isPaid: { type: Boolean, default: false },
         dateClaimCreated: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }
     });
