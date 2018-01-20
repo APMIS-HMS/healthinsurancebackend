@@ -14,6 +14,7 @@ const hia_premiums = require('../middleware/hia_premiums');
 const beneficiary_api = require('../middleware/beneficiary_api');
 const create_beneficiary_api = require('../middleware/create_beneficiary_api');
 const provider = require('../middleware/provider');
+const providerRecipient = require('../middleware/provider-recipient');
 const claims_payment = require('../middleware/claims-payment');
 const claims_payment_pay = require('../middleware/claims-payment-pay');
 const sendSMS = require('../middleware/send-sms');
@@ -97,6 +98,7 @@ module.exports = function() {
     // app.post('/pay-queued-claims', claims_payment_pay(app));
     app.post('/payment-verification', paymentVerification(app));
     app.post('/premium-cash-payment', premiumCashPayment(app));
+    app.post('/verify-provider-recipient', providerRecipient(app));
 
     app.get('/api/titles', title(app));
     app.get('/api/genders', gender(app));
