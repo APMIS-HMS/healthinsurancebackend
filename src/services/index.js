@@ -47,6 +47,7 @@ const referrals = require('./referrals/referrals.service.js');
 const premiumPayments = require('./premium-payments/premium-payments.service.js');
 const professions = require('./professions/professions.service.js');
 const notification = require('./notification/notification.service.js');
+const providerRecipients = require('./provider-recipients/provider-recipients.service.js');
 module.exports = function() {
     const app = this; // eslint-disable-line no-unused-vars
     app.configure(users);
@@ -98,4 +99,5 @@ module.exports = function() {
     app.configure(premiumPayments);
     app.configure(professions);
     app.configure(notification);
+    app.configure(providerRecipients);
 };

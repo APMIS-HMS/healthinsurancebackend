@@ -3,7 +3,8 @@
 
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return function claimUniqueNo(hook) {
-    hook.app.service("check-ins").get(hook.data.checkedinDetail._id, {}).then(payload => {
+      console.log(hook.data)
+    return hook.app.service("check-ins").get(hook.data.checkedinDetail.checkedInDetails._id, {}).then(payload => {
       payload.isCheckedOut = true;
       hook.app.service("check-ins").update(payload._id, payload);
     });
