@@ -16,7 +16,7 @@ const create_beneficiary_api = require('../middleware/create_beneficiary_api');
 const provider = require('../middleware/provider');
 const providerRecipient = require('../middleware/provider-recipient');
 const claimsPayment = require('../middleware/claims-payment');
-// const claimsPaymentConfirmation = require('../middleware/claims-payment-confirmation');
+const claimsCapitationPayment = require('../middleware/capitation-claims-payment');
 const sendSMS = require('../middleware/send-sms');
 const validateAge = require('../middleware/validate-age-greater-than-eighteen');
 const searchPolicy = require('../middleware/seach-policy');
@@ -95,7 +95,7 @@ module.exports = function() {
     app.post('/lashma-beneficiaries', beneficiary(app));
     app.put('/lashma-beneficiaries', beneficiary(app));
     app.post('/pay-claim', claimsPayment(app));
-    // app.post('/pay-claim-confirmation', claimsPaymentConfirmation(app));
+    app.post('/pay-capitation-claim', claimsCapitationPayment(app));
     app.post('/payment-verification', paymentVerification(app));
     app.post('/premium-cash-payment', premiumCashPayment(app));
     app.post('/verify-provider-recipient', providerRecipient(app));

@@ -9,9 +9,10 @@ module.exports = function(app) {
     const claimPayments = new Schema({
         platformOwnerId: { type: Schema.Types.Mixed, required: true },
         providerId: { type: Schema.Types.Mixed, required: true },
-        hiaId: { type: Schema.Types.Mixed, required: true },
+        hiaId: { type: Schema.Types.Mixed, required: false },
         reference: { type: Schema.Types.Mixed, required: false }, // Reference from any payment gateway.
-        claims: [{ type: Schema.Types.Mixed, required: true }], // Array of claim ids.
+        claims: [{ type: Schema.Types.Mixed, required: false }], // Array of claims for Fee for service.
+        policies: [{ type: Schema.Types.Mixed, required: false }], // Array of policies for capitation.
         paidBy: { type: Schema.Types.Mixed, required: true },
         paidByType: { type: Schema.Types.Mixed, required: true }, // Who made payment. either PlatformOwner or Hia
         claimType: { type: Schema.Types.String, required: true }, // Capitation or Fee for service

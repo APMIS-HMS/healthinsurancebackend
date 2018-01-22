@@ -3,8 +3,9 @@ var Client = require('node-rest-client').Client;
 
 module.exports = function(app) {
     return function(req, res, next) {
-        let accountNumber = req.body.accountNumber;
-        let bankCode = req.body.bankCode;
+        let accountNumber = '0037507065'
+        req.body.accountNumber;
+        let bankCode = '063'; // req.body.bankCode;
         let platformOwnerId = req.body.platformOwnerId;
         let providerId = req.body.providerId;
         let hiaId = req.body.hiaId;

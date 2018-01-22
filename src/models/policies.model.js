@@ -1,5 +1,5 @@
 // policies-model.js - A mongoose model
-// 
+//
 // See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
 module.exports = function(app) {
@@ -24,6 +24,7 @@ module.exports = function(app) {
         dependantBeneficiaries: [beneficiaryPolicySchema],
         validityPeriods: [{ type: Schema.Types.Mixed, required: false }],
         isPaid: { type: Schema.Types.Boolean, default: false },
+        lastCapitationPaidDate: { type: Schema.Types.Date, required: false },
         premiumPaymentRef: { type: Schema.Types.Mixed, required: false },
         isActive: { type: Schema.Types.Boolean, default: false },
         createdAt: { type: Date, default: Date.now },

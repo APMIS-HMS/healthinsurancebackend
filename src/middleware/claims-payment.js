@@ -7,9 +7,9 @@ module.exports = function(app) {
             let platformOwner = req.body.platformOwnerId;
             let platformOwnerId = req.body.platformOwnerId._id;
             let hia = req.body.hiaId;
-            let hiaId = req.body.hiaId._id;
+            let hiaId = (hia !== undefined) ? hia._id : undefined;
             let provider = req.body.providerId;
-            let providerId = req.body.providerId._id;
+            let providerId = (provider !== undefined) ? provider._id : undefined;
             let claims = req.body.claimIds;
             let claimType = req.body.claimType;
             let paidBy = req.body.paidBy;
@@ -38,15 +38,12 @@ module.exports = function(app) {
                     };
                     // Confirm payment
                     client.post(url, args, function(data, response) {
-                        // parsed response body as js object
-                        console.log('---------- Raw data--------');
-                        console.log(data);
-                        console.log('---------- End Raw data--------');
+                        // parsed response body as js object.
                         if (data.status) {
                             let payload = {
                                 platformOwnerId: platformOwner,
                                 providerId: provider,
-                                hiaId: hia,
+                                hiaId: (hia === undefined) ? undefined : hia,
                                 reference: data.data,
                                 claims: claims,
                                 paidBy: paidBy,
@@ -61,9 +58,6 @@ module.exports = function(app) {
                                     claims.forEach(function(claim, i) {
                                         // Uncheck all items from claims service first
                                         app.service('claims').get(claim).then(claimRes => {
-                                            console.log("---------- claimRes --------");
-                                            console.log(claimRes);
-                                            console.log("---------- End claimRes --------");
                                             claimRes.isPaid = true;
                                             app.service('claims').update(claimRes._id, claimRes).then(claimUpdate => {
                                                 counter++;
