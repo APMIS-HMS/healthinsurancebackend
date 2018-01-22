@@ -8,13 +8,15 @@ module.exports = function(app) {
     const { Schema } = mongooseClient;
     const claimPayments = new Schema({
         platformOwnerId: { type: Schema.Types.Mixed, required: true },
+        providerId: { type: Schema.Types.Mixed, required: true },
+        hiaId: { type: Schema.Types.Mixed, required: true },
         reference: { type: Schema.Types.Mixed, required: false }, // Reference from any payment gateway.
         claims: [{ type: Schema.Types.Mixed, required: true }], // Array of claim ids.
         paidBy: { type: Schema.Types.Mixed, required: true },
+        paidByType: { type: Schema.Types.Mixed, required: true }, // Who made payment. either PlatformOwner or Hia
+        claimType: { type: Schema.Types.String, required: true }, // Capitation or Fee for service
         amount: { type: Number, required: true }, // Amount to be paid.
         isActive: { type: Boolean, default: false }, // This will be set to true if payment is confirmed.
-        paymentResponse: { type: Schema.Types.Mixed, required: false }, // This is the response from paystack if payment has been made.
-        paymentType: { type: Schema.Types.Mixed, required: true },
         createdAt: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }
     });

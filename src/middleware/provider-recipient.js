@@ -3,8 +3,8 @@ var Client = require('node-rest-client').Client;
 
 module.exports = function(app) {
     return function(req, res, next) {
-        let accountNumber = '0037507065';
-        let bankCode = '063';
+        let accountNumber = req.body.accountNumber;
+        let bankCode = req.body.bankCode;
         let platformOwnerId = req.body.platformOwnerId;
         let providerId = req.body.providerId;
         let hiaId = req.body.hiaId;
@@ -18,9 +18,6 @@ module.exports = function(app) {
         // Resolve Account Details
         client.get(verifyURL, args, function(data, response) {
             // parsed response body as js object
-            console.log('---------- Raw data--------');
-            console.log(data);
-            console.log('---------- End Raw data--------');
             if (data.status) {
                 let CRURL = `${baseUrl}transferrecipient`;
                 args.data = {
@@ -41,22 +38,16 @@ module.exports = function(app) {
                             platformOwnerId: platformOwnerId,
                             hiaId: hiaId,
                             providerId: providerId,
-                            bank: cData.data.details.bank_name,
-                            accountName: cData.data.name,
-                            accountNumber: cData.data.details.account_number,
-                            bankCode: cData.data.details.bank_code,
+                            details: cData.data,
                             isRecipientConfirmed: true
                         };
                         // Create provider-recipient
                         app.service('provider-recipients').create(pPayload).then(result => {
-                            console.log(result);
                             if (result._id !== undefined) {
                                 res.jsend.success(cData);
                             }
                         }).catch(err => {
-                            console.log('---------- Raw err--------');
                             console.log(err);
-                            console.log('---------- End Raw err--------');
                         });
                     } else {
                         res.jsend.error('There was a problem creating recipient');
