@@ -3,9 +3,6 @@ var Client = require('node-rest-client').Client;
 
 module.exports = function(app) {
     return function(req, res, next) {
-        console.log('---------- Req body--------');
-        console.log(req.body);
-        console.log('---------- End Req body--------');
         if (!!req.body.policies) {
             let policies = req.body.policies;
             let platformOwner = req.body.platformOwnerId;
