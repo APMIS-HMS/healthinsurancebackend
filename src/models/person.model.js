@@ -1,5 +1,5 @@
 // person-model.js - A mongoose model
-// 
+//
 // See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
 const addressSchema = require('../viewmodels/address-model');
@@ -27,6 +27,8 @@ module.exports = function(app) {
         nationality: { type: Schema.Types.Mixed, required: false },
         stateOfOrigin: { type: Schema.Types.Mixed, required: false },
         lgaOfOrigin: { type: Schema.Types.Mixed, required: false },
+        townOfOrigin: { type: Schema.Types.Mixed, required: false },
+        villageOfOrigin: { type: String, required: false },
         maritalStatus: { type: Schema.Types.Mixed, required: false },
         nextOfKin: [nextOfKinSchema],
         employees: [{ type: Schema.Types.Mixed, required: false }],
