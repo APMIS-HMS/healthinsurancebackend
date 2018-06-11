@@ -28,7 +28,7 @@ module.exports = function(app) {
         stateOfOrigin: { type: Schema.Types.Mixed, required: false },
         lgaOfOrigin: { type: Schema.Types.Mixed, required: false },
         townOfOrigin: { type: Schema.Types.Mixed, required: false },
-        villageOfOrigin: { type: String, required: false },
+        villageOfOrigin: { type: Schema.Types.Mixed, required: false },
         maritalStatus: { type: Schema.Types.Mixed, required: false },
         nextOfKin: [nextOfKinSchema],
         employees: [{ type: Schema.Types.Mixed, required: false }],
