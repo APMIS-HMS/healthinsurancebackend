@@ -1,10 +1,11 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 const request = require('request');
-module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
+module.exports = function(options = {}) { // eslint-disable-line no-unused-vars
     return function autoGeneratePassword(hook) {
         // Hooks can either return nothing or a promise
         // that resolves with the `hook` object for asynchronous operations
+        console.log(hook);
         if (hook.method === 'create') {
             if (hook.type === 'before') {
                 if (hook.data.password === null || hook.data.password === undefined) {
@@ -17,20 +18,17 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
                 }
             } else if (hook.type === 'after') {
                 let password = hook.params.password;
-                if (hook.data.platformOwnerId !== undefined) {
-                    let sender = hook.data.platformOwnerId.shortName;
-                    let message = "Your " + sender + " auto-generated password is: " + password + " kindly change your password";
-console.log("----------------Auto Pswd Start--------------------");
-console.log(message);
-console.log("----------------Auto Pswd End--------------------");
-                    const url = 'http://portal.bulksmsnigeria.net/api/?username=apmis&password=apmis&message=' + message + '&sender=' + sender + '&mobiles=@@' + hook.data.phoneNumber + '@@';
-                    var response = request.get(url, function (error, response, body){
-                        if(error){
-                            // console.log(error);
-                        }
-                    });
-                }
-
+                let sender = (hook.data.platformOwnerId !== undefined && hook.data.platformOwnerId.shortName !== undefined) ? hook.data.platformOwnerId.shortName : process.env.PLATFORMOWNER;
+                let message = "Your " + sender + " auto-generated password is: " + password + " kindly change your password";
+                console.log("----------------Auto Pswd Start--------------------");
+                console.log(message);
+                console.log("----------------Auto Pswd End--------------------");
+                const url = 'http://portal.bulksmsnigeria.net/api/?username=apmis&password=apmis&message=' + message + '&sender=' + sender + '&mobiles=@@' + hook.data.phoneNumber + '@@';
+                var response = request.get(url, function(error, response, body) {
+                    if (error) {
+                        // console.log(error);
+                    }
+                });
             }
         }
         return Promise.resolve(hook);
@@ -60,5 +58,5 @@ function sendEmailViaApi(sender, receiver, title, body) {
         body: mail.toJSON()
     });
 
-    sg.API(request_send_grid, function (error, response) { })
+    sg.API(request_send_grid, function(error, response) {})
 }
