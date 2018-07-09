@@ -61,25 +61,26 @@ module.exports = function(app) {
                                 app.service('claim-payments').create(payload).then(createdRes => {
                                     if (createdRes._id !== undefined) {
                                         policies.forEach(function(policy, i) {
+                                            console.log(`Policdy ${i}`, policy);
                                             // Uncheck all items from claims service first
                                             app.service('policies').get(policy).then(policyRes => {
                                                 console.log("---------- policyRes --------");
                                                 console.log(policyRes);
                                                 console.log("---------- End policyRes --------");
                                                 policyRes.lastCapitationPaidDate = new Date();
-                                                app.service('policies').update(policyRes._id, policyRes).then(policyUpdate => {
+                                                app.service('policies').patch(policyRes._id, policyRes, {}).then(policyUpdate => {
                                                     counter++;
+                                                    console.log(policyUpdate);
                                                     if (counter === policyLength) {
                                                         res.jsend.success(req.body);
-                                                        next;
                                                     }
                                                 }).catch(err => {
+                                                    console.log(err);
                                                     res.jsend.error(err);
-                                                    next
                                                 });
                                             }).catch(err => {
+                                                console.log(err);
                                                 res.jsend.error(err);
-                                                next;
                                             });
                                         });
                                     }
