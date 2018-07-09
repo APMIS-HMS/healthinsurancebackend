@@ -9,18 +9,13 @@ function addDays(date, days) {
 
 module.exports = function(app) {
     return function(req, res, next) {
-        console.log('Got here');
+        console.log('Body', req.body);
         if (req.body.reference !== undefined) {
             let payment = req.body.payment;
             let ref = req.body.reference;
             let premiumId = req.body.premiumId;
-            console.log('---------- Body --------');
-            console.log(req.body);
-            console.log('---------- End Body --------');
 
-            if (payment === 'flutterwave') {
-                console.log('Make a request');
-                console.log(ref);
+            if (payment.toLowerCase() === 'flutterwave') {
                 var url = process.env.FLUTTERWAVEVERIFICATIONURL;
                 var client = new Client();
                 var args = {
@@ -33,9 +28,6 @@ module.exports = function(app) {
                 };
                 client.post(url, args, function(data, response) {
                     // parsed response body as js object
-                    console.log('---------- Raw data--------');
-                    console.log(data);
-                    console.log('---------- End Raw data--------');
                     // if (response.body.status === "success") {
                     //     //check if the amount is same as amount you wanted to charge just to be very sure
                     //     if (response.body.data.amount === amount_to_charge) {
@@ -49,9 +41,6 @@ module.exports = function(app) {
                         // getAndUpdatePremium(fnObj);
                         // Get premium-payment
                         app.service('premium-payments').get(premiumId).then(returnPremium => {
-                            console.log('---------- Found Premium --------');
-                            console.log(returnPremium);
-                            console.log('---------- End Found Premium --------');
                             // Update premium payment
                             console.log('Call updated');
                             returnPremium.isActive = true;
@@ -59,9 +48,6 @@ module.exports = function(app) {
                             console.log('Call Update');
                             app.service('premium-payments').update(returnPremium._id, returnPremium).then(updatedPremium => {
                                 const policyCounter = updatedPremium.policies.length;
-                                console.log('---------- Updated updatedPremium --------');
-                                console.log(updatedPremium);
-                                console.log('---------- End Updated updatedPremium --------');
                                 updatedPremium.policies.forEach(function(paidPolicy, i) {
                                     i++;
                                     // Get Policy
@@ -119,12 +105,11 @@ module.exports = function(app) {
                     console.log('request error', err);
                 });
             } else {
+                ref = ref.trxref;
                 let url = process.env.PAYSTACKVERIFICATIONURL + ref;
                 var client = new Client();
-                var args = {
-                    headers: { "Authorization": "Bearer " + process.env.PAYSTACKSECRETKEY }
-                };
-                console.log(req.body);
+                var args = { headers: { "Authorization": "Bearer " + process.env.PAYSTACKSECRETKEY } };
+
                 client.get(url, args, function(data, raw) {
                     if (data.status) {
                         // Get premium-payment
