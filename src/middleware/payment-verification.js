@@ -108,7 +108,7 @@ module.exports = function(app) {
                 ref = ref.trxref;
                 let url = process.env.PAYSTACKVERIFICATIONURL + ref;
                 var client = new Client();
-                var args = { headers: { "Authorization": "Bearer " + process.env.PAYSTACKSECRETKEY } };
+                var args = { headers: { "Authorization": "Bearer " + process.env.PAYSTACKMONEYWAVESECRET } };
 
                 client.get(url, args, function(data, raw) {
                     if (data.status) {
