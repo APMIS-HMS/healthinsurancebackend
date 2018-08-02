@@ -112,7 +112,7 @@ module.exports = function() {
     app.post('/api/beneficiaries', create_beneficiary_api(app));
     app.post('/api/send-sms', sendSMS(app));
     app.get('/api/validate-age', validateAge(app));
-    app.get('/api/search-policy', searchPolicy(app));
+    app.post('/api/search-policy', searchPolicy(app));
     app.post('/api/crud-role', crudRole(app));
     app.get('/api/compare-password', compare_password(app));
     app.get('/api/get-beneficiary-count', get_beneficiary_count(app));

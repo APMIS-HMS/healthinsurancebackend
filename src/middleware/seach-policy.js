@@ -3,8 +3,8 @@ const request = require('request');
 
 module.exports = function(app) {
     return function(req, res, next) {
-        let search = req.query.search;
-        let platformOwnerId = req.query.platformOwnerId;
+        let search = req.body.search;
+        let platformOwnerId = req.body.platformOwnerId;
 
         app.service('beneficiaries').find({
             query: {
