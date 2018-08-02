@@ -8,7 +8,6 @@ module.exports = function(app) {
     return function(req, res, next) {
         const userId = req.body.userId;
         const roleId = req.body._id;
-
         // Get the user data.
         app.service('users').get(userId).then(userData => {
             if (userData._id && userData.roles.length > 0) {
