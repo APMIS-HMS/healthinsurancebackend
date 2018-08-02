@@ -8,6 +8,7 @@ module.exports = function(app) {
 
         app.service('beneficiaries').find({
             query: {
+                'platformOwnerId._id': platformOwnerId,
                 $or: [
                     { 'personId.lastName': { $regex: search, '$options': 'i' } },
                     { 'personId.firstName': { $regex: search, '$options': 'i' } },
@@ -23,9 +24,7 @@ module.exports = function(app) {
             app.service('policies').find({
                 query: {
                     $or: [{
-                            principalBeneficiary: {
-                                $in: ids
-                            }
+                            principalBeneficiary: { $in: ids }
                         },
                         { 'dependantBeneficiaries.beneficiary.personId.firstName': { $regex: search, '$options': 'i' } },
                         { 'dependantBeneficiaries.beneficiary.personId.lastName': { $regex: search, '$options': 'i' } }
