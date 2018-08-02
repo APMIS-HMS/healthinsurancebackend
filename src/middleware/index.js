@@ -24,6 +24,7 @@ const paymentVerification = require('../middleware/payment-verification');
 const premiumCashPayment = require('../middleware/premium-policy-payment');
 const get_beneficiary_count = require('../middleware/get-beneficiary-count');
 const africa_ussd = require('../middleware/africa-ussd');
+const crudRole = require('./crud-role');
 var multer = require('multer');
 const handler = require('feathers-errors/handler');
 const logger = require('../hooks/logger');
@@ -112,6 +113,7 @@ module.exports = function() {
     app.post('/api/send-sms', sendSMS(app));
     app.get('/api/validate-age', validateAge(app));
     app.get('/api/search-policy', searchPolicy(app));
+    app.post('/api/crud-role', crudRole(app));
     app.get('/api/compare-password', compare_password(app));
     app.get('/api/get-beneficiary-count', get_beneficiary_count(app));
     app.post('/api/africa-ussd', africa_ussd(app));
