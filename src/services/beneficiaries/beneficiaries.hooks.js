@@ -8,7 +8,7 @@ const personSchemaList = {
     parentField: 'personId',
     childField: '_id',
     query: {
-      $select: ['email', 'firstName', 'lastName', 'gender', 'platformId', 'dateOfBirth', 'homeAddress.lga'],
+      $select: ['email', 'firstName', 'lastName', 'gender', 'platformId', 'dateOfBirth', 'medical', 'homeAddress.lga'],
       $sort: { createdAt: -1 }
     }
   }]
@@ -24,7 +24,7 @@ const personSchema = {
       $select: ['email', 'firstName',
        'lastName', 'otherNames',
        'gender', 'platformId', 'dateOfBirth',
-        'homeAddress', 'title','mothersMaidenName',
+        'homeAddress', 'title','mothersMaidenName', 'medical',
         'email','phoneNumber','secondaryPhoneNumber','profileImageObject',
         'nationality','stateOfOrigin','lgaOfOrigin','maritalStatus','nextOfKin',
         'employees','isActive'

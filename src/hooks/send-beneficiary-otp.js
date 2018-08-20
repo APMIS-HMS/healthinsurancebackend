@@ -6,6 +6,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
     // Hooks can either return nothing or a promise
     // that resolves with the `hook` object for asynchronous operations
 
+    console.log(hook.data);
     let numbers = hook.data.otp.phoneNumbers;
     let sender = hook.data.platformOwnerId.shortName;
     let message = "Your check-in OTP is: " + hook.data.otp.number + ". Thanks";
