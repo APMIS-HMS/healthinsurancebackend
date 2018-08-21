@@ -5,7 +5,7 @@ module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return function returnLimitedUserInfo(hook) {
     if (hook.method === 'create' || hook.method === 'patch' || hook.method === 'get') {
       if (hook.params.user === undefined) {
-        let person = hook.data;
+        let person = hook.result;
         delete person.email;
         delete person._id;
         delete person.gender;

@@ -2,7 +2,6 @@
 module.exports = function (app) {
     return function (req, res, next) {
         // Perform actions
-        console.log("GET");
         app.service('beneficiaries').find(
             {
                 query: {
@@ -17,7 +16,6 @@ module.exports = function (app) {
                 delete element.platformOwnerId;
                 res.send(element);
                 next;
-            }).
-            catch(next);
+            }).catch(next);
     };
 };
