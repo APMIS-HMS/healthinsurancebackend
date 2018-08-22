@@ -12,7 +12,7 @@ module.exports = {
     },
 
     after: {
-        all: [returnLimitedPersonInfo()],
+        all: [/* returnLimitedPersonInfo() */],
         find: [],
         get: [],
         create: [],

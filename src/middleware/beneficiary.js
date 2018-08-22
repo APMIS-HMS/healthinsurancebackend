@@ -8,7 +8,7 @@ function PolicyIDRecurtion(beneficiaries, principal, policy, res, next, app) {
             'email': { $regex: principal.personId.email.toString(), '$options': 'i' }
         }
     }).then(users => {
-       
+
         if (users.data.length > 0) {
             let updatedUser = users.data[0];
             updatedUser.platformOwnerId = principal.platformOwnerId;
@@ -94,7 +94,7 @@ module.exports = function (app) {
                     'email': { $regex: req.body.person.email.toString(), '$options': 'i' }
                 }
             }).then(users => {
-                if (users.data.length == 0) {
+                if (users.data.length === 0) {
                     app.service('user-types').find({
                         query: { 'name': { $regex: "Beneficiary", '$options': 'i' } }
                     }).then(userType => {
@@ -106,7 +106,7 @@ module.exports = function (app) {
                                     userModel.roles = [];
                                     userModel.roles.push(roles.data[0]);
                                     userModel.userType = userType.data[0];
-                                    
+
                                     app.service('users').create(userModel).then(userModelObject => {
                                         app.service('people').create(personObj).then(person => {
                                             var beneficiaryDetails = req.body.beneficiary;
@@ -130,7 +130,8 @@ module.exports = function (app) {
                     });
 
                 } else {
-                    res.send("Email exist!!!");
+                  res.status(201);
+                  res.send("Email already exist!");
                 }
             })
 
@@ -157,7 +158,7 @@ module.exports = function (app) {
                                 PolicyIDRecurtion(beneficiaries, req.body.principal, req.body.policy, res, next, app)
                             }
                         })
-                        
+
                     }, error => {
                         res.send(error);
                     }).catch(err => {
