@@ -11,64 +11,51 @@ module.exports = function(options = {}) { // eslint-disable-line no-unused-vars
                     hook.data.password = aphaformator();
                     hook.params.password = hook.data.password;
                     hook.params.platformOwnerId = hook.data.platformOwnerId;
+                    console.log(hook.params.platformOwnerId);
                 } else {
                     hook.params.password = hook.data.password;
                 }
             } else if (hook.type === 'after') {
+                console.log(hook);
                 let password = hook.params.password;
-                let sender = '';
-                if (hook.data.platformOwnerId == undefined) {
-                    if (hook.data.facilityId != undefined) {
-                        sender = hook.data.facilityId.shortName;
-                    } else {
-                        sender = process.env.PLATFORMOWNER;
-                    }
-                } else if (
-                    hook.data.platformOwnerId !== undefined &&
-                    hook.data.platformOwnerId.shortName != undefined) {
-                    sender = hook.data.platformOwnerId.shortName;
-                } else {
-                    sender = process.env.PLATFORMOWNER;
-                }
-                let message = 'Your ' + sender +
-                    ' auto-generated password is: ' + password +
-                    ' kindly change your password';
-                const url =
-                    'http://portal.bulksmsnigeria.net/api/?username=apmis&password=apmis&message=' +
-                    message + '&sender=' + sender + '&mobiles=@@' +
-                    hook.data.phoneNumber + '@@';
-                var response =
-                    request.get(encodeURI(url), function(error, response, body) {
+                if (hook.data.platformOwnerId !== undefined) {
+                    console.log(hook.data);
+                    let sender = hook.data.platformOwnerId.shortName;
+                    let message = `Your ${sender} auto-generated password is: ${password} kindly change your password`;
+                    console.log('Message ', message);
+                    const url = `http://portal.bulksmsnigeria.net/api/?username=apmis&password=apmis&message=${message}&sender=${sender}&mobiles=@@${hook.data.phoneNumber}@@`;
+                    var response = request.get(url, function(error, response, body) {
                         if (error) {
                             // console.log(error);
                         }
                     });
+                }
             }
-        }
-        return Promise.resolve(hook);
+            return Promise.resolve(hook);
+        };
     };
-};
 
-function aphaformator() {
-    var text = '';
-    var possible =
-        'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789@abcdefghijklmnopqrstuvwxyz';
+    function aphaformator() {
+        var text = '';
+        var possible =
+            'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789@abcdefghijklmnopqrstuvwxyz';
 
-    for (var i = 0; i < 8; i++)
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-    return text;
-}
+        for (var i = 0; i < 8; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        return text;
+    }
 
-function sendEmailViaApi(sender, receiver, title, body) {
-    var helper = require('sendgrid').mail
-    var from_email = new helper.Email(sender)
-    var to_email = new helper.Email(receiver)
-    var subject = title
-    var content = new helper.Content('text/plain', body)
-    var mail = new helper.Mail(from_email, subject, to_email, content)
-    var sg = require('sendgrid')(
-        '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')
-    var request_send_grid = sg.emptyRequest({ method: 'POST', path: '/v3/mail/send', body: mail.toJSON() });
+    function sendEmailViaApi(sender, receiver, title, body) {
+        var helper = require('sendgrid').mail
+        var from_email = new helper.Email(sender)
+        var to_email = new helper.Email(receiver)
+        var subject = title
+        var content = new helper.Content('text/plain', body)
+        var mail = new helper.Mail(from_email, subject, to_email, content)
+        var sg = require('sendgrid')(
+            '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')
+        var request_send_grid = sg.emptyRequest({ method: 'POST', path: '/v3/mail/send', body: mail.toJSON() });
 
-    sg.API(request_send_grid, function(error, response) {})
+        sg.API(request_send_grid, function(error, response) {})
+    }
 }
