@@ -146,6 +146,8 @@ module.exports = function (app) {
                         persons.push(person);
                         var beneficiaryDetails = item.beneficiary;
                         beneficiaryDetails.personId = person;
+                        beneficiaryDetails.isComplete = true;
+                        console.log('BenefciaryDetails ', beneficiaryDetails);
                         app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
                             var beneficiary_policy = {
                                 "beneficiary": beneficiary,
