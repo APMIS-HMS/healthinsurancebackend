@@ -8,7 +8,6 @@ function PolicyIDRecurtion(beneficiaries, principal, policy, res, next, app) {
             'email': { $regex: principal.personId.email.toString(), '$options': 'i' }
         }
     }).then(users => {
-
         if (users.data.length > 0) {
             let updatedUser = users.data[0];
             updatedUser.platformOwnerId = principal.platformOwnerId;
@@ -16,8 +15,10 @@ function PolicyIDRecurtion(beneficiaries, principal, policy, res, next, app) {
                 policy.principalBeneficiary = principal;
                 policy.dependantBeneficiaries = beneficiaries;
                 app.service('policies').create(policy).then(policyObject => {
+                  app.service('beneficiaries').update(principal._id, principal).then(bRes => {
                     res.send({ policyObject });
                     next;
+                  });
                 });
 
             }, error => {
@@ -28,9 +29,9 @@ function PolicyIDRecurtion(beneficiaries, principal, policy, res, next, app) {
 };
 
 function validatePolicyID() {
-    var otp = "";
-    var possible = "0123456789";
-    for (var i = 0; i <= 5; i++)
+    let otp = "";
+    let possible = "0123456789";
+    for (let i = 0; i <= 5; i++)
         otp += possible.charAt(Math.floor(Math.random() * possible.length));
 
     return otp;
@@ -109,7 +110,7 @@ module.exports = function (app) {
 
                                     app.service('users').create(userModel).then(userModelObject => {
                                         app.service('people').create(personObj).then(person => {
-                                            var beneficiaryDetails = req.body.beneficiary;
+                                            let beneficiaryDetails = req.body.beneficiary;
                                             beneficiaryDetails.personId = person;
                                             app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
                                                 res.send({ userModelObject, person, beneficiary });
@@ -136,18 +137,18 @@ module.exports = function (app) {
             })
 
         } else {
-            var persons = [];
-            var beneficiaries = [];
-            var counter = 0;
+            let persons = [];
+            let beneficiaries = [];
+            let counter = 0;
             if (req.body.persons.length > 0) {
                 req.body.persons.forEach(function (item,index) {
                     counter = counter + 1;
                     app.service('people').create(item.person).then(person => {
                         persons.push(person);
-                        var beneficiaryDetails = item.beneficiary;
+                        let beneficiaryDetails = item.beneficiary;
                         beneficiaryDetails.personId = person;
                         app.service('beneficiaries').create(beneficiaryDetails).then(beneficiary => {
-                            var beneficiary_policy = {
+                            let beneficiary_policy = {
                                 "beneficiary": beneficiary,
                                 "relationshipId": item.relationship
                             };
