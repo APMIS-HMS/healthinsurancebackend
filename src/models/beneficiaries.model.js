@@ -1,5 +1,5 @@
 // beneficiaries-model.js - A mongoose model
-// 
+//
 // See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
 module.exports = function(app) {
@@ -13,6 +13,7 @@ module.exports = function(app) {
         platformOwnerId: { type: Schema.Types.Mixed, required: true }, // platform owner object
         isCapitationPaid: { type: Schema.Types.Boolean, default: false }, // This is to pay capitation
         isActive: { type: Schema.Types.Boolean, default: true },
+        isComplete: { type: Schema.Types.Boolean, default: false }, // This is to know if the registration is complete.
         createdAt: { type: Date, default: Date.now },
         updatedAt: { type: Date, default: Date.now }
     });
