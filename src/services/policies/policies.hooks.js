@@ -30,7 +30,7 @@ const principalBeneficiarySchema = {
         childField: '_id',
         query: {
             $select: ['platformOwnerId.name', 'platformOwnerId._id', 'platformOwnerId.shortName', 'platformOwnerNumber', 'isActive', 'numberOfUnderAge', 'personId.firstName',
-                'personId.lastName', 'personId.otherNames', 'personId.gender', 'personId.phoneNumber', 'personId.dateOfBirth', 'personId.email', 'personId.homeAddress', 'personId.title'
+                'personId.lastName', 'personId.otherNames', 'personId.gender', 'personId.nextOfKin', 'personId.phoneNumber', 'personId.dateOfBirth', 'personId.email', 'personId.homeAddress', 'personId.title'
             ],
             $sort: { createdAt: -1 },
         }
